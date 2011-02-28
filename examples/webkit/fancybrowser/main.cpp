@@ -41,6 +41,23 @@
 #include <QtGui>
 #include "mainwindow.h"
 
+extern "C"
+{
+  __attribute__ ((visibility("default"))) bool GetBrowserSize(int* width, int* height)
+  {
+    *width = 1280;
+    *height= 720;
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) bool GetBrowserOffsets(int* offsetX, int* offsetY)
+  {
+    *offsetX=0;
+    *offsetY=0;
+    return true;
+  }
+}
+
 int main(int argc, char * argv[])
 {
     QApplication app(argc, argv);

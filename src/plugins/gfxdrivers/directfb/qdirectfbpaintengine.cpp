@@ -837,6 +837,7 @@ void QDirectFBPaintEngine::fillRect(const QRectF &rect, const QBrush &brush)
             return; }
 
         case Qt::TexturePattern: {
+
             const QPointF &brushOrigin = state()->brushOrigin;
             const QTransform stateTransform = state()->matrix;
             QTransform transform(stateTransform);
@@ -851,6 +852,11 @@ void QDirectFBPaintEngine::fillRect(const QRectF &rect, const QBrush &brush)
             const QPixmap texture = brush.texture();
             if (texture.pixmapData()->classId() != QPixmapData::DirectFBClass)
                 break;
+
+            RASTERFALLBACK(FILL_RECT, rect, brush, VOID_ARG());
+            d->lock();
+            QRasterPaintEngine::fillRect(rect, brush);
+            return;
 
             CLIPPED_PAINT(d->drawTiledPixmap(stateTransform.mapRect(rect), texture, rect.topLeft() - brushOrigin, transform));
             return; }
@@ -1249,6 +1255,7 @@ void QDirectFBPaintEnginePrivate::drawTiledPixmap(const QRectF &dest, const QPix
             }
             y += pixmapSize.height();
         }
+        fprintf(stderr, "batch blit %d %d %d\n", i, pixmapSize.width(), pixmapSize.height());
         surface->BatchBlit(surface, sourceSurface, sourceRects.constData(), points.constData(), i);
     }
 
