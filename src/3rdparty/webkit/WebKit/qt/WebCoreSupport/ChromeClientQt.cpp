@@ -43,6 +43,8 @@
 #include "DatabaseTracker.h"
 #if defined(Q_WS_MAEMO_5)
 #include "QtMaemoWebPopup.h"
+#elif defined(XP_EMBEDDED)
+#include "BoxeeWebPopup.h"
 #else
 #include "QtFallbackWebPopup.h"
 #endif
@@ -577,6 +579,8 @@ QtAbstractWebPopup* ChromeClientQt::createSelectPopup()
 {
 #if defined(Q_WS_MAEMO_5)
     return new QtMaemoWebPopup;
+#elif defined(XP_EMBEDDED)
+    return new BoxeeWebPopup(m_webPage);
 #elif !defined(QT_NO_COMBOBOX)
     return new QtFallbackWebPopup;
 #else

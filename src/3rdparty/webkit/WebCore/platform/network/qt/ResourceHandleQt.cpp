@@ -203,7 +203,9 @@ void ResourceHandle::loadResourceSynchronously(const ResourceRequest& request, S
     d->m_frame = static_cast<FrameLoaderClientQt*>(frame->loader()->client())->webFrame();
     d->m_job = new QNetworkReplyHandler(&handle, QNetworkReplyHandler::LoadNormal);
 
-    syncLoader.waitForCompletion();
+    // If there was no reply, don't wait for completion!
+    if (d->m_job->reply())
+        syncLoader.waitForCompletion();
     error = syncLoader.resourceError();
     data = syncLoader.data();
     response = syncLoader.resourceResponse();

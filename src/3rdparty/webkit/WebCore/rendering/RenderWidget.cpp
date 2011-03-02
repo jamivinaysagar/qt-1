@@ -281,18 +281,19 @@ void RenderWidget::paint(PaintInfo& paintInfo, int tx, int ty)
                 paintInfo.context->translate(paintOffset);
                 paintRect.move(-paintOffset);
             }
+
             m_widget->paint(paintInfo.context, paintRect);
 
             if (!paintOffset.isZero())
                 paintInfo.context->translate(-paintOffset);
         }
-        if (m_widget->isFrameView() && paintInfo.overlapTestRequests && !static_cast<FrameView*>(m_widget.get())->useSlowRepaintsIfNotOverlapped()) {
+        if (m_widget && m_widget->isFrameView() && paintInfo.overlapTestRequests && !static_cast<FrameView*>(m_widget.get())->useSlowRepaintsIfNotOverlapped()) {
             ASSERT(!paintInfo.overlapTestRequests->contains(this));
             paintInfo.overlapTestRequests->set(this, m_widget->frameRect());
         }
     }
 
-    if (style()->hasBorderRadius())
+    if (style() && style()->hasBorderRadius())
         paintInfo.context->restore();
 
     // Paint a partially transparent wash over selected widgets.

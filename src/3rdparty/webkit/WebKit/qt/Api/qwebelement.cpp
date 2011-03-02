@@ -36,6 +36,7 @@
 #include "JSHTMLElement.h"
 #include "JSObject.h"
 #include "NodeList.h"
+#include "PluginView.h"
 #include "PropertyNameArray.h"
 #include "RenderImage.h"
 #include "StaticNodeList.h"
@@ -1459,6 +1460,22 @@ void QWebElement::render(QPainter* painter)
     view->paintContents(&context, rect);
     view->setNodeToDraw(0);
     context.restore();
+}
+
+void QWebElement::showFullscreen(bool isFullscreen, bool isFakeFullScreen, void* pluginIdentifier)
+{
+    if (!pluginIdentifier)
+        return;
+    PluginView* pluginView = reinterpret_cast<PluginView*>(pluginIdentifier);
+    pluginView->showFullscreen(isFullscreen, isFakeFullScreen, false);
+}
+
+void QWebElement::handleEvent(QEvent* event, void* pluginIdentifier)
+{
+    if (!pluginIdentifier)
+        return;
+    PluginView* pluginView = reinterpret_cast<PluginView*>(pluginIdentifier);
+    pluginView->handleEvent(event);
 }
 
 class QWebElementCollectionPrivate : public QSharedData

@@ -1,22 +1,26 @@
 TEMPLATE = subdirs
-CONFIG += ordered
+CONFIG += ordered embedded
 
 include(WebKit.pri)
-
+ 
 SUBDIRS += \
         JavaScriptCore \
         WebCore
 
 # If the source exists, built it
-exists($$PWD/WebKitTools/QtTestBrowser): SUBDIRS += WebKitTools/QtTestBrowser
+!embedded {
+ exists($$PWD/WebKitTools/QtTestBrowser): SUBDIRS += WebKitTools/QtTestBrowser
+}
 contains(QT_CONFIG, declarative) {
     exists($$PWD/WebKit/qt/declarative): SUBDIRS += WebKit/qt/declarative
 }
 exists($$PWD/JavaScriptCore/jsc.pro): SUBDIRS += JavaScriptCore/jsc.pro
+!embedded {
 exists($$PWD/WebKit/qt/tests): SUBDIRS += WebKit/qt/tests
 exists($$PWD/WebKitTools/DumpRenderTree/qt/DumpRenderTree.pro): SUBDIRS += WebKitTools/DumpRenderTree/qt/DumpRenderTree.pro
+}
 
-!win32:!symbian {
+!win32:!symbian:!embedded {
     exists($$PWD/WebKitTools/DumpRenderTree/qt/ImageDiff.pro): SUBDIRS += WebKitTools/DumpRenderTree/qt/ImageDiff.pro
     exists($$PWD/WebKitTools/DumpRenderTree/qt/TestNetscapePlugin/TestNetscapePlugin.pro): SUBDIRS += WebKitTools/DumpRenderTree/qt/TestNetscapePlugin/TestNetscapePlugin.pro
 }

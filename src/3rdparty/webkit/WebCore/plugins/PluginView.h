@@ -34,6 +34,7 @@
 #include "IntRect.h"
 #include "MediaCanStartListener.h"
 #include "PluginStream.h"
+#include "PluginTimer.h"
 #include "ResourceRequest.h"
 #include "Timer.h"
 #include "Widget.h"
@@ -154,6 +155,8 @@ namespace WebCore {
         void forceRedraw();
         void pushPopupsEnabledState(bool state);
         void popPopupsEnabledState();
+        uint32 scheduleTimer(uint32 interval, bool repeat, void (*timerFunc)(NPP instance, uint32 timerID));
+        void unscheduleTimer(uint32 timerID);
 
         virtual void invalidateRect(const IntRect&);
 
@@ -180,6 +183,7 @@ namespace WebCore {
         IntRect windowClipRect() const;
 
         virtual void handleEvent(Event*);
+        virtual void handleEvent(QEvent*);
         virtual void setParent(ScrollView*);
         virtual void setParentVisible(bool);
 
@@ -224,6 +228,12 @@ namespace WebCore {
 #endif
         void keepAlive();
 
+        void showFullscreen(bool isFullscreen, bool fakeFullScreen=true, bool fullscreenByPlugin = false);
+
+#ifdef XP_EMBEDDED
+        IntRect fullScreenInvalidRect() { return m_fullScreenInvalidRect; }
+#endif
+
     private:
         PluginView(Frame* parentFrame, const IntSize&, PluginPackage*, Element*, const KURL&, const Vector<String>& paramNames, const Vector<String>& paramValues, const String& mimeType, bool loadManually);
 
@@ -254,6 +264,11 @@ namespace WebCore {
         static bool platformGetValueStatic(NPNVariable variable, void* value, NPError* result);
         bool platformGetValue(NPNVariable variable, void* value, NPError* result);
 
+#ifdef XP_EMBEDDED
+        NPError platformSetValue(NPPVariable variable, void* value);
+        void sendFullscreenEventToPlugin();
+#endif
+
         RefPtr<Frame> m_parentFrame;
         RefPtr<PluginPackage> m_plugin;
         Element* m_element;
@@ -262,6 +277,11 @@ namespace WebCore {
         KURL m_baseURL;
         PluginStatus m_status;
         Vector<IntRect> m_invalidRects;
+
+#ifdef XP_EMBEDDED
+        IntRect m_fullScreenInvalidRect;
+        bool m_shouldClearFullscreen;
+#endif
 
         void performRequest(PluginRequest*);
         void scheduleRequest(PluginRequest*);
@@ -289,6 +309,8 @@ namespace WebCore {
         void handleFocusOutEvent();
 #endif
 
+        bool event(QEvent*);
+
 #if OS(WINDOWS)
         void paintIntoTransformedContext(HDC);
         PassRefPtr<Image> snapshot();
@@ -312,6 +334,8 @@ namespace WebCore {
         HashSet<RefPtr<PluginStream> > m_streams;
         Vector<PluginRequest*> m_requests;
 
+        PluginTimerList m_timers;
+
         bool m_isWindowed;
         bool m_isTransparent;
         bool m_haveInitialized;
@@ -330,7 +354,7 @@ namespace WebCore {
         bool m_haveUpdatedPluginWidget;
 #endif
 
-#if ((PLATFORM(QT) || PLATFORM(WX)) && OS(WINDOWS)) || defined(XP_MACOSX)
+#if ((PLATFORM(QT) || PLATFORM(WX)) && OS(WINDOWS)) || defined(XP_MACOSX) || defined(XP_EMBEDDED)
         // On Mac OSX and Qt/Windows the plugin does not have its own native widget,
         // but is using the containing window as its reference for positioning/painting.
         PlatformPluginWidget m_window;
@@ -391,6 +415,12 @@ private:
 
         bool m_isHalted;
         bool m_hasBeenHalted;
+
+        bool m_isFullscreen;
+        bool m_isFakeFullscreen;
+        bool m_actualFullscreen;
+        bool m_fullscreenByPlugin;
+        bool m_sentWindowEvent;
 
         static PluginView* s_currentPluginView;
     };

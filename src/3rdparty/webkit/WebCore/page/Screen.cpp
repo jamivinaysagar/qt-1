@@ -36,6 +36,18 @@
 #include "PlatformScreen.h"
 #include "Widget.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+  extern bool GetBrowserOffsets(int* offsetX, int* offsetY);
+  extern bool GetBrowserPluginFullscreen(void** pluginView);
+  extern bool SetBrowserPluginFullscreen(void* pluginView, bool isFullScreen);
+  extern bool GetBrowserSize(int* width, int* height);
+#ifdef __cplusplus
+} // extern C
+#endif
+
+
 namespace WebCore {
 
 Screen::Screen(Frame* frame)
@@ -55,16 +67,16 @@ void Screen::disconnectFrame()
 
 unsigned Screen::height() const
 {
-    if (!m_frame)
-        return 0;
-    return static_cast<unsigned>(screenRect(m_frame->view()).height());
+    int width,height;
+    ::GetBrowserSize(&width,&height);
+    return height;
 }
 
 unsigned Screen::width() const
 {
-    if (!m_frame)
-        return 0;
-    return static_cast<unsigned>(screenRect(m_frame->view()).width());
+  int width,height;
+  ::GetBrowserSize(&width,&height);
+  return width;
 }
 
 unsigned Screen::colorDepth() const

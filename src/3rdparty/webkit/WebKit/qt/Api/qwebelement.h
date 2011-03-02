@@ -147,6 +147,8 @@ public:
     void setStyleProperty(const QString& name, const QString& value);
 
     void render(QPainter* painter);
+    void showFullscreen(bool isFullscreen, bool isFakeFullScreen, void* pluginIdentifier);
+    void handleEvent(QEvent* event, void* pluginIdentifier);
 
 private:
     explicit QWebElement(WebCore::Element*);
@@ -155,6 +157,7 @@ private:
     static QWebElement enclosingElement(WebCore::Node*);
 
     friend class QWebFrame;
+    friend class QWebFramePrivate;
     friend class QWebElementCollection;
     friend class QWebHitTestResult;
     friend class QWebHitTestResultPrivate;

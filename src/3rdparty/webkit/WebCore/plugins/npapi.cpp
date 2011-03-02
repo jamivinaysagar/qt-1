@@ -104,6 +104,10 @@ NPError NPN_DestroyStream(NPP instance, NPStream* stream, NPReason reason)
     return pluginViewForInstance(instance)->destroyStream(stream, reason);
 }
 
+#if defined(XP_EMBEDDED)
+extern "C" __attribute__((visibility("default"))) const char* NPN_UserAgent(NPP instance);
+#endif
+
 const char* NPN_UserAgent(NPP instance)
 {
     PluginView* view = pluginViewForInstance(instance);
@@ -174,4 +178,14 @@ void NPN_PopPopupsEnabledState(NPP instance)
 void NPN_PluginThreadAsyncCall(NPP instance, void (*func) (void *), void *userData)
 {
     PluginMainThreadScheduler::scheduler().scheduleCall(instance, func, userData);
+}
+
+uint32 NPN_ScheduleTimer(NPP instance, uint32 interval, NPBool repeat, void (*timerFunc)(NPP instance, uint32 timerID))
+{
+    return pluginViewForInstance(instance)->scheduleTimer(interval, repeat, timerFunc);
+}
+
+void NPN_UnscheduleTimer(NPP instance, uint32 timerID)
+{
+    pluginViewForInstance(instance)->unscheduleTimer(timerID);
 }

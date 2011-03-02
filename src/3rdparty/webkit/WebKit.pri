@@ -8,7 +8,7 @@ else:exists($$PWD/WebCore/generated): CONFIG += standalone_package
 
 CONFIG += depend_includepath
 
-DEFINES += BUILDING_QT__=1
+DEFINES += BUILDING_QT__=1 ENABLE_VIDEO=1
 building-libs {
     win32-msvc*|win32-icc: INCLUDEPATH += $$PWD/JavaScriptCore/os-win32
 } else {
@@ -52,8 +52,23 @@ BASE_DIR = $$PWD
 symbian {
     INCLUDEPATH += $$PWD/include/QtWebKit
 } else {
-    INCLUDEPATH += $$OUTPUT_DIR/include/QtWebKit
+    INCLUDEPATH += $$OUTPUT_DIR/include/QtWebKit 
 }
+
+embedded {
+     INCLUDEPATH += /opt/canmore/local/include
+     LIBS += -L/opt/canmore/local/lib
+     QMAKE_LFLAGS_NOUNDEF      =
+     QMAKE_LFLAGS_DEBUG = -L/opt/canmore/local/lib
+     QMAKE_LFLAGS_RELEASE = -L/opt/canmore/local/lib
+}
+
+
+    INCLUDEPATH += /opt/canmore/local/include
+    LIBS += -L/opt/canmore/local/lib
+    QMAKE_LFLAGS_NOUNDEF      =
+    QMAKE_LFLAGS_DEBUG = -L/opt/canmore/local/lib
+    QMAKE_LFLAGS_RELEASE = -L/opt/canmore/local/lib
 
 CONFIG -= warn_on
 *-g++*:QMAKE_CXXFLAGS += -Wall -Wreturn-type -fno-strict-aliasing -Wcast-align -Wchar-subscripts -Wformat-security -Wreturn-type -Wno-unused-parameter -Wno-sign-compare -Wno-switch -Wno-switch-enum -Wundef -Wmissing-noreturn -Winit-self

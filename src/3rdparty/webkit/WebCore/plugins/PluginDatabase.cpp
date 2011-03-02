@@ -27,8 +27,10 @@
 #include "config.h"
 #include "PluginDatabase.h"
 
+#include "CString.h"
 #include "Frame.h"
 #include "KURL.h"
+#include "Logging.h"
 #include "PluginDatabaseClient.h"
 #include "PluginPackage.h"
 #include <stdlib.h>
@@ -331,7 +333,7 @@ Vector<String> PluginDatabase::defaultPluginDirectories()
     Vector<String> paths;
 
     // Add paths specific to each platform
-#if defined(XP_UNIX)
+#if defined(XP_UNIX) || defined(XP_EMBEDDED)
     String userPluginPath = homeDirectoryPath();
     userPluginPath.append(String("/.mozilla/plugins"));
     paths.append(userPluginPath);
@@ -386,6 +388,10 @@ Vector<String> PluginDatabase::defaultPluginDirectories()
     paths.append(qtPaths);
 #endif
 
+    for(Vector<String>::iterator it = paths.begin(); it != paths.end(); ++it) {
+        LOG(Plugins, "PluginDatabase::defaultDirectories: %s", (*it).latin1().data());
+    }
+
     return paths;
 }
 
@@ -393,7 +399,7 @@ bool PluginDatabase::isPreferredPluginDirectory(const String& path)
 {
     String preferredPath = homeDirectoryPath();
 
-#if defined(XP_UNIX)
+#if defined(XP_UNIX) || defined(XP_EMBEDDED)
     preferredPath.append(String("/.mozilla/plugins"));
 #elif defined(XP_MACOSX)
     preferredPath.append(String("/Library/Internet Plug-Ins"));
@@ -410,7 +416,7 @@ void PluginDatabase::getPluginPathsInDirectories(HashSet<String>& paths) const
     // FIXME: This should be a case insensitive set.
     HashSet<String> uniqueFilenames;
 
-#if defined(XP_UNIX)
+#if defined(XP_UNIX) || defined(XP_EMBEDDED)
     String fileNameFilter("*.so");
 #else
     String fileNameFilter("");

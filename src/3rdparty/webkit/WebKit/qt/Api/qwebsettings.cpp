@@ -28,6 +28,8 @@
 #include "CrossOriginPreflightResultCache.h"
 #include "Database.h"
 #include "FontCache.h"
+#include "JSDOMWindowBase.h"
+#include "JSGlobalData.h"
 #include "Page.h"
 #include "PageCache.h"
 #include "Settings.h"
@@ -995,6 +997,17 @@ qint64 QWebSettings::offlineWebApplicationCacheQuota()
     return 0;
 #endif
 }
+
+/*!
+    \since Boxee
+
+    Set the timeout for JavaScript interrupts, or 0 to disable timeout.
+*/
+void QWebSettings::setJavaScriptInterruptTimeoutInterval(quint32 timeoutInterval)
+{
+    WebCore::JSDOMWindowBase::commonJSGlobalData()->timeoutChecker.setTimeoutInterval(timeoutInterval);
+}
+
 
 /*!
     \since 4.6

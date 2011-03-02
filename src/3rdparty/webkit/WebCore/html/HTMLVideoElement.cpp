@@ -49,23 +49,27 @@ HTMLVideoElement::HTMLVideoElement(const QualifiedName& tagName, Document* doc)
     : HTMLMediaElement(tagName, doc)
     , m_shouldDisplayPosterImage(false)
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     ASSERT(hasTagName(videoTag));
 }
 
 bool HTMLVideoElement::rendererIsNeeded(RenderStyle* style) 
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     return HTMLElement::rendererIsNeeded(style); 
 }
 
 #if !ENABLE(PLUGIN_PROXY_FOR_VIDEO)
 RenderObject* HTMLVideoElement::createRenderer(RenderArena* arena, RenderStyle*)
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     return new (arena) RenderVideo(this);
 }
 #endif
 
 void HTMLVideoElement::attach()
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     HTMLMediaElement::attach();
 
 #if !ENABLE(PLUGIN_PROXY_FOR_VIDEO)
@@ -93,6 +97,7 @@ void HTMLVideoElement::detach()
 
 void HTMLVideoElement::parseMappedAttribute(MappedAttribute* attr)
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     const QualifiedName& attrName = attr->name();
 
     if (attrName == posterAttr) {
@@ -118,6 +123,7 @@ void HTMLVideoElement::parseMappedAttribute(MappedAttribute* attr)
 
 bool HTMLVideoElement::supportsFullscreen() const
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     Page* page = document() ? document()->page() : 0;
     if (!page) 
         return false;
@@ -131,6 +137,7 @@ bool HTMLVideoElement::supportsFullscreen() const
 
 unsigned HTMLVideoElement::videoWidth() const
 {
+    fprintf(stderr, "----------------- %d -----------------\n", __LINE__);
     if (!player())
         return 0;
     return player()->naturalSize().width();

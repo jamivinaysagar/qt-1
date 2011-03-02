@@ -587,6 +587,8 @@ unsigned UString::rfind(const UString& f, unsigned pos) const
         pos = sz - fsz;
     if (fsz == 0)
         return pos;
+    if (fsz == 1)
+        return rfind(f[0], pos);
     unsigned fsizeminusone = (fsz - 1) * sizeof(UChar);
     const UChar* fdata = f.data();
     for (const UChar* c = data() + pos; c >= data(); c--) {

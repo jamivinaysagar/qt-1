@@ -51,9 +51,9 @@ namespace WebCore {
         static PassRefPtr<PluginPackage> createPackage(const String& path, const time_t& lastModified);
 
         const String& name() const { return m_name; }
-        const String& description() const { return m_description; }
+        const String& description() const;
         const String& path() const { return m_path; }
-        const String& fileName() const { return m_fileName; }
+        const String& fileName() const;
         const String& parentDirectory() const { return m_parentDirectory; }
         uint16 NPVersion() const;
         time_t lastModified() const { return m_lastModified; }

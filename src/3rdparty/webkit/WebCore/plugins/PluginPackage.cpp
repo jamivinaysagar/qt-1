@@ -301,6 +301,11 @@ void PluginPackage::initializeBrowserFuncs()
     m_browserFuncs.setexception = _NPN_SetException;
     m_browserFuncs.enumerate = _NPN_Enumerate;
     m_browserFuncs.construct = _NPN_Construct;
+
+#ifdef XP_EMBEDDED
+    m_browserFuncs.scheduletimer = NPN_ScheduleTimer;
+    m_browserFuncs.unscheduletimer = NPN_UnscheduleTimer;
+#endif
 }
 #endif
 
@@ -337,6 +342,32 @@ int PluginPackage::compareFileVersion(const PlatformModuleVersion& compareVersio
 #endif
 
     return 0;
+}
+
+const String& PluginPackage::description() const
+{
+  String strOverride(getenv("PLUGIN_OVERRIDE_FLASH"));
+  if(!strOverride.contains("true"))
+    return m_description;
+
+  static String name = "Shockwave Flash 10.1 r103";
+  if (m_name.find("Flash") > 0)
+    return name;
+  else
+    return m_description;
+}
+
+const String& PluginPackage::fileName() const
+{
+  String strOverride(getenv("PLUGIN_OVERRIDE_FLASH"));
+  if(!strOverride.contains("true"))
+    return m_fileName;
+
+  static String file="libgcflashplayer.so";
+  if (m_name.find("Flash") > 0)
+    return file;
+  else
+    return m_fileName;
 }
 
 }

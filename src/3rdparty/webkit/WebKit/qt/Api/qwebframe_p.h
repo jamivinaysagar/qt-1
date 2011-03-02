@@ -88,6 +88,8 @@ public:
     void renderFromTiledBackingStore(WebCore::GraphicsContext*, const QRegion& clip);
 #endif
 
+    void pluginCreated(WebCore::Element* element, void* pluginIdentifier);
+
     QWebFrame *q;
     Qt::ScrollBarPolicy horizontalScrollBarPolicy;
     Qt::ScrollBarPolicy verticalScrollBarPolicy;

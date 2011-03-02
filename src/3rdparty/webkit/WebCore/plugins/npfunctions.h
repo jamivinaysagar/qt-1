@@ -199,7 +199,7 @@ typedef void (*BP_CreatePluginMIMETypesPreferencesFuncPtr)(void);
 typedef NPError (*MainFuncPtr)(NPNetscapeFuncs*, NPPluginFuncs*, NPP_ShutdownProcPtr*);
 #endif
 
-#if defined(XP_UNIX)
+#if defined(XP_UNIX) || defined(XP_EMBEDDED)
 typedef EXPORTED_CALLBACK(NPError, NP_InitializeFuncPtr)(NPNetscapeFuncs*, NPPluginFuncs*);
 typedef EXPORTED_CALLBACK(char*, NP_GetMIMEDescriptionFuncPtr)(void);
 #else

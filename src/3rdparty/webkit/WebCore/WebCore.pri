@@ -86,7 +86,7 @@ greaterThan(QT_MINOR_VERSION, 5) {
 
 # Nescape plugins support (NPAPI)
 !contains(DEFINES, ENABLE_NETSCAPE_PLUGIN_API=.) {
-    unix|win32-*:!embedded:!wince*: {
+    unix|win32-*:embedded:!wince*: {
         DEFINES += ENABLE_NETSCAPE_PLUGIN_API=1
     } else {
         DEFINES += ENABLE_NETSCAPE_PLUGIN_API=0
@@ -103,6 +103,7 @@ greaterThan(QT_MINOR_VERSION, 5) {
 
 # Bearer management is part of Qt 4.7
 # for older version, check for mobility with bearer 
+!embedded {
 !contains(DEFINES, ENABLE_QT_BEARER=.) {
      !lessThan(QT_MINOR_VERSION, 7) {
         DEFINES += ENABLE_QT_BEARER=1
@@ -112,6 +113,7 @@ greaterThan(QT_MINOR_VERSION, 5) {
             DEFINES += ENABLE_QT_BEARER=1
         }
     }
+}
 }
 
 # Enable touch event support with Qt 4.6

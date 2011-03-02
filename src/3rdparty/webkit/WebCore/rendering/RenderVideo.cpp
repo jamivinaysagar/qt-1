@@ -53,7 +53,7 @@ static const int cDefaultHeight = 150;
 RenderVideo::RenderVideo(HTMLVideoElement* video)
     : RenderMedia(video)
 {
-    if (video->player())
+    if (video->player() && !video->player()->naturalSize().isEmpty() )
         setIntrinsicSize(video->player()->naturalSize());
     else {
         // When the natural size of the video is unavailable, we use the provided

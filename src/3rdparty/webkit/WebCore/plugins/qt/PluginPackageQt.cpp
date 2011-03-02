@@ -37,6 +37,12 @@ namespace WebCore {
 
 typedef void gtkInitFunc(int *argc, char ***argv);
 
+#ifdef XP_EMBEDDED
+void PluginPackage::determineQuirks(const String& mimeType)
+{
+}
+#endif
+
 bool PluginPackage::fetchInfo()
 {
     if (!load())
@@ -102,7 +108,7 @@ bool PluginPackage::load()
     m_module = new QLibrary((QString)m_path);
     m_module->setLoadHints(QLibrary::ResolveAllSymbolsHint);
     if (!m_module->load()) {
-        LOG(Plugins, "%s not loaded (%s)", m_path.utf8().data(),
+        LOG(Plugins, "%s not loaded (%s)\n", m_path.utf8().data(),
                 m_module->errorString().toLatin1().constData());
         return false;
     }
@@ -150,7 +156,7 @@ bool PluginPackage::load()
 #endif
     }
 
-#if defined(XP_UNIX)
+#if defined(XP_UNIX) || defined(XP_EMBEDDED)
     npErr = NP_Initialize(&m_browserFuncs, &m_pluginFuncs);
 #else
     npErr = NP_Initialize(&m_browserFuncs);
@@ -162,6 +168,7 @@ bool PluginPackage::load()
     return true;
 
 abort:
+    LOG(Plugins, "PluginPackage FAILD TO LOAD!");
     unloadWithoutShutdown();
     return false;
 }

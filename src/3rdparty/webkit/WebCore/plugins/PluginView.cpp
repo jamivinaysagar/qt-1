@@ -127,6 +127,7 @@ IntRect PluginView::windowClipRect() const
 
 void PluginView::setFrameRect(const IntRect& rect)
 {
+    LOG(Plugins, "PluginView::setFrameRect(%d, %d, %d, %d)", rect.x(), rect.y(), rect.width(), rect.height());
     if (m_element->document()->printing())
         return;
 
@@ -142,6 +143,8 @@ void PluginView::setFrameRect(const IntRect& rect)
     // On Unix, multiple calls to setNPWindow() in windowed mode causes Flash to crash
     if (m_mode == NP_FULL || !m_isWindowed)
         setNPWindowRect(rect);
+#elif defined(XP_EMBEDDED)
+    setNPWindowRect(rect);
 #endif
 }
 
@@ -170,6 +173,7 @@ void PluginView::handleEvent(Event* event)
 #endif
 }
 
+#if 0
 void PluginView::init()
 {
     if (m_haveInitialized)
@@ -197,6 +201,7 @@ void PluginView::init()
 
     m_status = PluginStatusLoadedSuccessfully;
 }
+#endif
 
 bool PluginView::startOrAddToUnstartedList()
 {
@@ -215,8 +220,11 @@ bool PluginView::startOrAddToUnstartedList()
     return start();
 }
 
+// embedded plugin view has its own start method since it needs to set hw accel functions before setting the new window
+#ifndef XP_EMBEDDED
 bool PluginView::start()
 {
+    LOG(Plugins, "PluginView::start()");
     if (m_isStarted)
         return false;
 
@@ -266,6 +274,7 @@ bool PluginView::start()
 
     return true;
 }
+#endif
 
 void PluginView::mediaCanStart()
 {
@@ -627,10 +636,11 @@ void PluginView::status(const char* message)
 
 NPError PluginView::setValue(NPPVariable variable, void* value)
 {
-    LOG(Plugins, "PluginView::setValue(%s): ", prettyNameForNPPVariable(variable, value).data());
+  LOG(Plugins, "PluginView::setValue(%s): ", prettyNameForNPPVariable(variable, value).data());
 
     switch (variable) {
     case NPPVpluginWindowBool:
+      LOG(Plugins, "   m_isWindowed = %d", (int)value);
         m_isWindowed = value;
         return NPERR_NO_ERROR;
     case NPPVpluginTransparentBool:
@@ -685,7 +695,12 @@ NPError PluginView::setValue(NPPVariable variable, void* value)
         m_renderToImage = true;
         return NPERR_NO_ERROR;
 #endif
+#ifdef XP_EMBEDDED
+    case NPPVpluginWindowSize:
+        return platformSetValue(variable, value);
+#endif
 
+ 
     default:
         notImplemented();
         return NPERR_GENERIC_ERROR;
@@ -710,6 +725,16 @@ void PluginView::pushPopupsEnabledState(bool state)
 void PluginView::popPopupsEnabledState()
 {
     m_popupStateStack.removeLast();
+}
+
+uint32 PluginView::scheduleTimer(uint32 interval, bool repeat, void (*timerFunc)(NPP, uint32 timerID))
+{
+    return m_timers.schedule(instance(), interval, repeat, timerFunc);
+}
+
+void PluginView::unscheduleTimer(uint32 timerID)
+{
+    m_timers.unschedule(instance(), timerID);
 }
 
 bool PluginView::arePopupsAllowed() const
@@ -825,7 +850,7 @@ PluginView::PluginView(Frame* parentFrame, const IntSize& size, PluginPackage* p
     , m_paramNames(0)
     , m_paramValues(0)
     , m_mimeType(mimeType)
-#if defined(XP_MACOSX)
+#if 1 // defined(XP_MACOSX)
     , m_isWindowed(false)
 #else
     , m_isWindowed(true)
@@ -867,11 +892,23 @@ PluginView::PluginView(Frame* parentFrame, const IntSize& size, PluginPackage* p
     , m_isJavaScriptPaused(false)
     , m_isHalted(false)
     , m_hasBeenHalted(false)
+    , m_isFullscreen(false)
+    , m_isFakeFullscreen(false)
+    , m_actualFullscreen(false)
+    , m_fullscreenByPlugin(true)
+    , m_sentWindowEvent(false)
+    , m_shouldClearFullscreen(false)
 {
+    LOG(Plugins, "PluginView::PluginView()");
     if (!m_plugin) {
+        LOG(Plugins, "PluginView::PluginView() CanNotFundPlugin!");
         m_status = PluginStatusCanNotFindPlugin;
         return;
     }
+
+    // Boxee:
+    // sendinf NP_FULL causes issues with flash which expects to have a window at that point
+    m_mode = NP_EMBED;
 
     m_instance = &m_instanceStruct;
     m_instance->ndata = this;
@@ -1205,6 +1242,7 @@ NPError PluginView::handlePost(const char* url, const char* target, uint32 len, 
 
 void PluginView::invalidateWindowlessPluginRect(const IntRect& rect)
 {
+//    LOG(Plugins, "PluginView::invalidateWindowlessPluginRect(%d, %d, %d, %d)", rect.x(), rect.y(), rect.width(), rect.height());
     if (!isVisible())
         return;
     
@@ -1214,6 +1252,7 @@ void PluginView::invalidateWindowlessPluginRect(const IntRect& rect)
     
     IntRect dirtyRect = rect;
     dirtyRect.move(renderer->borderLeft() + renderer->paddingLeft(), renderer->borderTop() + renderer->paddingTop());
+//    LOG(Plugins, "PluginView::invalidateWindowlessPluginRect() ACTUALLY REPAINTING");
     renderer->repaintRectangle(dirtyRect);
 }
 
@@ -1331,8 +1370,10 @@ NPError PluginView::getValue(NPNVariable variable, void* value)
 
     switch (variable) {
     case NPNVWindowNPObject: {
-        if (m_isJavaScriptPaused)
+        if (m_isJavaScriptPaused) {
+            LOG(Plugins, "PluginView::getValue(NPNVWindowNPObject) JAVASCRIPT IS PAUSED!");
             return NPERR_GENERIC_ERROR;
+        }
 
         NPObject* windowScriptObject = m_parentFrame->script()->windowScriptNPObject();
 
@@ -1393,5 +1434,18 @@ void PluginView::privateBrowsingStateChanged(bool privateBrowsingEnabled)
     setCallingPlugin(false);
     PluginView::setCurrentPluginView(0);
 }
+
+#ifndef XP_EMBEDDED
+void PluginView::showFullscreen(bool isFullscreen, bool fakeFullscreen, bool fullscreenByPlugin)
+{
+    m_isFullscreen = isFullscreen;
+    m_isFakeFullscreen = fakeFullscreen;
+}
+
+void PluginView::handleEvent(QEvent*)
+{
+}
+#endif
+
 
 } // namespace WebCore

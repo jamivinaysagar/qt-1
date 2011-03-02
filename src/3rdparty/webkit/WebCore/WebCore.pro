@@ -231,7 +231,8 @@ INCLUDEPATH = \
     $$PWD/workers \
     $$PWD/xml \
     $$WC_GENERATED_SOURCES_DIR \
-    $$INCLUDEPATH
+    $$INCLUDEPATH \
+                    $$PWD/platform/graphics/embedded
 
 INCLUDEPATH = \
     $$PWD/bridge/qt \
@@ -909,6 +910,7 @@ SOURCES += \
     plugins/PluginInfoStore.cpp \
     plugins/PluginPackage.cpp \
     plugins/PluginStream.cpp \
+    plugins/PluginTimer.cpp \
     plugins/PluginView.cpp \
     rendering/AutoTableLayout.cpp \
     rendering/break_lines.cpp \
@@ -2025,6 +2027,7 @@ HEADERS += \
     xml/XSLTUnicodeSort.h \
     $$PWD/../WebKit/qt/Api/qwebplugindatabase_p.h \
     $$PWD/../WebKit/qt/WebCoreSupport/QtFallbackWebPopup.h \
+    $$PWD/../WebKit/qt/WebCoreSupport/BoxeeWebPopup.h \
     $$PWD/../WebKit/qt/WebCoreSupport/FrameLoaderClientQt.h \
     $$PWD/platform/network/qt/DnsPrefetchHelper.h
 
@@ -2105,6 +2108,7 @@ SOURCES += \
     platform/qt/WidgetQt.cpp \
     plugins/qt/PluginDataQt.cpp \
     ../WebKit/qt/WebCoreSupport/QtFallbackWebPopup.cpp \
+    ../WebKit/qt/WebCoreSupport/BoxeeWebPopup.cpp \
     ../WebKit/qt/WebCoreSupport/ChromeClientQt.cpp \
     ../WebKit/qt/WebCoreSupport/ContextMenuClientQt.cpp \
     ../WebKit/qt/WebCoreSupport/DragClientQt.cpp \
@@ -2188,20 +2192,22 @@ contains(DEFINES, ENABLE_NETSCAPE_PLUGIN_API=1) {
                 INCLUDEPATH += platform/mac
                 # Note: XP_MACOSX is defined in npapi.h
             } else {
-                !embedded {
+                embedded {
+                    SOURCES += \
+                        plugins/qt/PluginPackageQt.cpp \
+                        plugins/embedded/PluginViewEmbedded.cpp
+                    DEFINES += XP_EMBEDDED
+                }  else {
                     CONFIG += x11
                     LIBS += -lXrender
-                }
-                maemo5 {
-                    DEFINES += MOZ_PLATFORM_MAEMO=5
-                }
-                SOURCES += \
-                    plugins/qt/PluginContainerQt.cpp \
-                    plugins/qt/PluginPackageQt.cpp \
-                    plugins/qt/PluginViewQt.cpp
-                HEADERS += \
-                    plugins/qt/PluginContainerQt.h
-                DEFINES += XP_UNIX
+                    SOURCES += \
+                        plugins/qt/PluginContainerQt.cpp \
+                        plugins/qt/PluginPackageQt.cpp \
+                        plugins/qt/PluginViewQt.cpp
+                    HEADERS += \
+                        plugins/qt/PluginContainerQt.h
+                    DEFINES += XP_UNIX
+               }
             }
         }
     
@@ -2396,18 +2402,47 @@ contains(DEFINES, ENABLE_VIDEO=1) {
 
             tobe|!tobe: QT += mediaservices
         } else {
-            HEADERS += \
-                platform/graphics/qt/MediaPlayerPrivatePhonon.h
+                INCLUDEPATH += \
+                    $$PWD/platform/graphics/embedded
+            embedded {
+                HEADERS += platform/graphics/embedded/MediaPlayerBoxee.h \
+                            platform/graphics/embedded/qjson/json_parser.hh \
+                            platform/graphics/embedded/qjson/json_scanner.h \
+                            platform/graphics/embedded/qjson/location.hh \
+                            platform/graphics/embedded/qjson/parser.h \
+                            platform/graphics/embedded/qjson/parser_p.h \
+                            platform/graphics/embedded/qjson/parserrunnable.h \
+                            platform/graphics/embedded/qjson/position.hh \
+                            platform/graphics/embedded/qjson/qjson_debug.h \
+                            platform/graphics/embedded/qjson/qjson_export.h \
+                            platform/graphics/embedded/qjson/qobjecthelper.h \
+                            platform/graphics/embedded/qjson/serializer.h \
+                            platform/graphics/embedded/qjson/serializerrunnable.h \
+                            platform/graphics/embedded/qjson/stack.hh
 
-            SOURCES += \
-                platform/graphics/qt/MediaPlayerPrivatePhonon.cpp
+                SOURCES += platform/graphics/embedded/MediaPlayerBoxee.cpp \
+                           platform/graphics/embedded/qjson/json_parser.cc \
+                           platform/graphics/embedded/qjson/json_scanner.cpp \
+                           platform/graphics/embedded/qjson/parser.cpp \
+                           platform/graphics/embedded/qjson/parserrunnable.cpp \
+                           platform/graphics/embedded/qjson/qobjecthelper.cpp \
+                           platform/graphics/embedded/qjson/serializer.cpp \
+                           platform/graphics/embedded/qjson/serializerrunnable.cpp
+            } else {
+                HEADERS += \
+                    platform/graphics/qt/MediaPlayerPrivatePhonon.h
 
-            # Add phonon manually to prevent it from coming first in
-            # the include paths, as Phonon's path.h conflicts with
-            # WebCore's Path.h on case-insensitive filesystems.
-            qtAddLibrary(phonon)
-            INCLUDEPATH -= $$QMAKE_INCDIR_QT/phonon
-            INCLUDEPATH += $$QMAKE_INCDIR_QT/phonon
+                SOURCES += \
+                    platform/graphics/qt/MediaPlayerPrivatePhonon.cpp
+
+                # Add phonon manually to prevent it from coming first in
+                # the include paths, as Phonon's path.h conflicts with
+                # WebCore's Path.h on case-insensitive filesystems.
+                qtAddLibrary(phonon)
+                INCLUDEPATH -= $$QMAKE_INCDIR_QT/phonon
+                INCLUDEPATH += $$QMAKE_INCDIR_QT/phonon
+            }
+
             mac {
                 INCLUDEPATH -= $$QMAKE_LIBDIR_QT/phonon.framework/Headers
                 INCLUDEPATH += $$QMAKE_LIBDIR_QT/phonon.framework/Headers

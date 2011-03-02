@@ -523,6 +523,12 @@ void QWebFramePrivate::renderRelativeCoords(GraphicsContext* context, QWebFrame:
     }
 }
 
+void QWebFramePrivate::pluginCreated(Element* element, void* pluginInstance)
+{
+    QWebElement pluginElement(element);
+    emit q->pluginCreated(pluginElement, pluginInstance);
+}
+
 /*!
     \class QWebFrame
     \since 4.4

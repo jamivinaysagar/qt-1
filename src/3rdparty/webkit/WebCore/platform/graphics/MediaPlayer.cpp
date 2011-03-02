@@ -49,6 +49,8 @@
 #include "MediaPlayerPrivateQuickTimeWin.h"
 #elif PLATFORM(GTK)
 #include "MediaPlayerPrivateGStreamer.h"
+#elif defined(XP_EMBEDDED)
+#include "MediaPlayerBoxee.h"
 #elif PLATFORM(QT)
 // QtMultimedia support is disabled currently.
 #if 1 || (QT_VERSION < 0x040700)

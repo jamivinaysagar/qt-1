@@ -141,6 +141,8 @@ public:
 
     static void enablePersistentStorage(const QString& path = QString());
 
+    static void setJavaScriptInterruptTimeoutInterval(quint32 timeoutInterval);
+
     inline QWebSettingsPrivate* handle() const { return d; }
 
 private:

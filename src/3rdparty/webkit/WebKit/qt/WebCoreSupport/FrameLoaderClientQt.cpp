@@ -1367,14 +1367,42 @@ PassRefPtr<Widget> FrameLoaderClientQt::createPlugin(const IntSize& pluginSize, 
                 if (wmodeIndex == -1) {
                     params.append("wmode");
                     values.append("opaque");
-                } else
+                } else {
+#ifdef Q_WS_X11
+                    // wmode=opaque only required on X11, http://blog.forwardbias.in/2009/12
                     values[wmodeIndex] = "opaque";
+#endif
+                }
+
+                size_t fsIndex = params.find("allowfullscreen");
+                if (fsIndex == -1) {
+                    params.append("allowfullscreen");
+                    values.append("true");
+                } else {
+                    values[fsIndex] = "true";
+                }
+
+                size_t saIndex = params.find("allowscriptaccess");
+                if (saIndex == -1) {
+                    params.append("allowscriptaccess");
+                    values.append("always");
+                } else {
+                    values[saIndex] = "always";
+                }
+
+//                size_t scIndex = params.find("scalemode");
+//                if (scIndex != -1) {
+//                    values[scIndex] = "showAll";
+//                }
             }
 #endif
         }
 
         RefPtr<PluginView> pluginView = PluginView::create(m_frame, pluginSize, element, url,
             params, values, mimeType, loadManually);
+        
+        // Boxee API to notify of new plugin
+        m_webFrame->d->pluginCreated(element, pluginView.get());
         return pluginView;
     }
 

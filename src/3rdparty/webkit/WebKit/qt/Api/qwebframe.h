@@ -220,6 +220,8 @@ Q_SIGNALS:
 
     void pageChanged();
 
+    void pluginCreated(const QWebElement& pluginElement, void* pluginIdentifier);
+
 private:
     friend class QGraphicsWebView;
     friend class QWebPage;
