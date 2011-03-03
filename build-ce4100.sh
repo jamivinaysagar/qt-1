@@ -7,7 +7,7 @@ export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirec
 ./configure \
   -embedded x86 \
   -xplatform qws/linux-x86-intelce-g++ \
-  -prefix /opt/canmore/local/qt \
+  -prefix /opt/canmore/local/qt-4.7 \
   -opensource \
   -confirm-license \
   -release \
