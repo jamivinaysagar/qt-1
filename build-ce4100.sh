@@ -39,7 +39,7 @@ export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirec
   -no-phonon-backend \
   -no-nis \
   -no-3dnow \
-  -nomake demos \
+  -nomake "examples demos" \
   -qt-zlib \
   -declarative \
   -egl  \

@@ -43,7 +43,6 @@ public:
 private slots:
     void callBoxee();
     void checkForReply();
-    void activeChanged(int);
 
 private:
     friend class QtFallbackWebPopupCombo;
