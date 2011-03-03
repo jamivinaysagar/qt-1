@@ -629,6 +629,9 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
     // From BoxeeBrowser::requestRepaint, we know that the
     // paint device is in fact a QPixmap.
     QPainter* painter = context->platformContext();
+    if (!painter)
+      return;
+
     QPaintDevice* image = static_cast<QPaintDevice*>(painter->device());
 
     const QTransform &keepTransform = painter->transform();
@@ -1036,7 +1039,7 @@ bool PluginView::start()
         frameLoadRequest.resourceRequest().setHTTPMethod("GET");
         frameLoadRequest.resourceRequest().setURL(m_url);
         QUrl url(m_url.string());
-        frameLoadRequest.resourceRequest().setHTTPHeaderField("Referer", QString((url.scheme() + "://" + url.host())).toUtf8().data());
+        frameLoadRequest.resourceRequest().setHTTPHeaderField("Referer", QString(url.scheme() + "://" + url.host()).toUtf8().data());
         load(frameLoadRequest, false, 0);
     }
 
