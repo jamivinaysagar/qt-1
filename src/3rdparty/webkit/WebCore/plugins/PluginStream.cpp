@@ -364,8 +364,16 @@ void PluginStream::deliverData()
             totalBytesDelivered += deliveryBytes;
         }
     }
+
+#if defined(XP_EMBEDDED)
+    if (m_deliveryData->size() <= 5 * 1024 * 1024 && m_loader)
+    {
+      m_loader->setDefersLoading(false);
+    }
+#else
     if (m_loader)
         m_loader->setDefersLoading(false);
+#endif
 
     if (totalBytesDelivered > 0) {
         if (totalBytesDelivered < totalBytes) {
@@ -377,7 +385,7 @@ void PluginStream::deliverData()
             if (m_reason != WebReasonNone)
                 destroyStream();
         }
-    } 
+    }
 }
 
 void PluginStream::sendJavaScriptStream(const KURL& requestURL, const CString& resultString)
