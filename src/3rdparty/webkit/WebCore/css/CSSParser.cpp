@@ -3753,6 +3753,7 @@ struct ShadowParseContext {
 
         if (allowX) {
             x = val.release();
+            xUnit = v->unit;
             allowX = false;
             allowY = true;
             allowColor = false;
@@ -3760,6 +3761,7 @@ struct ShadowParseContext {
             allowBreak = false;
         } else if (allowY) {
             y = val.release();
+            yUnit = v->unit;
             allowY = false;
             allowBlur = true;
             allowColor = true;
@@ -3769,6 +3771,13 @@ struct ShadowParseContext {
             blur = val.release();
             allowBlur = false;
             allowSpread = property == CSSPropertyWebkitBoxShadow;
+            if (x->getFloatValue() == 0.0 && y->getFloatValue() == 0.0 && v->fValue != 0.0)
+            {
+              x.release(); y.release();
+              x = CSSPrimitiveValue::create(2.0, (CSSPrimitiveValue::UnitTypes)xUnit);
+              y = CSSPrimitiveValue::create(2.0, (CSSPrimitiveValue::UnitTypes)yUnit);
+
+            }
         } else if (allowSpread) {
             spread = val.release();
             allowSpread = false;
@@ -3819,6 +3828,9 @@ struct ShadowParseContext {
     bool allowColor;
     bool allowStyle;
     bool allowBreak;
+
+    int xUnit, yUnit;
+
 };
 
 bool CSSParser::parseShadow(int propId, bool important)

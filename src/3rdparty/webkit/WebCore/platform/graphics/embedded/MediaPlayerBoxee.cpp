@@ -53,20 +53,20 @@ QVariant MediaPlayerPrivate::RunCommand(QString command, QVariantMap parameters,
     FrameLoaderClientQt* frameLoader =  frame ? static_cast<FrameLoaderClientQt*>(frame->loader()->client()) : 0;
 
     QVariantMap request;
-    request.insert("command", QVariant(command));
-    request.insert("parameters", parameters);
+    request.insert(QString::fromAscii("command"), QVariant(command));
+    request.insert(QString::fromAscii("parameters"), parameters);
 
     QByteArray serialized = ((MediaPlayerPrivate*) this)->m_serializer.serialize(request);
 
     // javascript call for: boxeePlayer.handleRequest()    
     QString js;
     if(expectedResult)
-      js = "boxee.exec2('boxee.handleBrowserCommandResponse(\\'";
+      js = QString::fromAscii("boxee.exec2('boxee.handleBrowserCommandResponse(\\'");
     else
-      js = "boxee.exec('boxee.handleBrowserCommand(\\'";
+      js = QString::fromAscii("boxee.exec('boxee.handleBrowserCommand(\\'");
 
-    js += QString(serialized);
-    js += "\\');')";
+    js += QString::fromAscii(serialized);
+    js += QString::fromAscii("\\');')");
 
 //    fprintf(stderr, "********************** MediaPlayerPrivate::RunCommand: %s\n", js.toLocal8Bit().constData());
 
@@ -107,7 +107,8 @@ void MediaPlayerPrivate::getSupportedTypes(HashSet<String> &supported)
 
 MediaPlayer::SupportsType MediaPlayerPrivate::supportsType(const String& mime, const String& codec)
 {
-    if (!mime.startsWith("audio/") && !mime.startsWith("video/"))
+  (void)codec;
+    if (!mime.startsWith(QString::fromAscii("audio/")) && !mime.startsWith(QString::fromAscii("video/")))
         return MediaPlayer::IsNotSupported;
 
     if (mime == "video/x-flv")
@@ -130,7 +131,7 @@ MediaPlayerPrivate::MediaPlayerPrivate(MediaPlayer* player)
 void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
 {
   QVariantMap parameters;
-  QVariant result = RunCommand("MEDIAPLAYER.GetBufferingState", parameters, true);
+  QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetBufferingState"), parameters, true);
   //fprintf(stderr, "is buffering ? %d\n", result.toBool());
 //  if (result.toBool() != m_isBuffering)
 //  {
@@ -143,7 +144,7 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
 //  }
 
   parameters.clear();
-  result = RunCommand("MEDIAPLAYER.GetPlaybackState", parameters, true);
+  result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetPlaybackState"), parameters, true);
   //fprintf(stderr, "--------------------------- state timer %x m_current/m_duration %f/%f sent event %d playback ended %d --------------------------\n", (unsigned int)this, m_current, m_duration, m_bSentEndedEvent, result.toBool());
   /*
   http://dev.w3.org/html5/spec/video.html#event-media-timeupdate
@@ -189,7 +190,6 @@ void MediaPlayerPrivate::setloaded()
 
 void MediaPlayerPrivate::load(const String& url)
 {
-    fprintf(stderr, "--------------------- ----------------\n");
     // We are now loading
     if (m_networkState != MediaPlayer::Loading) {
         m_networkState = MediaPlayer::Loading;
@@ -224,8 +224,15 @@ void MediaPlayerPrivate::load(const String& url)
     }
 
     QVariantMap parameters;
-    parameters.insert("url", QVariant(url));
-    RunCommand("MEDIAPLAYER.Load", parameters);
+    parameters.insert(QString::fromAscii("url"), QVariant(url));
+    if (m_element && !m_element->isVideo())
+    {
+      parameters.insert(QString::fromAscii("IsVideo"), QVariant(false));
+    }
+    else
+      parameters.insert(QString::fromAscii("isVideo"), QVariant(true));
+
+    RunCommand(QString::fromAscii("MEDIAPLAYER.Load"), parameters);
     
     setVisible(true);
 
@@ -245,7 +252,7 @@ void MediaPlayerPrivate::play()
 {
     fprintf(stderr, "MediaPlayerPrivate::play\n");
     QVariantMap parameters;
-    RunCommand("MEDIAPLAYER.Play", parameters);
+    RunCommand(QString::fromAscii("MEDIAPLAYER.Play"), parameters);
     m_paused = false;
 }
 
@@ -253,7 +260,7 @@ void MediaPlayerPrivate::pause()
 {
   fprintf(stderr, "MediaPlayerPrivate::pause\n");
   QVariantMap parameters;
-  RunCommand("MEDIAPLAYER.Pause", parameters);
+  RunCommand(QString::fromAscii("MEDIAPLAYER.Pause"), parameters);
   m_paused = true;
 }
 
@@ -269,9 +276,9 @@ void MediaPlayerPrivate::seek(float position)
 
   fprintf(stderr, "** SEEKING %f\n", position);
     QVariantMap parameters;
-    parameters.insert("position", QVariant(100.0 * position / m_player->duration() ));
+    parameters.insert(QString::fromAscii("position"), QVariant(100.0 * position / m_player->duration() ));
     //parameters.insert("duration", QVariant(m_player->duration()));
-    QVariant result = RunCommand("MEDIAPLAYER.Seek", parameters);
+    QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.Seek"), parameters);
 
 
 #if 0
@@ -326,12 +333,12 @@ float MediaPlayerPrivate::duration() const
       return m_duration;
 
     QVariantMap parameters;
-    QVariant result = RunCommand("MEDIAPLAYER.Duration", parameters, true);
+    QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.Duration"), parameters, true);
     float res = result.toFloat();
-    if (res != 0.0f)
+    if (res >= 0.0f)
     {
         MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
-        tp->m_duration = res;
+        tp->m_duration = (res == 0.0 ? std::numeric_limits<float>::infinity() : res);
         tp->setloaded();
         m_player->timeChanged();
     }
@@ -349,7 +356,7 @@ float MediaPlayerPrivate::currentTime() const
     else
     {
       QVariantMap parameters;
-      QVariant result = RunCommand("MEDIAPLAYER.CurrentTime", parameters, true);
+      QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.CurrentTime"), parameters, true);
       tp->m_current = result.toFloat();
     }
     //fprintf(stderr, "=========== %s %s %f %d ===========\n", __FILE__, __FUNCTION__, m_current, m_isBuffering);
@@ -393,6 +400,7 @@ unsigned MediaPlayerPrivate::totalBytes() const
 
 void MediaPlayerPrivate::setRate(float rate)
 {
+  (void)rate;
   //fprintf(stderr, "=========== %s %s %f ===========\n", __FILE__, __FUNCTION__, rate);
     notImplemented();
 }
@@ -400,8 +408,8 @@ void MediaPlayerPrivate::setRate(float rate)
 void MediaPlayerPrivate::setVolume(float volume)
 {
     QVariantMap parameters;
-    parameters.insert("volume", QVariant(QVariant(volume).toString()));
-    RunCommand("MEDIAPLAYER.SetVolume", parameters);
+    parameters.insert(QString::fromAscii("volume"), QVariant(QVariant(volume).toString()));
+    RunCommand(QString::fromAscii("MEDIAPLAYER.SetVolume"), parameters);
 }
 
 bool MediaPlayerPrivate::supportsMuting() const
@@ -412,8 +420,8 @@ bool MediaPlayerPrivate::supportsMuting() const
 void MediaPlayerPrivate::setMuted(bool muted)
 {
     QVariantMap parameters;
-    parameters.insert("muted", QVariant(muted));
-    RunCommand("MEDIAPLAYER.SetMuted", parameters);
+    parameters.insert(QString::fromAscii("muted"), QVariant(muted));
+    RunCommand(QString::fromAscii("MEDIAPLAYER.SetMuted"), parameters);
 }
 
 MediaPlayer::NetworkState MediaPlayerPrivate::networkState() const
@@ -463,11 +471,11 @@ void MediaPlayerPrivate::paint(GraphicsContext* context, const IntRect& rect)
         m_videoRect.setY(m_videoRect.y() + offsetY);
 
         QVariantMap parameters;
-        parameters.insert("x", QVariant(m_videoRect.x()));
-        parameters.insert("y", QVariant(m_videoRect.y()));
-        parameters.insert("width", QVariant(m_videoRect.width()));
-        parameters.insert("height", QVariant(m_videoRect.height()));
-        RunCommand("MEDIAPLAYER.Paint", parameters);
+        parameters.insert(QString::fromAscii("x"), QVariant(m_videoRect.x()));
+        parameters.insert(QString::fromAscii("y"), QVariant(m_videoRect.y()));
+        parameters.insert(QString::fromAscii("width"), QVariant(m_videoRect.width()));
+        parameters.insert(QString::fromAscii("height"), QVariant(m_videoRect.height()));
+        RunCommand(QString::fromAscii("MEDIAPLAYER.Paint"), parameters);
     }
 
     m_paintedOnce = true;
