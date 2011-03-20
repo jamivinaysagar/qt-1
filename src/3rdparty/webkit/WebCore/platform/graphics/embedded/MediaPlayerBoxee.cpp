@@ -202,7 +202,7 @@ void MediaPlayerPrivate::load(const String& url)
         m_player->readyStateChanged();
     }
 
-    m_duration = 0.0f;
+    m_duration = -1.0f;
     m_paintedOnce = false;
     m_bytesLoaded = 0;
     m_isBuffering = 0;
@@ -329,7 +329,7 @@ float MediaPlayerPrivate::duration() const
 //        return 0.0f;
 
     //fprintf(stderr, "1 duration is %f\n", m_duration);
-    if (m_duration != 0.0f)
+    if (m_duration >= 0.0f)
       return m_duration;
 
     QVariantMap parameters;
