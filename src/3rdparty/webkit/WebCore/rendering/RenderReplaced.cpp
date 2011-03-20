@@ -34,8 +34,14 @@ using namespace std;
 
 namespace WebCore {
 
+#ifdef XP_EMBEDDED
+const int cDefaultWidth = 320;
+const int cDefaultHeight = 180;
+#else
 const int cDefaultWidth = 300;
 const int cDefaultHeight = 150;
+#endif
+
 
 RenderReplaced::RenderReplaced(Node* node)
     : RenderBox(node)
