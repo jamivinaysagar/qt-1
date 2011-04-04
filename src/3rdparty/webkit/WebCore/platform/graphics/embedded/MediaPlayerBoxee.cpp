@@ -155,8 +155,9 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
   4. The user agent must queue a task to fire a simple event named ended at the element.
   */
 
-  if ((result.toBool() == true || (m_duration != 0 &&  m_current == m_duration)) &&
-      !m_bSentEndedEvent)
+//  if ((result.toBool() == true || (m_duration != 0 &&  m_current == m_duration)) &&
+//      !m_bSentEndedEvent)
+    if (result.toBool() == true && !m_bSentEndedEvent)
   {
       m_bSentEndedEvent = true;
       m_player->timeChanged();

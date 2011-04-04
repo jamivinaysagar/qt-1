@@ -273,6 +273,7 @@ bool _NPN_Evaluate(NPP instance, NPObject* o, NPString* s, NPVariant* variant)
         ExecState* exec = rootObject->globalObject()->globalExec();
         JSLock lock(SilenceAssertionsOnly);
         String scriptString = convertNPStringToUTF16(s);
+        //fprintf(stderr, "----- %s -------\n", scriptString.utf8().data());
         ProtectedPtr<JSGlobalObject> globalObject = rootObject->globalObject();
         globalObject->globalData()->timeoutChecker.start();
         Completion completion = JSC::evaluate(globalObject->globalExec(), globalObject->globalScopeChain(), makeSource(scriptString), JSC::JSValue());
@@ -284,6 +285,11 @@ bool _NPN_Evaluate(NPP instance, NPObject* o, NPString* s, NPVariant* variant)
             result = completion.value();
             if (!result)
                 result = jsUndefined();
+
+            if (result.isString())
+            {
+              fprintf(stderr, "-------------- result is %s -----------\n", result.getString(exec).UTF8String().c_str());
+            }
         } else
             result = jsUndefined();
 

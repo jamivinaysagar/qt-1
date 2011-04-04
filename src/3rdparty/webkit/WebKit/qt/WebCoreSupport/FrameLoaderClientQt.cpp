@@ -836,10 +836,10 @@ void FrameLoaderClientQt::download(WebCore::ResourceHandle* handle, const WebCor
     QNetworkReply* reply = handler->release();
     if (reply) {
         QWebPage *page = m_webFrame->page();
-        if (page->forwardUnsupportedContent())
+        //if (page->forwardUnsupportedContent())
             emit page->unsupportedContent(reply);
-        else
-            reply->abort();
+        //else
+            //reply->abort();
     }
 }
 

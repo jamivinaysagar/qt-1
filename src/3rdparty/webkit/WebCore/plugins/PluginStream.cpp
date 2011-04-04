@@ -68,6 +68,7 @@ PluginStream::PluginStream(PluginStreamClient* client, Frame* frame, const Resou
     , m_quirks(quirks)
 {
     ASSERT(m_instance);
+    fprintf(stderr, "----------------------------------- %s \n", m_resourceRequest.url().string().utf8().data());
 
     m_stream.url = 0;
     m_stream.ndata = 0;
@@ -237,9 +238,12 @@ void PluginStream::destroyStream(NPReason reason)
     }
     destroyStream();
 }
+void print_trace (void);
 
 void PluginStream::destroyStream()
 {
+  //print_trace();
+  fprintf(stderr, "----------------------------------- %s \n", m_resourceRequest.url().string().utf8().data());
     if (m_streamState == StreamStopped)
         return;
 
@@ -446,6 +450,8 @@ void PluginStream::didReceiveData(NetscapePlugInStreamLoader* loader, const char
 
 void PluginStream::didFail(NetscapePlugInStreamLoader* loader, const ResourceError&)
 {
+  fprintf(stderr, "----------------------------------- %s \n", m_resourceRequest.url().string().utf8().data());
+
     ASSERT(loader == m_loader);
 
     LOG_PLUGIN_NET_ERROR();
