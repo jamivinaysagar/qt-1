@@ -178,7 +178,6 @@ void Console::addMessage(MessageType type, MessageLevel level, ScriptCallStack* 
     if (getFirstArgumentAsString(callStack->state(), lastCaller, message))
         page->chrome()->client()->addMessageToConsole(JSMessageSource, type, level, message, lastCaller.lineNumber(), lastCaller.sourceURL().prettyURL());
 
-    fprintf(stderr, "---------------- %s --------------\n", message.utf8().data());
 #if ENABLE(INSPECTOR)
     page->inspectorController()->addMessageToConsole(JSMessageSource, type, level, callStack);
 #endif
@@ -192,9 +191,9 @@ void Console::addMessage(MessageType type, MessageLevel level, ScriptCallStack* 
     for (unsigned i = 0; i < lastCaller.argumentCount(); ++i) {
         String argAsString;
         if (lastCaller.argumentAt(i).getString(callStack->state(), argAsString))
-            fprintf(stderr, " %s", argAsString.utf8().data());
+            printf(" %s", argAsString.utf8().data());
     }
-    fprintf(stderr, "\n");
+    printf("\n");
 }
 
 void Console::debug(ScriptCallStack* callStack)

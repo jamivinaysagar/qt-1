@@ -695,7 +695,6 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
         QImage* image = static_cast<QImage*>(painter->device());
         if (!image->bits())
           return;
-
         event.paint.bUseAccelBlit = false;
         event.paint.pixels = (uint8_t*)(image->bits());
         event.paint.pitch   = image->bytesPerLine();

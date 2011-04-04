@@ -171,7 +171,6 @@ JSValue JSC_HOST_CALL jsConsolePrototypeFunctionInfo(ExecState* exec, JSObject*,
 JSValue JSC_HOST_CALL jsConsolePrototypeFunctionLog(ExecState* exec, JSObject*, JSValue thisValue, const ArgList& args)
 {
     UNUSED_PARAM(args);
-    fprintf(stderr, "-------- %s ------------\n", __FUNCTION__);
     if (!thisValue.inherits(&JSConsole::s_info))
         return throwError(exec, TypeError);
     JSConsole* castedThisObj = static_cast<JSConsole*>(asObject(thisValue));
