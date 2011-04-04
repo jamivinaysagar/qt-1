@@ -41,6 +41,64 @@
 
 #include "browserapplication.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+  __attribute__ ((visibility("default"))) void SetOverrideScreen(bool override)
+  {
+  }
+
+  __attribute__ ((visibility("default"))) bool IsOverrideScreen()
+  {
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) bool GetScreenRect(int *x, int *y, int* width, int* height)
+  {
+    *x = *y = 0;
+    *width = 1280;
+    *height = 720;
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) bool GetBrowserSize(int* width, int* height)
+  {
+    *width = 1280;
+    *height = 720;
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) bool GetBrowserOffsets(int* offsetX, int* offsetY)
+  {
+    *offsetX = *offsetY = 0;
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) bool GetBrowserPluginFullscreen(void** pluginView)
+  {
+    *pluginView = 0;
+    return false;
+  }
+
+  __attribute__ ((visibility("default"))) bool SetBrowserPluginFullscreen(void* pluginView, bool isFullScreen)
+  {
+    return true;
+  }
+
+  __attribute__ ((visibility("default"))) double GetScaleX()
+  {
+    return 1.0f;
+  }
+
+  __attribute__ ((visibility("default"))) double GetScaleY()
+  {
+    return 1.0f;
+  }
+
+#ifdef __cplusplus
+} // extern C
+#endif
+
 int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(data);

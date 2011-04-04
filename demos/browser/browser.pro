@@ -104,3 +104,5 @@ symbian {
     TARGET.UID3 = 0xA000CF70
     include($$QT_SOURCE_TREE/demos/symbianpkgrules.pri)
 }
+
+LIBS += -lsrb
