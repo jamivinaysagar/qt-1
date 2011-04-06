@@ -1,4 +1,5 @@
 #!/bin/sh
+
 export BUILD_DEST=/opt/canmore/IntelCE
 export PATH=$PATH:$BUILD_DEST/bin
 export QT_CFLAGS_DIRECTFB="-D_REENTRANT -I$BUILD_DEST/usr/local/include/directfb"
