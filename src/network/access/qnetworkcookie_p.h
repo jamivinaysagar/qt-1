@@ -78,6 +78,11 @@ static inline bool isLWS(register char c)
     return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
 
+static inline bool isTokenSeparator(register char c)
+{
+    return c == '\r' || c == '\n';
+}
+
 static int nextNonWhitespace(const QByteArray &text, int from)
 {
     // RFC 2616 defines linear whitespace as:

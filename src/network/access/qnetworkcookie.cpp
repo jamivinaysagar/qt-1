@@ -423,7 +423,7 @@ static QPair<QByteArray, QByteArray> nextField(const QByteArray &text, int &posi
         position = i;
         for ( ; i < length; ++i) {
             register char c = text.at(i);
-            if (c == ',' || c == ';' || isLWS(c))
+            if(c == ';' || isTokenSeparator(c))
                 break;
         }
 
@@ -476,10 +476,13 @@ QByteArray QNetworkCookie::toRawForm(RawForm form) const
 
     result = d->name;
     result += '=';
-    if (d->value.contains(';') ||
-        d->value.contains(',') ||
-        d->value.contains(' ') ||
-        d->value.contains('"')) {
+
+    if (!d->value.startsWith('{') &&
+        (d->value.contains(';') ||
+         d->value.contains(',') ||
+         d->value.contains(' ') ||
+         d->value.contains('"'))) {
+
         result += '"';
 
         QByteArray value = d->value;
