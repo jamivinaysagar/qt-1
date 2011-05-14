@@ -2404,7 +2404,7 @@ contains(DEFINES, ENABLE_VIDEO=1) {
         } else {
                 INCLUDEPATH += \
                     $$PWD/platform/graphics/embedded
-            embedded {
+            true {
                 HEADERS += platform/graphics/embedded/MediaPlayerBoxee.h \
                             platform/graphics/embedded/qjson/json_parser.hh \
                             platform/graphics/embedded/qjson/json_scanner.h \
@@ -2428,6 +2428,10 @@ contains(DEFINES, ENABLE_VIDEO=1) {
                            platform/graphics/embedded/qjson/qobjecthelper.cpp \
                            platform/graphics/embedded/qjson/serializer.cpp \
                            platform/graphics/embedded/qjson/serializerrunnable.cpp
+
+                mac {
+                  QMAKE_LFLAGS += -undefined dynamic_lookup
+                }
             } else {
                 HEADERS += \
                     platform/graphics/qt/MediaPlayerPrivatePhonon.h

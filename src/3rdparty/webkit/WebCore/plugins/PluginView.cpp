@@ -897,7 +897,9 @@ PluginView::PluginView(Frame* parentFrame, const IntSize& size, PluginPackage* p
     , m_actualFullscreen(false)
     , m_fullscreenByPlugin(true)
     , m_sentWindowEvent(false)
+#ifdef XP_EMBEDDED
     , m_shouldClearFullscreen(false)
+#endif
 {
     LOG(Plugins, "PluginView::PluginView()");
     if (!m_plugin) {
