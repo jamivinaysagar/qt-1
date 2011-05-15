@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ./configure \
+  -arch "x86" \
   -opensource \
   -confirm-license \
   -release \
@@ -8,6 +9,12 @@
   -reduce-relocations \
   -no-gfx-linuxfb \
   -webkit \
+  -qt-libtiff \
+  -qt-libmng \
+  -no-libjpeg \
+  -qt-libjpeg \
+  -qt-libpng \
+  -qt-gif  \
   -no-cups \
   -no-qt3support \
   -no-sql-postgres \
