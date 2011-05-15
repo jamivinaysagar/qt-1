@@ -464,7 +464,9 @@ void MediaPlayerPrivate::paint(GraphicsContext* context, const IntRect& rect)
     {
         int offsetX = 0;
         int offsetY = 0;
+#ifdef XP_EMBEDDED
         ::GetBrowserOffsets(&offsetX, &offsetY);
+#endif
 
         m_videoRect = rect;
         m_videoRect.setX(m_videoRect.x() + offsetX);
