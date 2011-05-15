@@ -173,7 +173,7 @@ void PluginView::handleEvent(Event* event)
 #endif
 }
 
-#if 0
+#ifndef XP_EMBEDDED
 void PluginView::init()
 {
     if (m_haveInitialized)

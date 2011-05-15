@@ -36,6 +36,7 @@
 #include "PlatformScreen.h"
 #include "Widget.h"
 
+#ifdef XP_EMBEDDED
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -46,7 +47,7 @@ extern "C" {
 #ifdef __cplusplus
 } // extern C
 #endif
-
+#endif
 
 namespace WebCore {
 
@@ -67,16 +68,22 @@ void Screen::disconnectFrame()
 
 unsigned Screen::height() const
 {
+#ifdef XP_EMBEDDED
     int width,height;
     ::GetBrowserSize(&width,&height);
     return height;
+#endif
+  return static_cast<unsigned>(screenRect(m_frame->view()).height());
 }
 
 unsigned Screen::width() const
 {
+#ifdef XP_EMBEDDED
   int width,height;
   ::GetBrowserSize(&width,&height);
   return width;
+#endif
+  return static_cast<unsigned>(screenRect(m_frame->view()).width());
 }
 
 unsigned Screen::colorDepth() const
