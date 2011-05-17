@@ -480,7 +480,16 @@ qint64 QHttpNetworkReplyPrivate::readStatus(QAbstractSocket *socket)
         }
 
         // is this a valid reply?
-        if (fragment.length() >= 5 && !fragment.startsWith("HTTP/"))
+        if (fragment.length() >= 5 && fragment.startsWith("ICY"))
+        {
+          state = ReadingDataState;
+          statusCode = 200;
+          autoDecompress = false;
+          bytes = 0;
+          break;
+        }
+
+        if (fragment.length() >= 5 && !fragment.startsWith("HTTP/") && !fragment.startsWith("ICY"))
         {
             fragment.clear();
             return -1;

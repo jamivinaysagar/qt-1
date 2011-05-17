@@ -1434,6 +1434,8 @@ QWebElement QWebElement::enclosingElement(WebCore::Node* node)
 */
 void QWebElement::render(QPainter* painter)
 {
+  fprintf(stderr, "------------------------ %s %d ---------------\n", __FILE__, __LINE__);
+
     WebCore::Element* e = m_element;
     Document* doc = e ? e->document() : 0;
     if (!doc)
@@ -1460,6 +1462,7 @@ void QWebElement::render(QPainter* painter)
     view->paintContents(&context, rect);
     view->setNodeToDraw(0);
     context.restore();
+    fprintf(stderr, "------------------------ %s %d %x ---------------\n", __FILE__, __LINE__, e);
 }
 
 void QWebElement::showFullscreen(bool isFullscreen, bool isFakeFullScreen, void* pluginIdentifier)
