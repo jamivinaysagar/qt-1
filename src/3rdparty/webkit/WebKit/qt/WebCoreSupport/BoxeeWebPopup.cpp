@@ -46,6 +46,7 @@
 #include <BrowserDialogsProvider.h> // S60 platform private header file
 #include <e32base.h>
 #endif
+#include <stdio.h>
 
 namespace WebCore {
 
