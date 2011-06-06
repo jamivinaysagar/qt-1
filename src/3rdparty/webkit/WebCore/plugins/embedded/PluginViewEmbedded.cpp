@@ -176,205 +176,48 @@ void displayMemory(char *address, int length) {
 //
 //-------------------------------------------------------------------------------------
 
-//----------------------- HW ACCEL METHODS FOR FLASH ----------------------------------
-//
-#define USE_QIMAGE
-//#define USE_SURFACE_POOL
-#define NO_HW_ACCEL
-
-#ifdef USE_QIMAGE
-static gma_ret_t destroy_malloc_pixmap(gma_pixmap_info_t *pixmap_info)
-{
-  return GMA_SUCCESS;
-}
-
-static gma_pixmap_t create_malloc_pixmap(void *ptr,
-                                         gma_pixel_format_t pixel_format,
-                                         gma_uint32 width,
-                                         gma_uint32 height,
-                                         gma_uint32 pitch )
-{
-  static gma_pixmap_funcs_t malloc_pixmap_funcs =
-  {
-    destroy_malloc_pixmap
-  };
-
-  gma_pixmap_t pixmap = NULL;
-
-  gma_ret_t gma_rc = GMA_SUCCESS;
-  gma_pixmap_info_t pixmap_info ;
-  memset(&pixmap_info,0,sizeof(gma_pixmap_info_t));
-
-  if (NULL == ptr)
-    return NULL;
-
-  pixmap_info.type = GMA_PIXMAP_TYPE_VIRTUAL;
-  pixmap_info.virt_addr = ptr;
-  pixmap_info.width = width;
-  pixmap_info.height = height;
-  pixmap_info.pitch = pitch;
-  pixmap_info.format = pixel_format;
-  pixmap_info.user_data = ptr;
-
-  gma_rc = gma_pixmap_alloc(&pixmap_info, &malloc_pixmap_funcs, &pixmap);
-  if (gma_rc != GMA_SUCCESS)
-    pixmap = NULL;
-
-  return pixmap;
-}
-
 class BXSurface
 {
 public:
-  BXSurface() : m_image(NULL), m_dirty(false), m_lock(QMutex::Recursive), m_gmaPixmap(NULL), m_srbSurface(NULL)
-  {
-    if (!BXSurface::m_srbContext)
-    {
-      srb_alloc_context(0,&BXSurface::m_srbContext);
-    }
-  }
-
-  virtual ~BXSurface()
-  {
-    if (m_gmaPixmap)
-      gma_pixmap_release(&m_gmaPixmap);
-
-    if (m_srbSurface)
-      srb_detach_surface(&m_srbContext, &m_srbSurface);
-
-    if (m_image) delete m_image;
-  }
-
-  bool create()
-  {
-    if (!m_image)
-      m_image = new QImage(m_width, m_height, QImage::Format_ARGB32_Premultiplied);
-    m_gmaPixmap = create_malloc_pixmap(m_image->bits(), GMA_PF_ARGB_32, m_width, m_height, m_image->bytesPerLine());
-    gdl_ret_t rc = srb_attach_pixmap(&m_srbContext, m_gmaPixmap, &m_srbSurface);
-    if (rc != GDL_SUCCESS)
-      fprintf(stderr,"----failed to attach pixmap (%p) %x!!\n",m_gmaPixmap,rc);
-    return true;
-  }
-
-  inline bool isCreated() { return m_image && !m_image->isNull(); }
-
-  QImage  *m_image;
-  bool    m_dirty;
-  int     m_width;
-  int     m_height;
-  QMutex  m_lock;
-
-  gma_pixmap_t   m_gmaPixmap;
-  srb_surface_t  m_srbSurface;
-  static srb_context_t  m_srbContext; // must be set from outside
-};
-
-srb_context_t BXSurface::m_srbContext = NULL;
-
-static void* GLGetPixels(void * pSurface)
-{
-  BXSurface* s= (BXSurface*)pSurface;
-  if (!s->isCreated())
-      s->create();
-
-  return s->m_image->bits();
-}
-
-static int GLGetPitch(void * pSurface)
-{
-  BXSurface* s= (BXSurface*)pSurface;
-  if (!s->isCreated())
-      s->create();
-
-  return s->m_image->bytesPerLine();
-}
-
-static bool GLDrawRect(void * pSurface, uint32_t color, const PluginRect* rect)
-{
-//  fprintf(stderr, "drawing rect %d*%d %d*%d color %x\n",
-//          rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, color);
-
-  BXSurface* s= (BXSurface*)pSurface;
-  if (!s->isCreated())
-      s->create();
-  srb_fill_info_t fill;
-  memset(&fill, 0, sizeof(srb_fill_info_t));
-  srb_blend_info_t blend;
-  memset(&blend, 0, sizeof(srb_blend_info_t));
-  gdl_rectangle_t dstRect;
-  dstRect.origin.x = rect->left;
-  dstRect.origin.y = rect->top;
-  dstRect.width  = rect->right - rect->left ;
-  dstRect.height = rect->bottom  - rect->top;
-
-  fill.clip_rect = dstRect;
-  fill.fill_rect = dstRect;
-  fill.blend = blend;
-  fill.fill_color = color;
-  fill.fill_surface_handle = &s->m_srbSurface;
-  gdl_ret_t rc = srb_fill(&BXSurface::m_srbContext,&fill);
-  CHECK_GDL_RC(rc,"fill failed");
-
-  return TRUE;
-}
-
-static bool GLBlit(void * pSurface, void* pTargetSurface, const int nTargetPitch, const PluginRect* src_rect,
-                   const PluginRect* dest_rect, bool bSourceAlpha)
-{
-  BXSurface* srcSurface = (BXSurface*)pSurface;
-  BXSurface* destSurface= (BXSurface*)pTargetSurface;
-
-  char *pixels = (char *)srcSurface->m_image->bits();
-  cache_flush_buffer(pixels, srcSurface->m_image->height() * srcSurface->m_image->bytesPerLine());
-
-  srb_blit_info_t blit_info;
-  memset(&blit_info, 0, sizeof(srb_blit_info_t));
-
-  gdl_rectangle_t    srcRect;
-  gdl_rectangle_t    dstRect;
-
-  srcRect.origin.x = src_rect->left;
-  srcRect.origin.y = src_rect->top;
-  srcRect.width    = src_rect->right - src_rect->left ;
-  srcRect.height   = src_rect->bottom - src_rect->top ;
-
-  dstRect.origin.x = dest_rect->left;
-  dstRect.origin.y = dest_rect->top;
-  dstRect.width    = dest_rect->right - dest_rect->left ;
-  dstRect.height   = dest_rect->bottom - dest_rect->top ;
-
-  blit_info.src_surface_handle = &(srcSurface->m_srbSurface);
-  blit_info.dest_surface_handle = &(destSurface->m_srbSurface);
-  blit_info.src_rect = srcRect;
-  blit_info.dest_rect = dstRect;
-  blit_info.clip_rect = dstRect;
-  blit_info.blend.flags = SRB_BLEND_ENABLE_BLEND_EQUATION;
-  blit_info.blend.src_rgb = SRB_BLEND_FUNC_ONE;
-  blit_info.blend.src_alpha = SRB_BLEND_FUNC_ONE;
-  blit_info.blend.dest_rgb = SRB_BLEND_FUNC_ZERO;
-  blit_info.blend.dest_alpha = SRB_BLEND_FUNC_ZERO;
-  blit_info.filter = SRB_FILTER_LINEAR;
-
-  gdl_ret_t rc = srb_blit(&BXSurface::m_srbContext, &blit_info);
-  CHECK_GDL_RC(rc,"blit failed");
-  return TRUE;
-}
-
-#else // of USE_QIMAGE
-
-class BXSurface
-{
-public:
-  BXSurface() : m_dirty(false), m_device(NULL), m_painter(NULL), m_lock(QMutex::Recursive) {}
-  virtual ~BXSurface() { if (m_device) delete m_device; }
+  BXSurface() : m_dirty(false), m_painter(NULL), m_lock(QMutex::Recursive) {}
+  virtual ~BXSurface() { }
   QImage  m_image;
   bool    m_dirty;
   int     m_width;
   int     m_height;
-  QPaintDevice *m_device;
   QPainter *m_painter;
   QMutex  m_lock;
 };
+
+static void* GLCreateSurface(int width, int height, int depth)
+{
+  BXSurface *s = new BXSurface;
+  s->m_width  = width;
+  s->m_height = height;
+  return s;
+}
+
+static bool GLFreeSurface(void * pSurface)
+{
+  BXSurface *s = (BXSurface*) pSurface;
+  delete s;
+  return TRUE;
+}
+
+static bool GLLockSurface(void * pSurface)
+{
+  BXSurface* s= (BXSurface*)pSurface;
+  s->m_lock.lock();
+  return TRUE;
+}
+
+static bool GLUnlockSurface(void * pSurface)
+{
+  BXSurface* s= (BXSurface*)pSurface;
+  s->m_dirty = true;
+  s->m_lock.unlock();
+  return TRUE;
+}
 
 static void* GLGetPixels(void * pSurface)
 {
@@ -396,14 +239,13 @@ static int GLGetPitch(void * pSurface)
 
 static bool GLDrawRect(void * pSurface, uint32_t color, const PluginRect* rect)
 {
-//  fprintf(stderr, "drawing rect %d*%d %d*%d color %x\n",
-//          rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, color);
+  fprintf(stderr, "drawing rect %d*%d %d*%d color %x\n",
+          rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, color);
 
   BXSurface* s= (BXSurface*)pSurface;
   if (s->m_image.isNull())
       s->m_image = QImage(s->m_width, s->m_height, QImage::Format_ARGB32_Premultiplied);
   QPainter p(&(s->m_image));
-  //p.setPen(QColor(color));
   p.fillRect(rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, QColor(color));
   return TRUE;
 }
@@ -411,11 +253,19 @@ static bool GLDrawRect(void * pSurface, uint32_t color, const PluginRect* rect)
 static bool GLBlit(void * pSurface, void* pTargetSurface, const int nTargetPitch, const PluginRect* src_rect,
                    const PluginRect* dest_rect, bool bSourceAlpha)
 {
+//  fprintf(stderr, "glblit %x %x %d %d*%d %d*%d %d*%d %d*%d %d\n",
+//          pSurface, pTargetSurface, nTargetPitch,
+//          src_rect->left, src_rect->top, src_rect->right, src_rect->bottom,
+//          dest_rect->left, dest_rect->top, dest_rect->right, dest_rect->bottom,
+//          bSourceAlpha);
+
   QRectF srcRect(QPoint(src_rect->left, src_rect->top), QPoint(src_rect->right, src_rect->bottom));
   QRectF destRect(QPoint(dest_rect->left, dest_rect->top), QPoint(dest_rect->right, dest_rect->bottom));
 
   BXSurface* srcSurface = (BXSurface*)pSurface;
   BXSurface* destSurface= (BXSurface*)pTargetSurface;
+  if (destSurface->m_dirty) // this is just in case - the target surface is never dirty.
+    fprintf(stderr, "destSurface->m_dirty\n");
 
   if (destSurface->m_painter)
   {
@@ -438,8 +288,8 @@ static bool GLBlit(void * pSurface, void* pTargetSurface, const int nTargetPitch
     }
 #ifdef TIME_DRAW
     fprintf(stderr,"-------(%p,%p) took %d ms to draw %dx%d . destrect: %d,%d %dx%d. source: %d,%d %dx%d\n",
-            srcSurface->m_device,
-            destSurface->m_device,
+            srcSurface->m_pixmap,
+            destSurface->m_pixmap,
             t.elapsed(),srcSurface->m_image.width(),srcSurface->m_image.height(),
             dest_rect->left, dest_rect->top, dest_rect->right - dest_rect->left, dest_rect->bottom - dest_rect->top, src_rect->left, src_rect->top,
             src_rect->right - src_rect->left, src_rect->bottom - src_rect->top);
@@ -447,84 +297,14 @@ static bool GLBlit(void * pSurface, void* pTargetSurface, const int nTargetPitch
     destSurface->m_painter->setCompositionMode(mode);
   }
   else
-  {
-    QPainter p(destSurface->m_device);
-    if (!bSourceAlpha)
-      p.setCompositionMode(QPainter::CompositionMode_Source);
-    if (!srcSurface->m_image.isNull())
-      p.drawImage(destRect, srcSurface->m_image, srcRect);
-  }
+    fprintf(stderr, "destSurface->m_painter is null\n");
+
 
   return TRUE;
 }
-
-#endif // of USE_QIMAGE
-
-#ifdef USE_SURFACE_POOL
-static QList<BXSurface *> g_surfacePool;
-#endif
-
-static void* GLCreateSurface(int width, int height, int depth)
-{
-  BXSurface *surface=NULL;
-#ifdef USE_SURFACE_POOL
-  foreach(BXSurface *s, g_surfacePool)
-  {
-    if (s->m_width == width && s->m_height == height)
-    {
-      surface = s;
-      g_surfacePool.removeOne(s);
-      break;
-    }
-  }
-
-  if (surface)
-    return surface;
-#endif
-  BXSurface *s = new BXSurface;
-  s->m_width  = width;
-  s->m_height = height;
-  return s;
-}
-
-static bool GLFreeSurface(void * pSurface)
-{
-  BXSurface *s = (BXSurface*) pSurface;
-#ifdef USE_SURFACE_POOL
-  g_surfacePool.push_front(s);
-
-  int nSize = 0;
-  foreach(const BXSurface *s, g_surfacePool)
-    nSize += s->m_width * s->m_height * 4;
-#else
-  delete s;
-#endif
-  return TRUE;
-}
-
-static bool GLLockSurface(void * pSurface)
-{
-  BXSurface* s= (BXSurface*)pSurface;
-  s->m_lock.lock();
-  return TRUE;
-}
-
-static bool GLUnlockSurface(void * pSurface)
-{
-  BXSurface* s= (BXSurface*)pSurface;
-  s->m_dirty = true;
-  s->m_lock.unlock();
-  return TRUE;
-}
-
 
 bool GLGetFuncs(GL_FuncTable **table)
 {
-
-#ifdef NO_HW_ACCEL
-  *table = NULL;
-  return false;
-#endif
 
   static GL_FuncTable drawingFuncs = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -559,9 +339,6 @@ bool GLGetFuncs(GL_FuncTable **table)
   *table = &drawingFuncs;
   return TRUE;
 }
-
-//
-//----------------------- END OF HW ACCEL METHODS FOR FLASH ----------------------------------
 
 void PluginView::updatePluginWidget()
 {
@@ -607,7 +384,7 @@ static     QMutex  l;
 //#define TIME_PAINT
 void PluginView::paint(GraphicsContext* context, const IntRect& rect)
 {
-    LOG(Plugins, "PluginView::paint %d, %d, %d, %d\n", rect.x(), rect.y(), rect.width(), rect.height());
+  LOG(Plugins, "PluginView::paint %d, %d, %d, %d\n", rect.x(), rect.y(), rect.width(), rect.height());
 
     if (!m_isStarted || m_status !=  PluginStatusLoadedSuccessfully) {
         // Draw the "missing plugin" image
@@ -648,44 +425,16 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
     GLGetFuncs(&table);     // Set the passed in surface/memory based on the result.
     if(table != NULL)
     {
+      QImage* image = static_cast<QImage*>(painter->device());
         // Using internal GL functions
         //LOG(Plugins, "PluginView::paint() using internal GL functions");
-        event.paint.bUseAccelBlit = true;
-
-        widget = dynamic_cast<QWidget*>(image);
-        if (!widget) // its a pixmap/qimage
-        {
-          // This can be any type of surface that is compatible with the
-          // GL_FuncTable functions. Here we're passing the BXSurface*,
-          // so GL funcs need to operate on a BXSurface*.
-          destSurface = (BXSurface*)GLCreateSurface(image->width(), image->height(), 32);
-#ifdef USE_QIMAGE
-          destSurface->m_image = (QImage*)image;
-  #ifdef USE_SURFACE_POOL
-          if (!destSurface->isCreated())
-  #endif
-            destSurface->create();
-#else
-          destSurface->m_device = image;
-          destSurface->m_painter = painter;
-#endif
-          event.paint.pixels = (uint8_t*)destSurface;
-
-          event.paint.w    = image->width()  ;
-          event.paint.h    = image->height() ;
-        }
-        else
-        {
-          destSurface = (BXSurface*)GLCreateSurface(image->width(), image->height(), 32);
-#ifndef USE_QIMAGE
-          destSurface->m_device = widget;
-          destSurface->m_painter = painter;
-#endif
-          event.paint.pixels = (uint8_t*)destSurface;
-
-          event.paint.w    = widget->rect().width()  ;
-          event.paint.h    = widget->rect().height() ;
-        }
+      event.paint.bUseAccelBlit = true;
+      destSurface = (BXSurface*)GLCreateSurface(image->width(), image->height(), 32);
+      destSurface->m_painter = painter;
+      event.paint.pixels = (uint8_t*)destSurface;
+      event.paint.w = image->width()  ;
+      event.paint.h = image->height()  ;
+      event.paint.pitch   = image->bytesPerLine();
     }
     else
     {
@@ -698,10 +447,8 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
         event.paint.bUseAccelBlit = false;
         event.paint.pixels = (uint8_t*)(image->bits());
         event.paint.pitch   = image->bytesPerLine();
-
         event.paint.w    = image->width();
         event.paint.h    = image->height();
-        l.lock();
     }
 
 
@@ -715,6 +462,7 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
 
     LOG(Plugins, "PluginView::paint scroll offset x -> %d, y -> %d\n", scrollOffset.x(), scrollOffset.y());
 
+    bool xxxxxx = false;
     PluginView * pluginView = NULL;
     IntRect invalRect(0,0,0,0);
     event.type = PluginPaintEventType;
@@ -742,14 +490,6 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
         event.paint.inval.bottom 	= invalRect.y() + invalRect.height();
 
         m_invalidRects.clear();
-
-        /*
-        event.paint.inval.left 		= 0;
-        event.paint.inval.top 		= 0;
-        event.paint.inval.right 	= image->width() ;
-        event.paint.inval.bottom 	= image->height() ;
-        */
-
         event.paint.xoffset   = 0;
         event.paint.yoffset   = 0;
 
@@ -769,19 +509,15 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
     else
     {
       IntRect rectWidget = frameRect();
-      event.paint.inval.left    = rect.x() + scrollOffset.x();
-            event.paint.inval.top     = rect.y() + scrollOffset.y();
-            event.paint.inval.right   = event.paint.inval.left + rect.width();
-            event.paint.inval.bottom  = event.paint.inval.top + rect.height();
-            event.paint.xoffset     = rectWidget.x() + scrollOffset.x();
-            event.paint.yoffset     = rectWidget.y() + scrollOffset.y();
-
-
+      event.paint.inval.left    = rect.x();
+      event.paint.inval.top     = rect.y();
+      event.paint.inval.right   = event.paint.inval.left + rect.width();
+      event.paint.inval.bottom  = event.paint.inval.top + rect.height();
+      event.paint.xoffset     = rectWidget.x();
+      event.paint.yoffset     = rectWidget.y();
       setNPWindowRect(rectWidget);
-
       event.paint.w    = rect.width()  ;
       event.paint.h    = rect.height() ;
-
     }
 
     NPEvent pEvt    = &event; // NPEvent is typedef'd as void*
@@ -791,23 +527,14 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
     JSC::JSLock::DropAllLocks dropAllLocks(JSC::SilenceAssertionsOnly);
     setCallingPlugin(true);
     //fprintf(stderr,"----- paint: %d %d %d %d / %d %d %d %d\n",event.paint.xoffset, event.paint.yoffset, event.paint.w,event.paint.h,  event.paint.inval.left, event.paint.inval.top, event.paint.inval.right, event.paint.inval.bottom);
+
+
     m_plugin->pluginFuncs()->event(m_instance, pEvt);
     setCallingPlugin(false);
     PluginView::setCurrentPluginView(0);
 
-    if (!table)
-      l.unlock();
-
     if (destSurface)
-    {
-#ifdef USE_QIMAGE
-      srb_wait(&BXSurface::m_srbContext, &(destSurface->m_srbSurface));
-      destSurface->m_image = NULL; // we dont want to delete the main image...
-#else
-      destSurface->m_device = NULL; // we dont want to delete the main pixmap...
-#endif
       GLFreeSurface(destSurface);
-    }
 
     painter->setTransform(keepTransform);
 
