@@ -321,7 +321,7 @@ void QNetworkReplyHandler::sendResponseIfNeeded()
     // The status code is equal to 0 for protocols not in the HTTP family.
     int statusCode = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
-    if (url.protocolInHTTPFamily()) {
+    if (url.protocolInHTTPFamily() && statusCode != 0) {
         String suggestedFilename = filenameFromHTTPContentDisposition(QString::fromAscii(m_reply->rawHeader("Content-Disposition")));
 
         if (!suggestedFilename.isEmpty())
@@ -342,6 +342,12 @@ void QNetworkReplyHandler::sendResponseIfNeeded()
             response.setHTTPHeaderField(QString::fromAscii(headerName), QString::fromAscii(m_reply->rawHeader(headerName)));
         }
 #endif
+    }
+    else if(url.protocolInHTTPFamily() && statusCode == 0)
+    {
+      response.setSuggestedFilename(url.lastPathComponent());
+      response.setHTTPStatusCode(200);
+      response.setHTTPStatusText("");
     }
 
     QUrl redirection = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
