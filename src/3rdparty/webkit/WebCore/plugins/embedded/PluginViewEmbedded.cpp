@@ -239,8 +239,8 @@ static int GLGetPitch(void * pSurface)
 
 static bool GLDrawRect(void * pSurface, uint32_t color, const PluginRect* rect)
 {
-  fprintf(stderr, "drawing rect %d*%d %d*%d color %x\n",
-          rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, color);
+//  fprintf(stderr, "drawing rect %d*%d %d*%d color %x\n",
+//          rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top, color);
 
   BXSurface* s= (BXSurface*)pSurface;
   if (s->m_image.isNull())
