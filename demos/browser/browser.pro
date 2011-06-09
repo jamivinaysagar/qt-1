@@ -105,4 +105,6 @@ symbian {
     include($$QT_SOURCE_TREE/demos/symbianpkgrules.pri)
 }
 
-LIBS += -lsrb
+embedded {
+	LIBS += -lsrb
+}
