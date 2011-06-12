@@ -471,6 +471,7 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
       if(pluginView == this)
       {
         painter->resetTransform();
+        painter->setClipping(false);
         //painter->scale((double)image->width() / (double)frameRect().width(), (double)image->height() / (double)frameRect().height() );
 
         for (unsigned i = 0; i < m_invalidRects.size(); i++)
