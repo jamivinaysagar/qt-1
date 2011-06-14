@@ -460,7 +460,7 @@ void MediaPlayerPrivate::paint(GraphicsContext* context, const IntRect& rect)
     if (!m_isVisible && !m_isBuffering)
         return;
 
-    if (!m_paintedOnce)
+    if (!m_paintedOnce || m_videoRect != rect)
     {
         int offsetX = 0;
         int offsetY = 0;
