@@ -22,6 +22,7 @@
 
 #include "MediaPlayerPrivate.h"
 #include "qjson/serializer.h"
+#include "qjson/parser.h"
 #include "HTMLMediaElement.h"
 
 #include <QObject>
@@ -105,7 +106,7 @@ private:
     bool m_isVisible;
     IntRect m_videoRect;
     bool m_paused;
-    IntSize m_size;
+    IntSize m_size, m_naturalSize;
     MediaPlayer::NetworkState m_networkState;
     MediaPlayer::ReadyState m_readyState;
     float m_duration;

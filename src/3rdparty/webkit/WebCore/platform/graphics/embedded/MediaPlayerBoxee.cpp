@@ -123,7 +123,9 @@ MediaPlayerPrivate::MediaPlayerPrivate(MediaPlayer* player)
       m_isVisible(false),
       m_paused(true), 
       m_networkState(MediaPlayer::Empty),
-      m_readyState(MediaPlayer::HaveNothing)
+      m_readyState(MediaPlayer::HaveNothing),
+      m_size(0,0),
+      m_naturalSize(0,0)
 {
   m_stateTimer.start(1.0, 1.0);
 }
@@ -162,6 +164,18 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
       m_player->timeChanged();
       m_stateTimer.stop();
   }
+
+  if (!m_naturalSize.isZero())
+    return;
+
+  result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetNaturalSize"), parameters, true);
+  QJson::Parser parser;
+  bool ok;
+  QVariantMap res = parser.parse(result.toByteArray(), &ok).toMap();
+  m_naturalSize.setWidth(res["width"].toInt());
+  m_naturalSize.setHeight(res["height"].toInt());
+  if (!m_naturalSize.isZero())
+    m_player->sizeChanged();
 }
 
 
@@ -438,18 +452,19 @@ MediaPlayer::ReadyState MediaPlayerPrivate::readyState() const
 
 void MediaPlayerPrivate::setVisible(bool visible)
 {
-  //fprintf(stderr, "=========== %s %s ===========\n", __FILE__, __FUNCTION__);
+  //fprintf(stderr, "=========== %s %s %d ===========\n", __FILE__, __FUNCTION__, visible);
     m_isVisible = visible;
 }
 
 void MediaPlayerPrivate::setSize(const IntSize& size)
 {
-    m_size = size;
+  //fprintf(stderr, "=========== %s %s %d %d ===========\n", __FILE__, __FUNCTION__, size.width(), size.height());
+  m_size = size;
 }
 
 IntSize MediaPlayerPrivate::naturalSize() const
 {
-    return m_size;
+    return m_naturalSize;
 }
 
 void MediaPlayerPrivate::paint(GraphicsContext* context, const IntRect& rect)
