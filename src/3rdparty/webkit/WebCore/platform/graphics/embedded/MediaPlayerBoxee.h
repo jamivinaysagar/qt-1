@@ -95,6 +95,8 @@ private:
 
     Timer<MediaPlayerPrivate> m_stateTimer;
     void stateTimer(Timer<MediaPlayerPrivate>*);
+    void checkLoadingStatus();
+    void updatePlayerStatus();
     void setloaded();
     MediaPlayerPrivate(MediaPlayer*);
     QVariant RunCommand(QString command, QVariantMap parameters, bool expectedResult = false) const;
@@ -111,10 +113,13 @@ private:
     MediaPlayer::ReadyState m_readyState;
     float m_duration;
     float m_current;
+    float m_buffered;
     bool m_paintedOnce;
     bool m_isBuffering;
     unsigned m_bytesLoaded;
     bool m_bSentEndedEvent;
+    bool m_loadFinished;
+    bool m_isPlaybackEnded;
 
 };
 }
