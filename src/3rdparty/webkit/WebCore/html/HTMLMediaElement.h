@@ -291,6 +291,7 @@ private:
 
     float m_volume;
     float m_lastSeekTime;
+	float m_duration;
     
     unsigned m_previousProgress;
     double m_previousProgressTime;
