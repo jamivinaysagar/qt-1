@@ -36,6 +36,8 @@
 #include <wtf/HashSet.h>
 #include <QPainter>
 
+#include "qjson/parser.h"
+
 extern "C" bool GetBrowserOffsets(int* offsetX, int* offsetY);
 
 using namespace WTF;
@@ -68,13 +70,13 @@ QVariant MediaPlayerPrivate::RunCommand(QString command, QVariantMap parameters,
     js += QString::fromAscii(serialized);
     js += QString::fromAscii("\\');')");
 
-//    fprintf(stderr, "********************** MediaPlayerPrivate::RunCommand: %s\n", js.toLocal8Bit().constData());
+    //fprintf(stderr, "********************** MediaPlayerPrivate::RunCommand: %s\n", js.toLocal8Bit().constData());
 
     QVariant result;
     if (frameLoader)
     {
         result = frameLoader->webFrame()->evaluateJavaScript(js);
-        //fprintf(stderr, "********************** MediaPlayerPrivate::RunCommand Done: %s\n", result.toString().toLocal8Bit().constData());
+		//fprintf(stderr, "********************** MediaPlayerPrivate::RunCommand Done: %s\n", result.toString().toLocal8Bit().constData());
     }
 
     return result;
@@ -83,6 +85,193 @@ QVariant MediaPlayerPrivate::RunCommand(QString command, QVariantMap parameters,
 MediaPlayerPrivateInterface* MediaPlayerPrivate::create(MediaPlayer* player)
 {
     return new MediaPlayerPrivate(player);
+}
+
+void MediaPlayerPrivate::checkLoadingStatus()
+{
+//  fprintf(stderr, "\n********************** %s::%s(%d)\tcalling RunCommand(MEDIAPLAYER.GetLoadingStatus)...\n", __FILE__, __FUNCTION__, __LINE__);
+	QVariantMap parameters;
+    QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetLoadingStatus"), parameters, true);
+
+	m_loadFinished = result.toBool();
+//  fprintf(stderr, "\n********************** %s::%s(%d)\tsetting m_loadFinished to %d\n", __FILE__, __FUNCTION__, __LINE__, m_loadFinished);
+
+	if(m_loadFinished)
+	{
+//  	fprintf(stderr, "\n********************** %s::%s(%d)\tloaded = TRUE\n", __FILE__, __FUNCTION__, __LINE__);
+		setVisible(true);
+//  	fprintf(stderr, "\n************************************* %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, MediaPlayer::Loading);		
+		m_networkState = MediaPlayer::Loading;
+//  	fprintf(stderr, "\n************************************* %s::%s(%d)\tcalling m_player->networkStateChanged() networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState);
+		m_player->networkStateChanged();
+		m_readyState = MediaPlayer::HaveMetadata;// HaveNothing;
+//  	fprintf(stderr, "\n************************************* %s::%s(%d)\tcalling m_player->readyStateChanged() readyState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_readyState);
+		m_player->readyStateChanged();
+//  	MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
+//  	tp->setloaded(); //fixme: verify it is safe to comment this
+	}
+//  else
+//  {
+//  	fprintf(stderr, "\n********************** %s::%s(%d)\tloaded = FALSE\n", __FILE__, __FUNCTION__, __LINE__);
+//  }
+}
+
+void MediaPlayerPrivate::updatePlayerStatus()
+{
+    QVariantMap parameters;
+    QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetStatusUpdate"), parameters, true);
+
+    /**
+     * get cumulative status update from the player
+     * isBuffering
+     * isPlaybackEnded
+     * currentTime
+     * buffered
+     */
+
+//  fprintf(stderr, "\n********************** %s::%s(%d) RunCommand(MEDIAPLAYER.GetStatusUpdate)'s result = %s\n", __FILE__, __FUNCTION__, __LINE__, result.toString().toStdString().c_str());
+
+	QJson::Parser parser;
+	bool ok;
+	QVariantMap res = parser.parse(result.toByteArray(), &ok).toMap();
+
+	if(!ok)
+	{
+		return;
+	}
+
+	bool isBuffering = res["isBuffering"].toBool();
+	bool isPlaybackEnded = res["isPlaybackEnded"].toBool();
+	float currentTime = res["currentTime"].toFloat();
+	float timeBuffered = res["buffered"].toFloat();
+
+//  fprintf(stderr, "\n********************** %s::%s(%d) MEDIAPLAYER.GetStatusUpdate:\nisBuffering = %d, m_isBuffering = %d, m_readyState = %d, isPlaybackEnded = %d, currentTime = %f, timeBuffered = %f\n\n" , __FILE__, __FUNCTION__, __LINE__, isBuffering, m_isBuffering, m_readyState, isPlaybackEnded, currentTime, timeBuffered);
+	//fprintf(stderr, "\nisBuffering = %d, m_isBuffering = %d, m_readyState = %d\n", isBuffering, m_isBuffering, m_readyState);
+
+	/**
+	 * currentTime
+	 *
+	 */
+	MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
+    if(isPlaybackEnded/*m_bSentEndedEvent*/) //fixme: check if need to revert
+    {
+      tp->m_current = m_duration;
+//    fprintf(stderr, "\n********************** %s::%s(%d):\tisPlaybackEnded = %d, m_current = %f (duration = %f)\n", __FILE__, __FUNCTION__, __LINE__, isPlaybackEnded, m_current, m_duration);
+    }
+	else
+    {
+      tp->m_current = currentTime;
+//    fprintf(stderr, "\n********************** %s::%s(%d):\tisPlaybackEnded = %d, m_current = %f (duration = %f)\n", __FILE__, __FUNCTION__, __LINE__, isPlaybackEnded, m_current, m_duration);
+    }
+
+	/**
+	 * buffered
+	 *
+	 */
+	tp->m_buffered = timeBuffered; //buffered() returns this value to the browser
+
+	/**
+	 * isPlaybackEnded
+	 *
+	 */
+	m_isPlaybackEnded = isPlaybackEnded;
+
+	if((isPlaybackEnded || (m_duration != 0 &&  m_current == m_duration)) && !m_bSentEndedEvent)
+    {
+		m_readyState = MediaPlayer::HaveCurrentData; //represents end of media
+		m_isBuffering = true;
+//fprintf(stderr, "\n********************** %s::%s(%d):\nplaybackEnded - setting readyState to %d\ncalling m_player->readyStateChanged()...\nisBuffering = %d\nisPlaybackEnded = %d\ncurrentTime = %f\ntimeBuffered = %f\n"
+//  		  , __FILE__, __FUNCTION__, __LINE__
+//  		  , m_readyState
+//  		  , isBuffering
+//  		  , isPlaybackEnded
+//  		  , currentTime
+//  	      , timeBuffered);
+		m_player->readyStateChanged();
+
+        m_bSentEndedEvent = true;
+        m_player->timeChanged();
+        m_stateTimer.stop();
+    }
+
+//#if 0
+	if(!m_isBuffering && currentTime < timeBuffered && !m_isPlaybackEnded)
+	{
+		if(m_readyState < MediaPlayer::HaveEnoughData)
+		{
+//  		fprintf(stderr, "\n********************** %s::%s(%d):\ncurrentTime < timeBuffered && !m_isBuffering && !m_isPlaybackEnded, (m_isBuffering = %d)readyState = %d, - setting readyState to HaveEnoughData (%d)\n", __FILE__, __FUNCTION__, __LINE__, m_isBuffering, m_readyState, MediaPlayer::HaveEnoughData);
+			m_readyState = MediaPlayer::HaveEnoughData;
+//  		fprintf(stderr, "\n********************** %s::%s(%d):\nsetting readyState to %d\ncalling m_player->readyStateChanged()...\nisBuffering = %d\nisPlaybackEnded = %d\ncurrentTime = %f\ntimeBuffered = %f\n"
+//  					  , __FILE__, __FUNCTION__, __LINE__
+//  					  , m_readyState
+//  					  , isBuffering
+//  					  , isPlaybackEnded
+//  					  , currentTime
+//  					  , timeBuffered);
+			m_player->readyStateChanged();
+		}
+	}
+//#endif
+#if 0
+	else //if(currentTime == timeBuffered)
+	{
+		/*
+		if(!isPlaybackEnded)
+		{
+			//FIXME...
+			//m_isBuffering = false;
+			if(m_readyState > MediaPlayer::HaveCurrentData)
+			{
+				//fprintf(stderr, "\ncurrentTime >= timeBuffered, readyState = %d, - setting readyState to HaveCurrentData (%d)\n", m_readyState, MediaPlayer::HaveCurrentData);
+				m_readyState = MediaPlayer::HaveCurrentData;
+				fprintf(stderr, "\n********************** %s::%s(%d):\nsetting readyState to %d\ncalling m_player->readyStateChanged()...\nisBuffering = %d\nisPlaybackEnded = %d\ncurrentTime = %f\ntimeBuffered = %f\n" 
+							  , __FILE__, __FUNCTION__, __LINE__
+							  , m_readyState
+							  , isBuffering
+							  , isPlaybackEnded
+							  , currentTime
+							  , timeBuffered);
+				m_player->readyStateChanged();
+			}
+		}
+		*/
+	}
+#endif
+	/**
+	 * isBuffering
+	 *
+	 */
+	if(isBuffering != m_isBuffering && !m_isPlaybackEnded) //player state has changed
+	{
+//  	fprintf(stderr, "\n********************** %s::%s(%d):\nm_isBuffering has changed: prev value = %d, new value = %d\n" , __FILE__, __FUNCTION__, __LINE__, m_isBuffering, isBuffering);
+		m_isBuffering = isBuffering; //update internal state
+
+		//update HTML5 according to new internal state
+		if(m_isBuffering)
+		{
+//  		fprintf(stderr, "\n********************** %s::%s(%d):\nm_isBuffering has changed to %d, - setting readyState to HaveCurrentData (%d)\n" , __FILE__, __FUNCTION__, __LINE__, m_isBuffering, MediaPlayer::HaveCurrentData);
+			m_readyState = MediaPlayer::HaveCurrentData;
+		}
+		else
+		{
+//  		fprintf(stderr, "\n********************** %s::%s(%d):\nm_isBuffering has changed to %d, - setting readyState to HaveEnoughData (%d)\n" , __FILE__, __FUNCTION__, __LINE__, m_isBuffering, MediaPlayer::HaveEnoughData);
+			m_readyState = MediaPlayer::HaveEnoughData;
+		}
+		m_player->readyStateChanged();
+	}
+
+//  if (m_isPlaybackEnded)
+//  {
+//  	fprintf(stderr, "\n********************** %s::%s(%d):\tipPlaybackEnded = TRUE:\nm_readyState = %d\nisBuffering = %d\ncurrentTime = %f\ntimeBuffered = %f\nduration = %f\nm_bSentEndedEvent = %d\n"
+//  		  , __FILE__, __FUNCTION__, __LINE__
+//  		  , m_readyState
+//  		  , isBuffering
+//  		  , currentTime
+//  	      , timeBuffered
+//  		  , m_duration
+//  		  , m_bSentEndedEvent);
+//
+//  }
 }
 
 void MediaPlayerPrivate::registerMediaEngine(MediaEngineRegistrar registrar)
@@ -126,45 +315,15 @@ MediaPlayerPrivate::MediaPlayerPrivate(MediaPlayer* player)
       m_readyState(MediaPlayer::HaveNothing),
       m_size(0,0),
       m_naturalSize(0,0)
+      m_loadFinished(false),
+      m_isPlaybackEnded(false)
 {
-  m_stateTimer.start(1.0, 1.0);
+  m_stateTimer.start(3.0, 0.5);
 }
 
 void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
 {
-  QVariantMap parameters;
-  QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetBufferingState"), parameters, true);
-  //fprintf(stderr, "is buffering ? %d\n", result.toBool());
-//  if (result.toBool() != m_isBuffering)
-//  {
-//    m_isBuffering = result.toBool();
-//    if (m_isBuffering)
-//      m_readyState = MediaPlayer::HaveCurrentData;
-//    else
-//      m_readyState = MediaPlayer::HaveEnoughData;
-//    m_player->readyStateChanged();
-//  }
-
-  parameters.clear();
-  result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetPlaybackState"), parameters, true);
-  //fprintf(stderr, "--------------------------- state timer %x m_current/m_duration %f/%f sent event %d playback ended %d --------------------------\n", (unsigned int)this, m_current, m_duration, m_bSentEndedEvent, result.toBool());
-  /*
-  http://dev.w3.org/html5/spec/video.html#event-media-timeupdate
-  When the current playback position reaches the end of the media resource when the direction of playback is forwards, then the user agent must follow these steps:
-  1. If the media element has a loop attribute specified, then seek to the earliest possible position of the media resource and abort these steps.
-  2. Stop playback. The ended attribute becomes true.
-  3. The user agent must queue a task to fire a simple event named timeupdate at the element.
-  4. The user agent must queue a task to fire a simple event named ended at the element.
-  */
-
-  if ((result.toBool() == true || (m_duration != 0 &&  m_current == m_duration)) &&
-      !m_bSentEndedEvent)
-  {
-      m_bSentEndedEvent = true;
-      m_player->timeChanged();
-      m_stateTimer.stop();
-  }
-
+/********************************************/
   if (!m_naturalSize.isZero())
     return;
 
@@ -176,6 +335,14 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
   m_naturalSize.setHeight(res["height"].toInt());
   if (!m_naturalSize.isZero())
     m_player->sizeChanged();
+
+/********************************************/
+	//wait for Player to finish load and then call updatePlayerStatus()
+	if(!m_loadFinished)
+        checkLoadingStatus();
+	else
+        updatePlayerStatus();
+
 }
 
 
@@ -198,23 +365,26 @@ void MediaPlayerPrivate::setloaded()
 {
     //m_networkState = MediaPlayer::Idle;
     //m_player->networkStateChanged();
+    //fprintf(stderr, "\n************************************* %s::%s(%d)\tcurrent readyState = %d, new readyState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_readyState, MediaPlayer::HaveEnoughData);
     m_readyState = MediaPlayer::HaveEnoughData;
-    m_player->readyStateChanged();
+//  fprintf(stderr, "\n********************** %s::%s(%d):\nsetting readyState to %d\ncalling m_player->readyStateChanged()...\n" , __FILE__, __FUNCTION__, __LINE__ , m_readyState);
+	m_player->readyStateChanged();
+	m_isPlaybackEnded = false;
 }
 
 void MediaPlayerPrivate::load(const String& url)
 {
-    // We are now loading
-    if (m_networkState != MediaPlayer::Loading) {
-        m_networkState = MediaPlayer::Loading;
-        m_player->networkStateChanged();
-    }
-
-    // And we don't have any data yet
-    if (m_readyState != MediaPlayer::HaveNothing) {
-        m_readyState = MediaPlayer::HaveNothing;
-        m_player->readyStateChanged();
-    }
+//  // We are now loading
+//  if (m_networkState != MediaPlayer::Loading) {
+//      m_networkState = MediaPlayer::Loading;
+//      m_player->networkStateChanged();
+//  }
+//
+//  // And we don't have any data yet
+//  if (m_readyState != MediaPlayer::HaveNothing) {
+//      m_readyState = MediaPlayer::HaveNothing;
+//      m_player->readyStateChanged();
+//  }
 
     m_duration = -1.0f;
     m_paintedOnce = false;
@@ -244,17 +414,13 @@ void MediaPlayerPrivate::load(const String& url)
       parameters.insert(QString::fromAscii("IsVideo"), QVariant(false));
     }
     else
+	{
       parameters.insert(QString::fromAscii("isVideo"), QVariant(true));
+	}
 
-    RunCommand(QString::fromAscii("MEDIAPLAYER.Load"), parameters);
-    
-    setVisible(true);
+    RunCommand(QString::fromAscii("MEDIAPLAYER.Load"), parameters, true);
 
-    m_networkState = MediaPlayer::Loading;
-    m_player->networkStateChanged();
-    m_readyState = MediaPlayer::HaveNothing;
-    m_player->readyStateChanged();
-
+	m_loadFinished = false;
 }
 
 void MediaPlayerPrivate::cancelLoad()
@@ -264,7 +430,7 @@ void MediaPlayerPrivate::cancelLoad()
 
 void MediaPlayerPrivate::play()
 {
-    fprintf(stderr, "MediaPlayerPrivate::play\n");
+//  fprintf(stderr, "***************** %s::%s(%d)\tcalling RunCommand(MEDIAPLAYER.Play)\n", __FILE__, __FUNCTION__, __LINE__);
     QVariantMap parameters;
     RunCommand(QString::fromAscii("MEDIAPLAYER.Play"), parameters);
     m_paused = false;
@@ -272,10 +438,22 @@ void MediaPlayerPrivate::play()
 
 void MediaPlayerPrivate::pause()
 {
-  fprintf(stderr, "MediaPlayerPrivate::pause\n");
-  QVariantMap parameters;
-  RunCommand(QString::fromAscii("MEDIAPLAYER.Pause"), parameters);
-  m_paused = true;
+//  fprintf(stderr, "\n***************** %s::%s(%d)\tcalled...\n", __FILE__, __FUNCTION__, __LINE__);
+
+//  if(m_readyState >= MediaPlayer::HaveFutureData)
+//	if(m_isBuffering)
+//  if(!m_isPlaybackEnded)
+	{
+//  	fprintf(stderr, "\n***************** %s::%s(%d)\tcalling RunCommand(MEDIAPLAYER.Pause)\n", __FILE__, __FUNCTION__, __LINE__);
+		QVariantMap parameters;
+		RunCommand(QString::fromAscii("MEDIAPLAYER.Pause"), parameters);
+		m_paused = true;
+	}
+//  else
+//  {
+//  	fprintf(stderr, "\n***************** %s::%s(%d)\tcall to RunCommand(MEDIAPLAYER.Pause) ignored since m_isPlaybackEnded = %d\n", __FILE__, __FUNCTION__, __LINE__, m_isPlaybackEnded);
+//  }
+
 }
 
 bool MediaPlayerPrivate::paused() const
@@ -287,17 +465,29 @@ void MediaPlayerPrivate::seek(float position)
 {
   //  if (!m_mediaPlayer->isSeekable())
   //      return;
+//  fprintf(stderr, "***************** %s::%s(%d)\tcalled. m_loadFinished = %d\n", __FILE__, __FUNCTION__, __LINE__, m_loadFinished);
+//  print_trace();
 
-  fprintf(stderr, "** SEEKING %f\n", position);
+	if(!m_loadFinished)
+	{
+//  	fprintf(stderr, "\n***************** %s::%s(%d)\tcall to RunCommand(MEDIAPLAYER.Seek) ignored since m_loafFinished = %d\n", __FILE__, __FUNCTION__, __LINE__, m_loadFinished);
+		return;
+	}
+
+//  if(m_isPlaybackEnded)
+//  {
+//  	fprintf(stderr, "\n***************** %s::%s(%d)\tcall to RunCommand(MEDIAPLAYER.Seek) ignored since m_isPlaybackEnded = %d\n", __FILE__, __FUNCTION__, __LINE__, m_isPlaybackEnded);
+//  	return;
+//  }
+
+//  fprintf(stderr, "***************** %s::%s(%d)\tcalling RunCommand(MEDIAPLAYER.seek) position = %f\n", __FILE__, __FUNCTION__, __LINE__, position);
+
     QVariantMap parameters;
     parameters.insert(QString::fromAscii("position"), QVariant(100.0 * position / m_player->duration() ));
     //parameters.insert("duration", QVariant(m_player->duration()));
     QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.Seek"), parameters);
 
-
 #if 0
-
-
     if (m_mediaPlayerControl && !m_mediaPlayerControl->availablePlaybackRanges().contains(position * 1000))
         return;
 
@@ -334,17 +524,23 @@ void MediaPlayerPrivate::seek(float position)
 bool MediaPlayerPrivate::seeking() const
 {
     //fprintf(stderr, "=========== %s %s ===========\n", __FILE__, __FUNCTION__);
-    return false;
+    return false; //FIXME: is it OK to return false? maybe need to wait for player event "finished seeking" if exists
 }
 
 float MediaPlayerPrivate::duration() const
 {
+//  fprintf(stderr, "****************************************** %s::%s(%d) called\n", __FILE__, __FUNCTION__, __LINE__);
 //    if (m_readyState < MediaPlayer::HaveMetadata)
 //        return 0.0f;
-
-    //fprintf(stderr, "1 duration is %f\n", m_duration);
+	if(!m_loadFinished)
+	{
+//  	fprintf(stderr, "\n****************************************** %s::%s(%d)\tload hasn't finished - returning 0\n", __FILE__, __FUNCTION__, __LINE__);
+		return 0.0f;
+	}
+//  print_trace();
+	//fprintf(stderr, "1 duration is %f\n", m_duration);
     if (m_duration >= 0.0f)
-      return m_duration;
+        return m_duration;
 
     QVariantMap parameters;
     QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.Duration"), parameters, true);
@@ -353,39 +549,36 @@ float MediaPlayerPrivate::duration() const
     {
         MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
         tp->m_duration = (res == 0.0 ? std::numeric_limits<float>::infinity() : res);
-        tp->setloaded();
+//      tp->setloaded(); //fixme: verify it is safe to comment this
         m_player->timeChanged();
     }
-    //fprintf(stderr, "2 duration is %f\n", m_duration);
+	//fprintf(stderr, "2 duration is %f\n", m_duration);
+
     return res;
 }
 
 float MediaPlayerPrivate::currentTime() const
 {
-    MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
-    if (m_bSentEndedEvent)
-    {
-      tp->m_current = m_duration;
-    }
-    else
-    {
-      QVariantMap parameters;
-      QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.CurrentTime"), parameters, true);
-      tp->m_current = result.toFloat();
-    }
-    //fprintf(stderr, "=========== %s %s %f %d ===========\n", __FILE__, __FUNCTION__, m_current, m_isBuffering);
-    return m_current;
+    return m_current; //FIXME: maybe move it to .h (inline)
 }
 
 PassRefPtr<TimeRanges> MediaPlayerPrivate::buffered() const
 {
-  RefPtr<TimeRanges> buffered = TimeRanges::create();
+/**
+ *  this function is called by the browser's player in order to
+ *  update the progress bar indicating the length (in seconds,
+ *  float) of the video that has been buffered by the player
+ */
 
-  if (m_isBuffering)
-    buffered->add(0, m_current - 1);
+  RefPtr<TimeRanges> buffered = TimeRanges::create();
+  if(!m_isBuffering)
+  {
+      if(m_buffered > 1)
+          buffered->add(0, m_buffered);
+  }
   else
-    buffered->add(0, m_duration + 30);
-  //fprintf(stderr, "=========== %s %s %f ===========\n", __FILE__, __FUNCTION__, m_duration);
+      buffered->add(0, m_current);
+
   return buffered.release();
 }
 
@@ -441,6 +634,7 @@ void MediaPlayerPrivate::setMuted(bool muted)
 MediaPlayer::NetworkState MediaPlayerPrivate::networkState() const
 {
   //fprintf(stderr, "=========== %s %s ===========\n", __FILE__, __FUNCTION__);
+//fprintf(stderr, "***************** %s::%s(%d)\tm_networkState = %d\n", __FILE__, __FUNCTION__, __LINE__, m_networkState);
     return m_networkState;
 }
 
@@ -487,24 +681,23 @@ void MediaPlayerPrivate::paint(GraphicsContext* context, const IntRect& rect)
         m_videoRect.setX(m_videoRect.x() + offsetX);
         m_videoRect.setY(m_videoRect.y() + offsetY);
 
-        QVariantMap parameters;
-        parameters.insert(QString::fromAscii("x"), QVariant(m_videoRect.x()));
-        parameters.insert(QString::fromAscii("y"), QVariant(m_videoRect.y()));
-        parameters.insert(QString::fromAscii("width"), QVariant(m_videoRect.width()));
-        parameters.insert(QString::fromAscii("height"), QVariant(m_videoRect.height()));
-        RunCommand(QString::fromAscii("MEDIAPLAYER.Paint"), parameters);
-    }
+		QVariantMap parameters;
+		parameters.insert(QString::fromAscii("x"), QVariant(m_videoRect.x()));
+		parameters.insert(QString::fromAscii("y"), QVariant(m_videoRect.y()));
+		parameters.insert(QString::fromAscii("width"), QVariant(m_videoRect.width()));
+		parameters.insert(QString::fromAscii("height"), QVariant(m_videoRect.height()));
+		RunCommand(QString::fromAscii("MEDIAPLAYER.Paint"), parameters);
+		m_paintedOnce = true;
+     }
 
-    m_paintedOnce = true;
-
-    FloatRect fr(rect.x(), rect.y(), rect.width(), rect.height());
-    context->clearRect(fr);
+	FloatRect fr(rect.x(), rect.y(), rect.width(), rect.height());
+	context->clearRect(fr);
 }
 
 #if USE(ACCELERATED_COMPOSITING)
 void MediaPlayerPrivate::acceleratedRenderingStateChanged()
 {
-  fprintf(stderr, "=========== %s %s ===========\n", __FILE__, __FUNCTION__);
+  //fprintf(stderr, "=========== %s %s ===========\n", __FILE__, __FUNCTION__);
     bool composited = m_player->mediaPlayerClient()->mediaPlayerRenderingCanBeAccelerated(m_player);
     if (composited == m_composited)
         return;
