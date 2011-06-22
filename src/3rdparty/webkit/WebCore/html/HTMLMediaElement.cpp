@@ -1218,7 +1218,7 @@ void HTMLMediaElement::play(bool isUserGesture)
 {
     if (m_restrictions & RequireUserGestureForRateChangeRestriction && !isUserGesture)
         return;
-	fprintf(stderr, "\n\n\n*** %s::%s(%d)\tcalled - isUserGesture = %d\n\n\n", __FILE__, __FUNCTION__, __LINE__, isUserGesture);
+//  fprintf(stderr, "\n\n\n*** %s::%s(%d)\tcalled - isUserGesture = %d\n\n\n", __FILE__, __FUNCTION__, __LINE__, isUserGesture);
     playInternal();
 }
 
@@ -1253,7 +1253,7 @@ void HTMLMediaElement::pause(bool isUserGesture)
 {
     if (m_restrictions & RequireUserGestureForRateChangeRestriction && !isUserGesture)
         return;
-	fprintf(stderr, "\n\n\n %s::%s(%d)\tcalled - isUserGesture = %d\n\n\n", __FILE__, __FUNCTION__, __LINE__, isUserGesture);
+//  fprintf(stderr, "\n\n\n %s::%s(%d)\tcalled - isUserGesture = %d\n\n\n", __FILE__, __FUNCTION__, __LINE__, isUserGesture);
     pauseInternal();
 }
 
