@@ -1,5 +1,6 @@
 #!/bin/sh
 export BUILD_DEST=/opt/canmore/IntelCE
+export PREFIX=/opt/canmore/local/qt
 export PATH=$PATH:$BUILD_DEST/bin
 export QT_CFLAGS_DIRECTFB="-D_REENTRANT -I$BUILD_DEST/usr/local/include/directfb"
 export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirect -lpthread"
@@ -7,7 +8,7 @@ export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirec
 ./configure \
   -embedded x86 \
   -xplatform qws/linux-x86-intelce-g++ \
-  -prefix /opt/canmore/local/qt \
+  -prefix ${PREFIX} \
   -opensource \
   -confirm-license \
   -release \
@@ -49,3 +50,6 @@ export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirec
   -xmlpatterns \
   -exceptions \
 
+
+echo "Run 'make' to build main qt, 'make install' to install to ${PREFIX}"
+echo "cd src/plugins/kbddrivers/intelceir/ and 'make && make install' to create and install Intel CE IR driver to ${PREFIX}"
