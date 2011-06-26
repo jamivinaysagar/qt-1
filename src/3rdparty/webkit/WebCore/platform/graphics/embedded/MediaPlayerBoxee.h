@@ -100,6 +100,7 @@ private:
     void setloaded();
     MediaPlayerPrivate(MediaPlayer*);
     QVariant RunCommand(QString command, QVariantMap parameters, bool expectedResult = false) const;
+    void printState(const char* label, int line); //FIXME: remove
 
     QJson::Serializer m_serializer;
     MediaPlayer* m_player;
@@ -115,7 +116,7 @@ private:
     float m_current;
     float m_buffered;
     bool m_paintedOnce;
-    bool m_isBuffering;
+    int m_isBuffering;
     unsigned m_bytesLoaded;
     bool m_bSentEndedEvent;
     bool m_loadFinished;
