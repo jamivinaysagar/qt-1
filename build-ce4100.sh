@@ -1,6 +1,6 @@
 #!/bin/sh
 export BUILD_DEST=/opt/canmore/IntelCE
-export PREFIX=/opt/canmore/local/qt
+export PREFIX=/opt/canmore/local/qt-4.7
 export PATH=$PATH:$BUILD_DEST/bin
 export QT_CFLAGS_DIRECTFB="-D_REENTRANT -I$BUILD_DEST/usr/local/include/directfb"
 export QT_LIBS_DIRECTFB="-L$BUILD_DEST/usr/local/lib -ldirectfb -lfusion -ldirect -lpthread"
