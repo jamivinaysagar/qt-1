@@ -499,9 +499,7 @@ void HTMLMediaElement::loadInternal()
 
     // 4
     if (m_networkState != NETWORK_EMPTY) {
-//      fprintf(stderr, "\n**** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n" , __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_EMPTY);
         m_networkState = NETWORK_EMPTY;
-//      fprintf(stderr, "\n**** %s::%s(%d)\tcurrent readyState = %d, new readyState = %d\n\n" , __FILE__, __FUNCTION__, __LINE__, m_readyState, HAVE_NOTHING);
         m_readyState = HAVE_NOTHING;
         m_paused = true;
         m_seeking = false;
@@ -621,10 +619,8 @@ void HTMLMediaElement::loadResource(const KURL& initialURL, ContentType& content
 
     m_currentSrc = url;
 
-    if (m_sendProgressEvents) {
-		fprintf(stderr, "\n*** %s::%s(%d)\tnetworkState = %d, calling startProgressEventTimer()...\n\n" , __FILE__, __FUNCTION__, __LINE__, m_networkState);
+    if (m_sendProgressEvents)
         startProgressEventTimer();
-	}
 
 #if !ENABLE(PLUGIN_PROXY_FOR_VIDEO)
     m_player = MediaPlayer::create(this);
@@ -639,7 +635,6 @@ void HTMLMediaElement::loadResource(const KURL& initialURL, ContentType& content
     updateVolume();
 
 	m_duration = 0.0;
-//  fprintf(stderr, "\n*** %s::%s(%d)\tnetworkState = %d, calling MediaPlayer->load()...\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState);
     m_player->load(m_currentSrc, contentType);
 
     if (isVideo() && m_player->canLoadPoster()) {
@@ -779,11 +774,8 @@ void HTMLMediaElement::mediaPlayerNetworkStateChanged(MediaPlayer*)
 
 void HTMLMediaElement::setNetworkState(MediaPlayer::NetworkState state)
 {
-//  fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, state);
-
     if (state == MediaPlayer::Empty) {
         // just update the cached state and leave, we can't do anything 
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_EMPTY);
         m_networkState = NETWORK_EMPTY;
         return;
     }
@@ -819,23 +811,19 @@ void HTMLMediaElement::setNetworkState(MediaPlayer::NetworkState state)
             stopPeriodicTimers();
             scheduleEvent(eventNames().suspendEvent);
         }
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_IDLE);
         m_networkState = NETWORK_IDLE;
     }
 
     if (state == MediaPlayer::Loading) {
-        if (m_networkState < NETWORK_LOADING || m_networkState == NETWORK_NO_SOURCE) {
-//  		fprintf(stderr, "\n*** %s::%s(%d)\tcalling startProgressEventTimer()...\n\n", __FILE__, __FUNCTION__, __LINE__);
+        if (m_networkState < NETWORK_LOADING || m_networkState == NETWORK_NO_SOURCE)
             startProgressEventTimer();
-		}
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_LOADING);
+
         m_networkState = NETWORK_LOADING;
     }
 
     if (state == MediaPlayer::Loaded) {
         NetworkState oldState = m_networkState;
 
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_LOADED);
         m_networkState = NETWORK_LOADED;
         if (oldState < NETWORK_LOADED || oldState == NETWORK_NO_SOURCE) {
             m_progressEventTimer.stop();
@@ -848,10 +836,8 @@ void HTMLMediaElement::setNetworkState(MediaPlayer::NetworkState state)
             // 'load' event so we report 'canplaythrough' first. This is necessary because a
             //  media engine reports readyState and networkState changes separately
             MediaPlayer::ReadyState currentState = m_player->readyState();
-            if (static_cast<ReadyState>(currentState) != m_readyState){
-//              fprintf(stderr, "\n*** %s::%s(%d)\tcurrent readyState = %d, new readyState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_readyState, currentState);
+            if (static_cast<ReadyState>(currentState) != m_readyState)
                 setReadyState(currentState);
-            }
 
             scheduleEvent(eventNames().loadEvent);
         }
@@ -860,7 +846,6 @@ void HTMLMediaElement::setNetworkState(MediaPlayer::NetworkState state)
 
 void HTMLMediaElement::mediaPlayerReadyStateChanged(MediaPlayer*)
 {
-//  fprintf(stderr, "\n*** %s::%s(%d)\tcalled\n\n", __FILE__, __FUNCTION__, __LINE__);
     beginProcessingMediaPlayerCallback();
 
     setReadyState(m_player->readyState());
@@ -870,25 +855,19 @@ void HTMLMediaElement::mediaPlayerReadyStateChanged(MediaPlayer*)
 
 void HTMLMediaElement::setReadyState(MediaPlayer::ReadyState state)
 {
-//  fprintf(stderr, "\n*** %s::%s(%d)\tcurrent readyState = %d, new readyState = %d\n\n" , __FILE__, __FUNCTION__, __LINE__, m_readyState, state);
     // Set "wasPotentiallyPlaying" BEFORE updating m_readyState, potentiallyPlaying() uses it
     bool wasPotentiallyPlaying = potentiallyPlaying();
 
     ReadyState oldState = m_readyState;
     m_readyState = static_cast<ReadyState>(state);
 
-    if (m_readyState == oldState) {
-//  	fprintf(stderr, "\n*** %s::%s(%d)\tm_readyState == oldState  returning\n\n" , __FILE__, __FUNCTION__, __LINE__);
+    if(m_readyState == oldState)
         return;
-	}
     
-    if (m_networkState == NETWORK_EMPTY) {
-//  	fprintf(stderr, "\n*** %s::%s(%d)\tm_networkState == NETWORK_EMPTY  returning\n\n" , __FILE__, __FUNCTION__, __LINE__);
+    if(m_networkState == NETWORK_EMPTY)
         return;
-	}
 
     if (m_seeking) {
-//  	fprintf(stderr, "\n*** %s::%s(%d)\tm_seeking = %d\n\n" , __FILE__, __FUNCTION__, __LINE__, m_seeking);
         // 4.8.10.10, step 8
         if (wasPotentiallyPlaying && m_readyState < HAVE_FUTURE_DATA)
             scheduleEvent(eventNames().waitingEvent);
@@ -903,7 +882,6 @@ void HTMLMediaElement::setReadyState(MediaPlayer::ReadyState state)
         }
 
     } else {
-//  	fprintf(stderr, "\n*** %s::%s(%d)\tm_seeking = %d - scheduling event...\n\n" , __FILE__, __FUNCTION__, __LINE__, m_seeking);
         if (wasPotentiallyPlaying && m_readyState < HAVE_FUTURE_DATA) {
             // 4.8.10.9
             scheduleTimeupdateEvent(false);
@@ -921,7 +899,6 @@ void HTMLMediaElement::setReadyState(MediaPlayer::ReadyState state)
         }
 #endif        
         m_delayingTheLoadEvent = false;
-//  	fprintf(stderr, "\n*** %s::%s(%d)\tcalling m_player->seek(0)...\n\n" , __FILE__, __FUNCTION__, __LINE__);
         m_player->seek(0);
     }
 
@@ -1815,13 +1792,11 @@ void HTMLMediaElement::userCancelledLoad()
     // simple event called emptied at the element. Otherwise, set set the element's networkState
     // attribute to the NETWORK_IDLE value.
     if (m_readyState == HAVE_NOTHING) {
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_EMPTY);
         m_networkState = NETWORK_EMPTY;
         scheduleEvent(eventNames().emptiedEvent);
     }
     else
     {
-//      fprintf(stderr, "\n*** %s::%s(%d)\tcurrent networkState = %d, new networkState = %d\n\n", __FILE__, __FUNCTION__, __LINE__, m_networkState, NETWORK_IDLE);
         m_networkState = NETWORK_IDLE;
     }
 

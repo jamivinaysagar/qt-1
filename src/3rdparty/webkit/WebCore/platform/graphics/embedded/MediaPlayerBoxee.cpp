@@ -548,11 +548,6 @@ void MediaPlayerPrivate::cancelLoad()
 void MediaPlayerPrivate::play()
 {
 //  printState(__FUNCTION__, __LINE__);
-//  fprintf(stderr, "\n\n\n>>>\n***** %s::%s(%d)\tcalled - m_paused = %d, readyState = %d, networkState = %d\n<<<\n\n\n"
-//                , __FILE__, __FUNCTION__, __LINE__
-//                , m_paused
-//                , m_readyState
-//                , m_networkState);
 
 	if(m_paused)
 	{
@@ -700,8 +695,7 @@ float MediaPlayerPrivate::duration() const
 //  	fprintf(stderr, "\n*** %s::%s(%d)\tload hasn't finished - returning 0\n", __FILE__, __FUNCTION__, __LINE__);
 		return 0.0f;
 	}
-//  print_trace();
-	//fprintf(stderr, "1 duration is %f\n", m_duration);
+
     if (m_duration >= 0.0f)
         return m_duration;
 
@@ -716,14 +710,13 @@ float MediaPlayerPrivate::duration() const
         fprintf(stderr, "\n*** %s::%s(%d):\tcalling m_player->timeChanged()\n", __FILE__, __FUNCTION__, __LINE__);
         m_player->timeChanged();
     }
-	//fprintf(stderr, "2 duration is %f\n", m_duration);
 
     return res;
 }
 
 float MediaPlayerPrivate::currentTime() const
 {
-    return m_current; //FIXME: maybe move it to .h (inline)
+    return m_current;
 }
 
 PassRefPtr<TimeRanges> MediaPlayerPrivate::buffered() const
