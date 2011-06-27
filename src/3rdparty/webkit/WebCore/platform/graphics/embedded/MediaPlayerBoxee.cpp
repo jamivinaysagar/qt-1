@@ -139,10 +139,10 @@ void MediaPlayerPrivate::checkLoadingStatus()
 //  	MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
 //  	tp->setloaded(); //fixme: verify it is safe to comment this
 	}
-    else
-    {
-        fprintf(stderr, "\n*** %s::%s(%d)\tloaded = FALSE\n", __FILE__, __FUNCTION__, __LINE__);
-    }
+//  else
+//  {
+//      fprintf(stderr, "\n*** %s::%s(%d)\tloaded = FALSE\n", __FILE__, __FUNCTION__, __LINE__);
+//  }
 }
 int timer = 0; //used for selective debug
 
