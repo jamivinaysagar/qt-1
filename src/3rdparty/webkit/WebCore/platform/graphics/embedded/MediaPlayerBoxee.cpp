@@ -371,15 +371,15 @@ MediaPlayerPrivate::MediaPlayerPrivate(MediaPlayer* player)
       m_player(player),
       m_isVisible(false),
       m_paused(true),
-      m_networkState(MediaPlayer::Empty),
-      m_readyState(MediaPlayer::HaveNothing),
       m_size(0,0),
       m_naturalSize(0,0),
-      m_loadFinished(false),
-      m_isPlaybackEnded(false),
-      m_isBuffering(-1),
+      m_networkState(MediaPlayer::Empty),
+      m_readyState(MediaPlayer::HaveNothing),
+      m_current(0.0),
       m_buffered(0.0),
-      m_current(0.0)
+      m_isBuffering(-1),
+      m_loadFinished(false),
+      m_isPlaybackEnded(false)
 {
 //fprintf(stderr, "\n\n\n\n*** %s::%s(%d):\tnew MediaPlayerBoxee is created!!!\tparent (player) = %p\n\n\n\n" , __FILE__, __FUNCTION__, __LINE__, player);
 //print_trace();
