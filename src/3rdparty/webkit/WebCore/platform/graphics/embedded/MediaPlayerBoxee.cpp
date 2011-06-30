@@ -706,8 +706,7 @@ float MediaPlayerPrivate::duration() const
     {
         MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
         tp->m_duration = (res == 0.0 ? std::numeric_limits<float>::infinity() : res);
-//      tp->setloaded(); //fixme: verify it is safe to comment this
-        fprintf(stderr, "\n*** %s::%s(%d):\tcalling m_player->timeChanged()\n", __FILE__, __FUNCTION__, __LINE__);
+//      tp->setloaded();
         m_player->timeChanged();
     }
 
