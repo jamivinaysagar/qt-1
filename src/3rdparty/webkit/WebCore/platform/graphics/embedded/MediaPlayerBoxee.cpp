@@ -433,6 +433,8 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
       QVariantMap res = parser.parse(result.toByteArray(), &ok).toMap();
       m_naturalSize.setWidth(res["width"].toInt());
       m_naturalSize.setHeight(res["height"].toInt());
+      if (!m_naturalSize.isZero())
+        m_player->sizeChanged();
     }
 //  else
 //  {
