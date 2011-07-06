@@ -167,7 +167,7 @@ void HTMLMediaElement::attributeChanged(Attribute* attr, bool preserveDecls)
     const QualifiedName& attrName = attr->name();
     if (attrName == srcAttr) {
         // don't have a src or any <source> children, trigger load
-        if (inDocument() || m_loadState == WaitingForSource)
+        if (inDocument() && m_loadState == WaitingForSource)
             scheduleLoad();
     } 
 #if !ENABLE(PLUGIN_PROXY_FOR_VIDEO)
