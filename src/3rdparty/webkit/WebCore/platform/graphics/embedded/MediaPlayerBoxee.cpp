@@ -98,7 +98,7 @@ void MediaPlayerPrivate::checkLoadingStatus()
 		setVisible(true);
 		m_networkState = MediaPlayer::Loading;
 		m_player->networkStateChanged();
-		m_readyState = MediaPlayer::HaveMetadata;
+		m_readyState = MediaPlayer::HaveCurrentData; //change to Current and not to Meta in order to remove poster image
 		m_player->readyStateChanged();
 //  	MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
 //  	tp->setloaded(); //fixme: verify it is safe to comment this
@@ -126,11 +126,11 @@ void MediaPlayerPrivate::updatePlayerStatus()
 	if(!ok)
       return;
 
-    int isBuffering = res["isBuffering"].toInt();
-	bool isPlaybackEnded = res["isPlaybackEnded"].toBool();
-	float currentTime = res["currentTime"].toFloat();
-	float timeBuffered = res["buffered"].toFloat();
-    void* idd = (void*)res["playerID"].toInt();
+    int isBuffering = res[QString::fromAscii("isBuffering")].toInt();
+	bool isPlaybackEnded = res[QString::fromAscii("isPlaybackEnded")].toBool();
+	float currentTime = res[QString::fromAscii("currentTime")].toFloat();
+	float timeBuffered = res[QString::fromAscii("buffered")].toFloat();
+    void* idd = (void*)res[QString::fromAscii("playerID")].toInt();
 
     if(idd != m_player)
       return;
@@ -193,11 +193,8 @@ void MediaPlayerPrivate::updatePlayerStatus()
     {
 //      fprintf(stderr, "\n*** %s::%s(%d):\tm_isBuffering has invalid value (%d) - IGNORING!!!\n" , __FILE__, __FUNCTION__, __LINE__, isBuffering);
     }
-    else if(m_isBuffering < 0) //m_isBuffering is in invalid state - set it
-    {
-        m_isBuffering = isBuffering;
-    }
-    else if(isBuffering != m_isBuffering && !m_isPlaybackEnded) //player entered buffering state
+    else if( (isBuffering != m_isBuffering && !m_isPlaybackEnded) || //player entered buffering state
+             (m_isBuffering < 0) ) //m_isBuffering is in invalid state - set it
 	{
 		m_isBuffering = isBuffering; //update internal state
 		if(m_isBuffering)
@@ -278,8 +275,8 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
       QJson::Parser parser;
       bool ok;
       QVariantMap res = parser.parse(result.toByteArray(), &ok).toMap();
-      m_naturalSize.setWidth(res["width"].toInt());
-      m_naturalSize.setHeight(res["height"].toInt());
+      m_naturalSize.setWidth(res[QString::fromAscii("width")].toInt());
+      m_naturalSize.setHeight(res[QString::fromAscii("height")].toInt());
       if (!m_naturalSize.isZero())
         m_player->sizeChanged();
     }
