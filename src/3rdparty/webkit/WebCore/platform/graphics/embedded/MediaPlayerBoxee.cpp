@@ -91,19 +91,33 @@ void MediaPlayerPrivate::checkLoadingStatus()
 	QVariantMap parameters;
     QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetLoadingStatus"), parameters, true);
 
-	m_loadFinished = result.toBool();
-
-	if(m_loadFinished)
-	{
-		setVisible(true);
-		m_networkState = MediaPlayer::Loading;
-		m_player->networkStateChanged();
-		m_readyState = MediaPlayer::HaveCurrentData; //change to Current and not to Meta in order to remove poster image
-		m_player->readyStateChanged();
-//  	MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
-//  	tp->setloaded(); //fixme: verify it is safe to comment this
-	}
+    switch(result.toInt())
+    {
+        case -1:
+            //no response from player yet - keep polling
+            break;
+        case 0:
+            //player failed to load/open media
+            m_networkState = MediaPlayer::NetworkError;
+            m_readyState = MediaPlayer::HaveNothing;
+            m_player->networkStateChanged();
+            m_player->readyStateChanged();
+            cancelLoad();
+            //cancel timer???
+            break;
+        case 1:
+            //player loaded media
+            m_loadFinished = true;
+            setVisible(true);
+            m_networkState = MediaPlayer::Loading;
+            m_player->networkStateChanged();
+            m_readyState = MediaPlayer::HaveCurrentData; //change to Current and not to Meta in order to remove poster image
+            m_player->readyStateChanged();
+//          MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
+//          tp->setloaded(); //fixme: verify it is safe to comment this
+    }
 }
+
 int timer = 0; //used for selective debug
 
 void MediaPlayerPrivate::updatePlayerStatus()
@@ -313,8 +327,8 @@ void MediaPlayerPrivate::setloaded()
 void MediaPlayerPrivate::load(const String& url)
 {
     m_duration = -1.0f;
-    m_current = 0.0;
-    m_buffered = 0.0;
+    m_current = 0.0f;
+    m_buffered = 0.0f;
     m_paintedOnce = false;
     m_bytesLoaded = 0;
     m_isBuffering = -1; //indicate invalid value - need to get proper value from player
@@ -333,14 +347,14 @@ void MediaPlayerPrivate::load(const String& url)
       {
         if (parentTag.lower() == "object" && parentType.lower() == "application/x-shockwave-flash")
         {
-          //fprintf(stderr, "not loading video tag since it's surrounded by '%s' tag of type '%s'\n", parentTag.utf8().data(), parentType.utf8().data());
+//        fprintf(stderr, "not loading video tag since it's surrounded by '%s' tag of type '%s'\n", parentTag.utf8().data(), parentType.utf8().data());
           return;
         }
       }
     }
 
     QVariantMap parameters;
-    parameters.insert(QString::fromAscii("playerID"), QVariant((int)m_player)); //send updated player ID to P.M.
+    parameters.insert(QString::fromAscii("playerID"), QVariant((int)m_player)); //send updated player ID to PluginManager
     parameters.insert(QString::fromAscii("url"), QVariant(url));
     if (m_element && !m_element->isVideo())
     {
@@ -479,7 +493,7 @@ bool MediaPlayerPrivate::seeking() const
 float MediaPlayerPrivate::duration() const
 {
 	if(!m_loadFinished)
-      return 0.0f;
+      return 0.1f;
 
     if (m_duration >= 0.0f)
       return m_duration;
@@ -510,7 +524,6 @@ PassRefPtr<TimeRanges> MediaPlayerPrivate::buffered() const
  *  update the progress bar indicating the length (in seconds,
  *  float) of the video that has been buffered by the player
  */
-
   RefPtr<TimeRanges> buffered = TimeRanges::create();
   if(!m_isBuffering)
   {
@@ -518,7 +531,9 @@ PassRefPtr<TimeRanges> MediaPlayerPrivate::buffered() const
           buffered->add(0, m_buffered);
   }
   else
-      buffered->add(0, m_current);
+  {
+    buffered->add(0, m_current);
+  }
 
   return buffered.release();
 }
