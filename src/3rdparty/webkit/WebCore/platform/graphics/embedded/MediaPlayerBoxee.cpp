@@ -103,7 +103,7 @@ void MediaPlayerPrivate::checkLoadingStatus()
             m_player->networkStateChanged();
             m_player->readyStateChanged();
             cancelLoad();
-            //cancel timer???
+            m_stateTimer.stop(); //stop timer
             break;
         case 1:
             //player loaded media
