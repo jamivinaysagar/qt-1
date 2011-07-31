@@ -88,6 +88,8 @@ MediaPlayerPrivateInterface* MediaPlayerPrivate::create(MediaPlayer* player)
 
 void MediaPlayerPrivate::checkLoadingStatus()
 {
+    //printState(__FUNCTION__, __LINE__);
+
 	QVariantMap parameters;
     QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.GetLoadingStatus"), parameters, true);
 
@@ -109,6 +111,7 @@ void MediaPlayerPrivate::checkLoadingStatus()
             //player loaded media
             m_loadFinished = true;
             setVisible(true);
+            m_current = 0.0f;
             m_networkState = MediaPlayer::Loading;
             m_player->networkStateChanged();
             m_readyState = MediaPlayer::HaveCurrentData; //change to Current and not to Meta in order to remove poster image
@@ -146,15 +149,19 @@ void MediaPlayerPrivate::updatePlayerStatus()
 	float timeBuffered = res[QString::fromAscii("buffered")].toFloat();
     void* idd = (void*)res[QString::fromAscii("playerID")].toInt();
 
-    if(idd != m_player)
+    if(idd != m_player) {
+//    fprintf(stderr, "\n*** %s::%s(%d):\tidd (%p) != m_player (%p) - DROPPING update!!!\n" , __FILE__, __FUNCTION__, __LINE__, idd, m_player);
       return;
+    }
 
 #if 0
-    if(timer++ %15 == 0 || isBuffering != m_isBuffering || m_duration - currentTime < 15.0)
+    if(timer++ %15 == 0 || isBuffering != m_isBuffering || m_duration - currentTime < 15.0 || currentTime < 5)
     {
         printState(__FUNCTION__, __LINE__);
-        fprintf(stderr, "\n*** %s::%s(%d) MEDIAPLAYER.GetStatusUpdate:\nisBuffering = %d\nisPlaybackEnded = %d\ncurrentTime = %f\ntimeBuffered = %f\n***\n\n"
+        fprintf(stderr, "\n*** %s::%s(%d) MEDIAPLAYER.GetStatusUpdate:\nidd = %p\nm_player = %p\nisBuffering = %d\nisPlaybackEnded = %d\ncurrentTime = %f\ntimeBuffered = %f\n***\n\n"
                       , __FILE__, __FUNCTION__, __LINE__
+                      , idd
+                      , m_player
                       , isBuffering
                       , isPlaybackEnded
                       , currentTime
@@ -182,7 +189,15 @@ void MediaPlayerPrivate::updatePlayerStatus()
 	 * buffered
 	 *
 	 */
-	tp->m_buffered = timeBuffered;
+    if(timeBuffered >= currentTime)
+    {
+        tp->m_buffered = timeBuffered;
+    }
+    else //used for displaying progress bar nicely
+    {
+//      fprintf(stderr, "\n\n*** %s::%s(%d):\ttimeBuffered (%f) >= currentTime (%f) - setting m_buffered to currentTime!!!\n\n" , __FILE__, __FUNCTION__, __LINE__, timeBuffered, currentTime);
+        tp->m_buffered = currentTime;
+    }
 
 	/**
 	 * isPlaybackEnded
@@ -212,9 +227,17 @@ void MediaPlayerPrivate::updatePlayerStatus()
 	{
 		m_isBuffering = isBuffering; //update internal state
 		if(m_isBuffering)
+        {
+//        fprintf(stderr, "\n*** %s::%s(%d):\tm_isBuffering has changed (to %d) - changing readyState from %d to %d (HaveCurrentData)!!!\n"
+//                      , __FILE__, __FUNCTION__, __LINE__, m_isBuffering, m_readyState, MediaPlayer::HaveCurrentData);
           m_readyState = MediaPlayer::HaveCurrentData;
-		else
+        }
+        else
+        {
+//        fprintf(stderr, "\n*** %s::%s(%d):\tm_isBuffering has changed (to %d) - changing readyState from %d to %d (HaveEnoughData)!!!\n"
+//                      , __FILE__, __FUNCTION__, __LINE__, m_isBuffering, m_readyState, MediaPlayer::HaveEnoughData);
           m_readyState = MediaPlayer::HaveEnoughData;
+        }
 		m_player->readyStateChanged();
 	}
 #if 0
@@ -404,7 +427,7 @@ void MediaPlayerPrivate::pause()
     }
 	else
 	{
-		m_paused = true;
+      m_paused = true;
 	}
 }
 
@@ -415,9 +438,8 @@ bool MediaPlayerPrivate::paused() const
 
 void MediaPlayerPrivate::seek(float position)
 {
-//  fprintf(stderr, "\n***** %s::%s(%d)\tcalled position = %f\n", __FILE__, __FUNCTION__, __LINE__, position);
 #if 1
-    if(!m_loadFinished || m_isPlaybackEnded || (m_duration <= 0.0 && position <= 0.0))
+    if(!m_loadFinished || m_isPlaybackEnded || (position <= 0.0))
     {
         return;
     }
@@ -436,15 +458,29 @@ void MediaPlayerPrivate::seek(float position)
         return;
     }
 
-    if(m_duration <= 0.0 && position <= 0.0)
+    if(position <= 0.0) //will be ignored by FVP - so drop it here
     {
-        fprintf(stderr, "\n***** %s::%s(%d)\tcall to RunCommand(MEDIAPLAYER.Seek) ignored since m_duration = %f && position = %f\n", __FILE__, __FUNCTION__, __LINE__, m_duration, position);
+        fprintf(stderr, "\n***** %s::%s(%d)\tcall to RunCommand(MEDIAPLAYER.Seek) ignored since position (%f) <= 0\n", __FILE__, __FUNCTION__, __LINE__, position);
         fflush(stderr);
         return;
     }
 #endif
 
 //  printState(__FUNCTION__, __LINE__);
+
+    /**
+     * Note:
+     * when seeking DVDPlayer enters buffering mode (and pauses) which results readyState change
+     * here (to HaveCurrentData). MPBoxee issues MP.Pause command which is being ignored by FVP
+     * (because DVDPlayer is already closed).
+     * When data is ready player exits buffering mode (but doesn't resume), and readyState returns
+     * back to HaveEnoughData. MPBoxee issues MP.Play command to the player that causes the player
+     * to resume playback.
+     * In rare cases, seeking doesn't cause DVDPlayer to enter buffering mode. The player seeks to
+     * the requested position but readyState doesn't change. This causes the HTML5 player not to
+     * update correctly the current time displayed on the OSD (readyState changes results, among
+     * other things, a time change/update event - which doesn't occur in these rare cases).
+     */
 
     QVariantMap parameters;
     parameters.insert(QString::fromAscii("position"), QVariant(100.0 * position / m_player->duration() ));
