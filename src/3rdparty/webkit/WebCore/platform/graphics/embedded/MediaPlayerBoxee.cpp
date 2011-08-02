@@ -200,21 +200,6 @@ void MediaPlayerPrivate::updatePlayerStatus()
     }
 
 	/**
-	 * isPlaybackEnded
-	 *
-	 */
-	m_isPlaybackEnded = isPlaybackEnded;
-
-	if(!m_bSentEndedEvent && isPlaybackEnded)
-    {
-		m_readyState = MediaPlayer::HaveCurrentData; //represents end of media
-		m_player->readyStateChanged();
-        m_bSentEndedEvent = true;
-        m_player->timeChanged();
-        m_stateTimer.stop();
-    }
-
-	/**
 	 * isBuffering
 	 *
 	 */
@@ -240,10 +225,26 @@ void MediaPlayerPrivate::updatePlayerStatus()
         }
 		m_player->readyStateChanged();
 	}
+
+    /**
+     * isPlaybackEnded
+     *
+     */
+    m_isPlaybackEnded = isPlaybackEnded;
+
+    if(!m_bSentEndedEvent && isPlaybackEnded)
+    {
+        m_readyState = MediaPlayer::HaveMetadata;//HaveCurrentData //represents end of media
+        m_player->readyStateChanged();
+        m_bSentEndedEvent = true;
+        m_player->timeChanged();
+        m_stateTimer.stop();
+    }
+
 #if 0
     if(isPlaybackEnded)
         fprintf(stderr, "\n*** %s::%s(%d):\tipPlaybackEnded = TRUE:\nm_networkState = %d, m_readyState = %d\nm_paused = %d\nm_isBuffering = %d\ncurrentTime = %f\ntimeBuffered = %f\nduration = %f\nm_bSentEndedEvent = %d\n"
-              , __FILE__, __FUNCTION__, __LINE__, m_networkState, m_readyState, m_paused, m_isBuffering, currentTime, timeBuffered, m_duration, m_bSentEndedEvent);
+                      , __FILE__, __FUNCTION__, __LINE__, m_networkState, m_readyState, m_paused, m_isBuffering, currentTime, timeBuffered, m_duration, m_bSentEndedEvent);
 #endif
 }
 
@@ -328,6 +329,8 @@ void MediaPlayerPrivate::stateTimer(Timer<MediaPlayerPrivate>*)
 MediaPlayerPrivate::~MediaPlayerPrivate()
 {
 //  printState(__FUNCTION__, __LINE__);
+    QVariantMap parameters;
+    RunCommand(QString::fromAscii("MEDIAPLAYER.Close"), parameters, false);
 }
 
 bool MediaPlayerPrivate::hasVideo() const
@@ -349,6 +352,7 @@ void MediaPlayerPrivate::setloaded()
 
 void MediaPlayerPrivate::load(const String& url)
 {
+//  printState(__FUNCTION__, __LINE__);
     m_duration = -1.0f;
     m_current = 0.0f;
     m_buffered = 0.0f;
@@ -360,6 +364,7 @@ void MediaPlayerPrivate::load(const String& url)
     m_paused = true;
     m_readyState = MediaPlayer::HaveNothing;
     m_isPlaybackEnded = false;
+    m_url = url;
 
     m_element = static_cast<HTMLMediaElement*>(m_player->mediaPlayerClient());
     if (m_element && m_element->parentElement())
@@ -382,11 +387,13 @@ void MediaPlayerPrivate::load(const String& url)
     if (m_element && !m_element->isVideo())
     {
       parameters.insert(QString::fromAscii("IsVideo"), QVariant(false));
+      m_isVideo = false;
     }
     else
-	{
+    {
       parameters.insert(QString::fromAscii("isVideo"), QVariant(true));
-	}
+      m_isVideo = true;
+    }
 
 //  printState(__FUNCTION__, __LINE__);
 
@@ -436,8 +443,37 @@ bool MediaPlayerPrivate::paused() const
     return m_paused;
 }
 
+void MediaPlayerPrivate::restartPlayback()
+{
+    m_duration = -1.0f;
+    m_current = 0.0f;
+    m_buffered = 0.0f;
+    m_paintedOnce = false;
+    m_bytesLoaded = 0;
+    m_isBuffering = -1; //indicate invalid value - need to get proper value from player
+    m_bSentEndedEvent = false;
+    m_loadFinished = false;
+    m_paused = true;
+    m_readyState = MediaPlayer::HaveNothing;
+    m_isPlaybackEnded = false;
+
+    QVariantMap parameters;
+    parameters.insert(QString::fromAscii("playerID"), QVariant((int)m_player)); //send updated player ID to PluginManager
+    parameters.insert(QString::fromAscii("url"), QVariant(m_url));
+    parameters.insert(QString::fromAscii("isVideo"), QVariant(m_isVideo));
+    RunCommand(QString::fromAscii("MEDIAPLAYER.Load"), parameters, true);
+    m_stateTimer.start(2.5, 0.5);
+}
+
 void MediaPlayerPrivate::seek(float position)
 {
+    if(m_isPlaybackEnded && position == 0.0)
+    {
+        //trying to replay media
+        restartPlayback();
+        return;
+    }
+
 #if 1
     if(!m_loadFinished || m_isPlaybackEnded || (position <= 0.0))
     {

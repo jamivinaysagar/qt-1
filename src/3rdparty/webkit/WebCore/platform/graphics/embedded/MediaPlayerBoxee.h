@@ -100,7 +100,8 @@ private:
     void setloaded();
     MediaPlayerPrivate(MediaPlayer*);
     QVariant RunCommand(QString command, QVariantMap parameters, bool expectedResult = false) const;
-    void printState(const char* label, int line); //FIXME: remove
+    void printState(const char* label, int line);
+    void restartPlayback();
 
     QJson::Serializer m_serializer;
     MediaPlayer* m_player;
@@ -121,6 +122,8 @@ private:
     bool m_bSentEndedEvent;
     bool m_loadFinished;
     bool m_isPlaybackEnded;
+    String m_url;
+    bool m_isVideo;
 
 };
 }
