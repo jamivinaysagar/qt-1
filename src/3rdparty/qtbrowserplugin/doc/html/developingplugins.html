@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- qtbrowserplugin-2.3-opensource/doc/qtbrowserplugin.qdoc -->
+<head>
+  <title>Developing Plugins</title>
+  <link href="classic.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="left" valign="top" width="32"><img src="images/qt-logo.png" align="left" width="32" height="32" border="0" /></td>
+<td width="1">&nbsp;&nbsp;</td><td class="postheader" valign="center"><a href="index.html"><font color="#004faf">Home</font></a></td>
+<td align="right" valign="top" width="230"><img src="images/trolltech-logo.png" align="right" width="203" height="32" border="0" /></td></tr></table><h1 class="title">Developing Plugins<br /><span class="subtitle"></span>
+</h1>
+<p>The QtBrowserPlugin solution makes it easy to write browser plugins that can be used in Netscape, Mozilla FireFox, Opera, and any other web browser supporting the &quot;npruntime&quot; API:</p>
+<p>http://www.mozilla.org/projects/plugins/ http://www.mozilla.org/projects/plugins/npruntime.html</p>
+<p>Current versions of Microsoft Internet Explorer do not support this API. However, you can use the <a href="http://doc.trolltech.com/4.4/activeqt.html">ActiveQt</a> framework to compile a single plugin library that works with all web browsers.</p>
+<ul><li><a href="#implementing-plugins">Implementing plugins</a></li>
+<ul><li><a href="#windows-specific-notes">Windows specific notes</a></li>
+<ul><li><a href="#enabling-activex-support">Enabling ActiveX support</a></li>
+</ul>
+<li><a href="#unix-specific-notes">Unix specific notes</a></li>
+<ul><li><a href="#known-issues-on-unix-linux">Known Issues on Unix/Linux</a></li>
+</ul>
+<li><a href="#mac-osx-specific-notes">Mac OSX specific notes</a></li>
+<ul><li><a href="#known-issues-on-mac">Known Issues on Mac</a></li>
+</ul>
+</ul>
+<li><a href="#installing-and-using-plugins">Installing and using Plugins</a></li>
+<ul><li><a href="#using-the-plugin-in-html">Using the plugin in HTML</a></li>
+<ul><li><a href="#object-with-data">Object with data:</a></li>
+<li><a href="#objects-without-data">Objects without data:</a></li>
+<li><a href="#not-working-with-all-browsers">Not working with all browsers</a></li>
+</ul>
+<li><a href="#scripting">Scripting</a></li>
+<ul><li><a href="#javascript-calling-slots-and-properties">JavaScript calling slots and properties</a></li>
+<li><a href="#the-plugin-calling-javascript">The plugin calling JavaScript</a></li>
+<li><a href="#using-plugins-in-forms">Using plugins in forms</a></li>
+</ul>
+</ul>
+</ul>
+<a name="implementing-plugins"></a>
+<h2>Implementing plugins</h2>
+<p>Since any <a href="http://doc.trolltech.com/4.4/qwidget.html">QWidget</a> or <a href="http://doc.trolltech.com/4.4/qobject.html">QObject</a> subclass can be turned into a plugin with little effort it is usually easiest to do the development as a stand-alone Qt application - debugging plugins is cumbersome.</p>
+<p>Make sure that the subclasses you want to export use the <a href="http://doc.trolltech.com/4.4/qobject.html#Q_OBJECT">Q_OBJECT</a> macro and provide a default constructor. Use the Q_CLASSINFO macro to specify a list of MIME types each of your classes supports, and export the classes through the <a href="qtnpfactory.html">QtNPFactory</a> macros:</p>
+<pre> QTNPFACTORY_BEGIN(&quot;Qt-based Graph Plugin&quot;, &quot;A Qt-based LiveConnected plug-in that graphs numeric data&quot;);
+     QTNPCLASS(Graph)
+ QTNPFACTORY_END()</pre>
+<p>Include the <tt>qtbrowserplugin.pri</tt> in your .pro file, and regenerate the makefile with qmake. The resulting makefile will generate a shared library with a file name starting with <tt>&quot;np&quot;</tt> - this is required by all browsers to recognize the library as a plugin.</p>
+<a name="windows-specific-notes"></a>
+<h3>Windows specific notes</h3>
+<p>On Windows it is required to link a version resource into the plugin library. To do that, create an .rc file (a plain-text file) and add it to the <tt>RC_FILE</tt> variable of your project. The .rc file needs to contain a version description like here:</p>
+<pre> 1 VERSIONINFO
+  FILEVERSION 1,0,0,1
+  PRODUCTVERSION 1,0,0,1
+  FILEFLAGSMASK 0x3fL
+ #ifdef _DEBUG
+  FILEFLAGS 0x1L
+ #else
+  FILEFLAGS 0x0L
+ #endif
+  FILEOS 0x4L
+  FILETYPE 0x2L
+  FILESUBTYPE 0x0L
+ BEGIN
+     BLOCK &quot;StringFileInfo&quot;
+     BEGIN
+         BLOCK &quot;040904e4&quot;
+         BEGIN
+             VALUE &quot;Comments&quot;, &quot;\0&quot;
+             VALUE &quot;CompanyName&quot;, &quot;Trolltech\0&quot;
+             VALUE &quot;FileDescription&quot;, &quot;grapher\0&quot;
+             VALUE &quot;FileExtents&quot;, &quot;g1n\0&quot;
+             VALUE &quot;FileOpenName&quot;, &quot;Graphable data (*.g1n)\0&quot;
+             VALUE &quot;FileVersion&quot;, &quot;1, 0, 0, 1\0&quot;
+             VALUE &quot;InternalName&quot;, &quot;grapher\0&quot;
+             VALUE &quot;LegalCopyright&quot;, &quot;Copyright  1997 Trolltech ASA\0&quot;
+             VALUE &quot;LegalTrademarks&quot;, &quot;\0&quot;
+             VALUE &quot;MIMEType&quot;, &quot;application/x-graphable\0&quot;
+             VALUE &quot;OriginalFilename&quot;, &quot;grapher.dll\0&quot;
+             VALUE &quot;PrivateBuild&quot;, &quot;\0&quot;
+             VALUE &quot;ProductName&quot;, &quot;Trolltech grapher\0&quot;
+             VALUE &quot;ProductVersion&quot;, &quot;1, 0, 0, 1\0&quot;
+             VALUE &quot;SpecialBuild&quot;, &quot;\0&quot;
+         END
+     END
+     BLOCK &quot;VarFileInfo&quot;
+     BEGIN
+         VALUE &quot;Translation&quot;, 0x409, 1252
+     END
+ END</pre>
+<a name="enabling-activex-support"></a>
+<h4>Enabling ActiveX support</h4>
+<p>To build a plugin project with ActiveX support, use <a href="http://doc.trolltech.com/4.4/activeqt.html">ActiveQt</a>'s <a href="http://doc.trolltech.com/4.4/qaxserver.html">QAxServer</a> module by adding the following line to your project:</p>
+<p>CONFIG += qaxserver</p>
+<p>Also, add the following line to your resource file</p>
+<p><tt>1 TYPELIB &quot;thisfile.rc&quot;</tt></p>
+<p>In your plugin code, use Q_CLASSINFO and the <a href="http://doc.trolltech.com/4.4/qaxfactory.html">QAxFactory</a> macros as usual.</p>
+<p>When you build the plugin, then <a href="http://doc.trolltech.com/4.4/activeqt.html">ActiveQt</a> will perform the build steps required to turn the plugin library into an ActiveX control server which provides your plugin classes not only to browsers supporting the npruntime API, but also to browsers supporting ActiveX controls (i.e&#x2e; Internet Explorer).</p>
+<p>However, not that calling <a href="qtnpbindable.html">QtNPBindable</a> APIs will not do anything when the browser does not support the npruntime API. In some cases, <a href="http://doc.trolltech.com/4.4/qaxbindable.html">QAxBindable</a> provides equivalent APIs (i.e&#x2e; for reading incoming data).</p>
+<a name="unix-specific-notes"></a>
+<h3>Unix specific notes</h3>
+<p>On Unix/Linux, QtBrowserPlugin uses the XEmbed protocol. This is a fairly recent addition to the NPP plugin API. At the time of writing, it is not supported by the Opera and Konqueror browsers. Firefox and other Mozilla/Gecko-based browsers do support it.</p>
+<p>Update: Opera version 9.50 will support the XEmbed protocol. QtBrowserPlugin is tested successfully with the beta release of Opera 9.50. One known issue: Opera does not automatically register the extension part of the MIME description. If required, work around by adding it manually in the <tt>Preferences-&gt;Advanced-&gt;Download</tt> dialog. (e.g&#x2e; add &quot;g1n&quot; to &quot;application/x-graphable&quot; to make the grapher example work).</p>
+<a name="known-issues-on-unix-linux"></a>
+<h4>Known Issues on Unix/Linux</h4>
+<p>There are two known issues that may cause the plugin to crash on initialization, possibly taking the browser down with it:</p>
+<ul>
+<li>Double initialization of glib/threading. This is fixed in Qt 4.3&#x2e;1 and later.</li>
+<li>Symbol clash with other instances of the Qt libraries. Although Firefox/Gecko itself does not use Qt, it is not uncommon on Linux that another plugin or style engine is present that will load the Qt dynamic libraries. When another plugin based on the Qt 4 dynamically libraries are added, some symbol clashes between the different Qt instances will occur, leading to a crash. With Qt 4.4 and later, this is easily worked around by configuring your Qt build to use a separate namespace. Just add the <tt>-qtnamespace=SomeNamespace</tt> option to <tt>configure</tt>. For Qt 4.3, it is possible to work around this by building the Qt 4 library statically, and link them into the plugin executable with a special linker option. See <tt>qtbrowserplugin.pri</tt> for details.</li>
+</ul>
+<p>In addition, Firefox may emit this warning when initializing the plugin: <tt>_XEMBED_INFO property has wrong type</tt>. This is fixed in Qt 4.3&#x2e;1 and later.</p>
+<a name="mac-osx-specific-notes"></a>
+<h3>Mac OSX specific notes</h3>
+<p>To build a browser plugin on Mac, two plain-text resource files are needed: an <tt>Info.plist</tt> file and a <tt>.r</tt> file. To create these files, it is easiest to use the ones provided with the QtBrowserPlugin examples as templates, editing as necessary. Then add them to your project (<tt>.pro</tt> file) like this:</p>
+<pre>    QMAKE_INFO_PLIST = Info.plist
+    REZ_FILES += grapher.r
+    rsrc_files.files = grapher.rsrc
+    rsrc_files.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += rsrc_files</pre>
+<a name="known-issues-on-mac"></a>
+<h4>Known Issues on Mac</h4>
+<ul>
+<li>After navigating away from the webpage with the plugin, and then back again, the plugin no longer shows up or runs. No workaround currently known.</li>
+<li>Some painting issues. Fixed in Qt 4.3&#x2e;1 and later.</li>
+</ul>
+<a name="installing-and-using-plugins"></a>
+<h2>Installing and using Plugins</h2>
+<p>Most browsers provide a UI to display all loaded plugins. Use this functionality to diagnose problems.</p>
+<p>The plugin will need to load the Qt libraries at runtime (unless they are statically linked into the plugin). Hence, the required Qt dynamic libraries (at least <a href="http://doc.trolltech.com/4.4/qtcore.html">QtCore</a>, <a href="http://doc.trolltech.com/4.4/qtgui.html">QtGui</a>, and <a href="http://doc.trolltech.com/4.4/qtnetwork.html">QtNetwork</a>) must be located in a directory which the system searches for DLLs. This may or may not include the directory where the plugin itself is located, depending on the OS and browser.</p>
+<p>Windows, Netscape-style browsers: To install the plugin, copy the plugin library in the &quot;plugins&quot; directory of the browser. See <tt>src/qtbrowserplugin.pri</tt> for some typical paths.</p>
+<p>Windows, Internet Explorer: The Makefile generated by qmake by default runs the necessary commands to register the plugin as an ActiveX server (if <tt>CONFIG</tt> includes <tt>qaxserver</tt>). To unregister, use the following command:</p>
+<pre> c:\Qt-x.y.z\bin\idc.exe path\to\myplugin.dll /unregserver</pre>
+<p>Mac: The build will result in a directory called <tt>myplugin.plugin</tt>. To install, copy this directory with all contents to <tt>/Library/Internet Plugins</tt>.</p>
+<p>Unix: Copy the file <tt>myplugin.so</tt> to the browser or system plugin directory, typically <tt>/usr/lib/browser-plugins</tt>. The path to the Qt libraries may be set in the LD_LIBRARY_PATH environment variable of the browser process.</p>
+<a name="using-the-plugin-in-html"></a>
+<h3>Using the plugin in HTML</h3>
+<p>Different browser support different embedding tags, but the following should work with Netscape, FireFox, Opera and Internet Explorer (if the plugin has been compiled as an ActiveX server as well).</p>
+<a name="object-with-data"></a>
+<h4>Object with data:</h4>
+<p>Objects can be initialized with a data file, which will be delivered to the plugin at some point after plugin creation to the plugin through the <a href="qtnpbindable.html#readData">QtNPBindable::readData</a>() virtual function. </p>
+<!-- <p>If files viewed by a plugin are provided by an HTTP server (using a <tt>http:<span class="comment">//</span>...</tt> URL) then the server must be configured to send the correct MIME type for the file, e.g&#x2e; by editing Apache's <tt>mime.types</tt> file. If the files are viewed via a <tt>file:<span class="comment">//</span>...</tt> URL, then the browser will use the filename extension to decide the file type (and hence the plugin to load) - the user may need to set the filename extension in the Helpers or Applications section of their browser preferences.</p>
+--><pre> &lt;object type=&quot;application/x-graphable&quot; data=&quot;graph.g1n&quot; width=50% height=300&gt;
+ Plugin not installed!
+ &lt;/object&gt;</pre>
+<pre> &lt;object data=&quot;http:<span class="comment">//</span>doc.trolltech.com/3.3/graph.g1n&quot; width=50% height=300&gt;
+ Plugin not installed!
+ &lt;/object&gt;</pre>
+<p>Note that some browsers will not display or immediately unload the plugin if the data file does not exist, while other browsers will display the plugin without ever calling readData().</p>
+<a name="objects-without-data"></a>
+<h4>Objects without data:</h4>
+<pre> &lt;embed type=&quot;trivial/very&quot; [property]=[value]&gt;</pre>
+<a name="not-working-with-all-browsers"></a>
+<h4>Not working with all browsers</h4>
+<ul>
+<li><tt>&lt;embed src=...&gt;</tt> Internet Explorer does not receive data</li>
+<li><tt>&lt;object type=...&gt;</tt> Opera does not display plugin without <tt>data</tt> attribute</li>
+<li><tt>&lt;object classid=...&gt;</tt> FireFox and Netscape don't display</li>
+<li><tt>&lt;object type=... data=...&gt;&lt;param ...&gt;</tt> Internet Explorer does not receive data</li>
+</ul>
+<p>For additional information, see http://devedge-temp.mozilla.org/library/manuals</p>
+<a name="scripting"></a>
+<h3>Scripting</h3>
+<p>Plugins embedded into browsers that support the respecive NPAPI extensions as well as ActiveX controls can be accessed from JavaScript in the HTML page.</p>
+<pre>   &lt;object id=&quot;ScriptableObject&quot; TYPE=trivial/very WIDTH=200 HEIGHT=100 text=&quot;Very Scriptable!&quot;&gt; &lt;/object&gt;
+
+   &lt;script language=JavaScript&gt;</pre>
+<p>Before the object can be accessed, some browsers require it to be located based on the <tt>id</tt> in the <tt>object</tt> tag.</p>
+<a name="javascript-calling-slots-and-properties"></a>
+<h4>JavaScript calling slots and properties</h4>
+<pre>   var ScriptableObject = document.getElementById('ScriptableObject');</pre>
+<p>Object properties and public slots can then be accessed as usual. The QtBrowserPlugin implementation supports properties and slots that have parameters and types that <a href="http://doc.trolltech.com/4.4/qvariant.html">QVariant</a> can be convert to and from strings, or that are QObjects. Only public slots and scriptable properties are exposed. If the <a href="http://doc.trolltech.com/4.4/qobject.html">QObject</a> class sets a &quot;ToSuperClass&quot; Q_CLASSINFO, then only slots and properties up to the specified superclass are exposed. See the <a href="http://doc.trolltech.com/4.4/qaxserver.html">QAxServer</a> documentation provided with Qt for more information.</p>
+<a name="the-plugin-calling-javascript"></a>
+<h4>The plugin calling JavaScript</h4>
+<p>JavaScript functions can be connected to Qt signals emitted by the Qt plugin object.</p>
+<pre>   ScriptableObject.text = 'This is some text'
+
+   var oldText
+   ScriptableObject.mouseDown = function()
+   {
+     oldText = ScriptableObject.text
+     ScriptableObject.text = 'Mouse Down'
+   }
+
+   ScriptableObject.mouseMove = function(x, y)
+   {
+     ScriptableObject.text = 'Mouse at ' + x + ',' + y
+   }
+
+   ScriptableObject.mouseUp = function()
+   {
+     ScriptableObject.text = oldText
+   }
+   &lt;/script&gt;</pre>
+<p>Assign a function to a property of the object with the same name as the signal. Overloads (i.e&#x2e; two signal with the same name, but different parameters) are not possible.</p>
+<pre>   &lt;!-- Special hookup code required for Internet Explorer --&gt;
+   &lt;!--[if IE]&gt;
+   &lt;script language=JScript&gt;
+   function ScriptableObject::mouseDown() { ScriptableObject.mouseDown() }
+   function ScriptableObject::mouseMove(x, y) { ScriptableObject.mouseMove(x, y) }
+   function ScriptableObject::mouseUp() { ScriptableObject.mouseUp() }
+   &lt;/script&gt;</pre>
+<p>Internet Explorer requires a special syntax that is not compatible with other browsers, but the IE-specific function can just call the other functions.</p>
+<a name="using-plugins-in-forms"></a>
+<h4>Using plugins in forms</h4>
+<p>Plugin objects can be embedded as form elements. To specify which property value the plugin should report to the form upon submission, specify the name of the property as the DefaultProperty using a Q_CLASSINFO entry:</p>
+<pre> Q_OBJECT
+ Q_CLASSINFO(&quot;MIME&quot;, &quot;trivial/very:xxx:Trivial and useless&quot;)
+ Q_CLASSINFO(&quot;DefaultProperty&quot;, &quot;text&quot;)</pre>
+<p>In the HTML page, embed the object as usual:</p>
+<pre> &lt;form method=&quot;get&quot; action=&quot;http:<span class="comment">//</span>www.server.com/search.asp&quot;&gt;
+ &lt;table&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Search:&lt;/td&gt;
+  &lt;td&gt;&lt;object type=&quot;trivial/very&quot; name=&quot;text&quot; WIDTH=100 HEIGHT=20&gt;&lt;/object&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Check&quot;&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/table&gt;
+ &lt;/form&gt;</pre>
+<p>Clicking the button will make the browser request a URL</p>
+<p><tt>http:<span class="comment">//</span>www.server.com/search.asp?text=[value from object]</tt></p>
+<p>The property type needs to be convertible to a string.</p>
+<p /><address><hr /><div align="center">
+<table width="100%" cellspacing="0" border="0"><tr class="address">
+<td width="30%">Copyright &copy; 2008 <a href="http://www.trolltech.com">Trolltech</a></td>
+<td width="40%" align="center"><a href="http://doc.trolltech.com/trademarks.html">Trademarks</a></td>
+<td width="30%" align="right"><div align="right">Qt Solutions</div></td>
+</tr></table></div></address></body>
+</html>
