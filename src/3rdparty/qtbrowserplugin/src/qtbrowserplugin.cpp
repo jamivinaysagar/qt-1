@@ -853,7 +853,9 @@ extern "C" int16 NPP_Event(NPP instance, NPEvent* event)
     return qtns_event(This, event) ? 1 : 0;
 }
 
-#ifdef Q_WS_X11
+
+//boxee & X11
+
 // Instance state information about the plugin.
 extern "C" char*
 NP_GetMIMEDescription(void)
@@ -861,6 +863,8 @@ NP_GetMIMEDescription(void)
     static QByteArray mime = qtNPFactory()->mimeTypes().join(";").toLocal8Bit();
     return (char*)mime.constData();
 }
+
+//boxee & X11
 
 extern "C" NPError
 NP_GetValue(void*, NPPVariable aVariable, void *aValue)
@@ -888,7 +892,6 @@ NP_GetValue(void*, NPPVariable aVariable, void *aValue)
     }
     return err;
 }
-#endif
 
 /*
 ** NPP_New is called when your plugin is instantiated (i.e. when an EMBED
@@ -904,18 +907,18 @@ NPP_New(NPMIMEType pluginType,
     NPSavedData* /*saved*/)
 {
     if (!instance)
-	return NPERR_INVALID_INSTANCE_ERROR;
+       return NPERR_INVALID_INSTANCE_ERROR;
 
     QtNPInstance* This = new QtNPInstance;
     if (!This)
-	return NPERR_OUT_OF_MEMORY_ERROR;
+       return NPERR_OUT_OF_MEMORY_ERROR;
 
     instance->pdata = This;
     This->filter = 0;
     This->bindable = 0;
     This->npp = instance;
     This->fMode = mode; // NP_EMBED, NP_FULL, or NP_BACKGROUND (see npapi.h)
-    This->window = 0;
+//    This->window = 0; //no window in boxee
     This->qt.object = 0;
 #ifdef Q_WS_MAC
     This->rootWidget = 0;
@@ -974,11 +977,13 @@ NPP_SetWindow(NPP instance, NPWindow* window)
     if (window)
         This->geometry = QRect(window->x, window->y, window->width, window->height);
 
+/* boxee
     // take a shortcut if all that was changed is the geometry
     if (qobject_cast<QWidget*>(This->qt.object) && window && This->window == (QtNPInstance::Widget)window->window) {
         qtns_setGeometry(This, This->geometry, clipRect);
-	return NPERR_NO_ERROR;
+       return NPERR_NO_ERROR;
     }
+*/
 
 	delete This->qt.object;
 	This->qt.object = 0;
@@ -986,11 +991,11 @@ NPP_SetWindow(NPP instance, NPWindow* window)
 	qtns_destroy(This);
 
     if (!window) {
-        This->window = 0;
+//        This->window = 0; //boxee
 	return NPERR_NO_ERROR;
     }
 
-    This->window = (QtNPInstance::Widget)window->window;
+//    This->window = (QtNPInstance::Widget)window->window;
 #ifdef Q_WS_X11
     //This->display = ((NPSetWindowCallbackStruct *)window->ws_info)->display;
 #endif
@@ -1229,23 +1234,7 @@ enum NPNToolkitType
     NPNVGtk2
 };
 
-#ifndef Q_WS_X11
-extern "C" NPError WINAPI NP_Initialize(NPNetscapeFuncs* pFuncs)
-{
-    if(!pFuncs)
-        return NPERR_INVALID_FUNCTABLE_ERROR;
-
-    qNetscapeFuncs = pFuncs;
-    int navMajorVers = qNetscapeFuncs->version >> 8;
-
-    // if the plugin's major version is lower than the Navigator's,
-    // then they are incompatible, and should return an error
-    if(navMajorVers > NP_VERSION_MAJOR)
-        return NPERR_INCOMPATIBLE_VERSION_ERROR;
-
-    return NPERR_NO_ERROR;
-}
-#else
+//boxee's implementation calls NP_Initialize() with 2 args
 extern "C" NPError WINAPI NP_Initialize(NPNetscapeFuncs* nFuncs, NPPluginFuncs* pFuncs)
 {
     if(!nFuncs)
@@ -1259,15 +1248,15 @@ extern "C" NPError WINAPI NP_Initialize(NPNetscapeFuncs* nFuncs, NPPluginFuncs* 
     if(navMajorVers > NP_VERSION_MAJOR)
         return NPERR_INCOMPATIBLE_VERSION_ERROR;
 
+/* boxee - no XEmbed
     // check if the Browser supports the XEmbed protocol
     int supportsXEmbed = 0;
     NPError err = NPN_GetValue(0, NPNVSupportsXEmbedBool, (void *)&supportsXEmbed);
     if (err != NPERR_NO_ERROR ||!supportsXEmbed)
         return NPERR_INCOMPATIBLE_VERSION_ERROR;
-
+*/
     return NP_GetEntryPoints(pFuncs);
 }
-#endif
 
 extern "C" NPError WINAPI NP_Shutdown()
 {

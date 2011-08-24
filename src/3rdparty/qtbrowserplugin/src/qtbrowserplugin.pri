@@ -54,8 +54,8 @@ win32 {
   #target.path = /Library/Internet\ Plugins
   #INSTALLS += target
 } else {
-  SOURCES     += $$PWD/qtbrowserplugin_x11.cpp
-  INCLUDEPATH += /usr/X11R6/include
+  SOURCES     += $$PWD/qtbrowserplugin_boxee.cpp
+# INCLUDEPATH +=
   
   # Avoiding symbol clash with other instances of the Qt library
   # (ref. developingplugins.html in the doc.):

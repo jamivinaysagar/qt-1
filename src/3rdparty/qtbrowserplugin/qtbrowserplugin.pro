@@ -5,4 +5,5 @@ win32 {
 }
 
 TEMPLATE = subdirs
+SUBDIRS += maxdome
 SUBDIRS += examples

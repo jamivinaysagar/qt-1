@@ -26,10 +26,10 @@
 
 #ifdef Q_WS_X11
 #   include <X11/Xlib.h>
+#endif
 
 class QtNPStream;
 class QtNPBindable;
-#endif
 
 struct QtNPInstance
 {
@@ -47,9 +47,10 @@ struct QtNPInstance
 #ifdef Q_WS_MAC
     typedef NPPort* Widget;
     QWidget *rootWidget;
+#else //boxee
+//  typedef NPPort* Widget;
+//  QWidget window; //moved here from bottom
 #endif
-
-    Widget window;
 
     QRect geometry;
     QString mimetype;

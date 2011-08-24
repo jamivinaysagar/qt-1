@@ -76,6 +76,8 @@ struct NPEvent
 typedef XEvent NPEvent;
 #elif defined (Q_WS_MAC)
 typedef struct EventRecord NPEvent;
+#else //boxee
+typedef void* NPEvent;
 #endif
 
 // Variable names for NPP_GetValue
