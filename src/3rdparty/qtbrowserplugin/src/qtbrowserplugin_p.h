@@ -23,6 +23,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QMutexLocker>
 #include <QtGui/QWidget>
+#include "qtnpapi.h"
 
 #ifdef Q_WS_X11
 #   include <X11/Xlib.h>
@@ -48,8 +49,8 @@ struct QtNPInstance
     typedef NPPort* Widget;
     QWidget *rootWidget;
 #else //boxee
-//  typedef NPPort* Widget;
-//  QWidget window; //moved here from bottom
+    typedef NPPort* Widget;
+    void* window;
 #endif
 
     QRect geometry;

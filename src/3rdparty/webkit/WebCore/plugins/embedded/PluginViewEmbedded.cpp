@@ -517,8 +517,8 @@ void PluginView::paint(GraphicsContext* context, const IntRect& rect)
       event.paint.xoffset     = rectWidget.x();
       event.paint.yoffset     = rectWidget.y();
       setNPWindowRect(rectWidget);
-      event.paint.w    = rect.width()  ;
-      event.paint.h    = rect.height() ;
+      event.paint.w    = rect.width();
+      event.paint.h    = rect.height();
     }
 
     NPEvent pEvt    = &event; // NPEvent is typedef'd as void*

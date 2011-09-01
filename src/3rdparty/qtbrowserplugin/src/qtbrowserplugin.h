@@ -28,6 +28,8 @@
 #include <QtCore/QDateTime>
 #include <QtGui/QPainter>
 
+#include "PluginEvents.h"
+
 
 struct QtNPInstance;
 class QtNPBindable;

@@ -61,6 +61,9 @@ static void debuginfo(const QString &str)
 static QtNPFactory *qNP = 0;
 static NPNetscapeFuncs *qNetscapeFuncs = 0;
 
+//function table provided by the browser, used by plugin
+GL_FuncTable* glFuncTable = 0;
+
 // The single global plugin
 QtNPFactory *qtNPFactory()
 {
@@ -828,28 +831,30 @@ NPP_GetValue(NPP instance, NPPVariable variable, void *value)
 extern "C" NPError
 NPP_SetValue(NPP instance, NPPVariable variable, void *value)
 {
-    Q_UNUSED(variable);
-    Q_UNUSED(value);
-
     if (!instance || !instance->pdata)
-	return NPERR_INVALID_INSTANCE_ERROR;
+       return NPERR_INVALID_INSTANCE_ERROR;
 
-    /*
-    switch(variable) {
-    default:
+    switch(variable)
+    {
+      case NPPVpluginDrawingFunctions:
+        glFuncTable = (GL_FuncTable*)value;
+        break;
+
+      default:
         return NPERR_GENERIC_ERROR;
     }
-    */
+
     return NPERR_NO_ERROR;
 }
 
 extern "C" int16 NPP_Event(NPP instance, NPEvent* event)
 {
     if (!instance || !instance->pdata)
-	return NPERR_INVALID_INSTANCE_ERROR;
+       return NPERR_INVALID_INSTANCE_ERROR;
 
     QtNPInstance* This = (QtNPInstance*) instance->pdata;
     extern bool qtns_event(QtNPInstance *, NPEvent *);
+
     return qtns_event(This, event) ? 1 : 0;
 }
 
@@ -918,7 +923,7 @@ NPP_New(NPMIMEType pluginType,
     This->bindable = 0;
     This->npp = instance;
     This->fMode = mode; // NP_EMBED, NP_FULL, or NP_BACKGROUND (see npapi.h)
-//    This->window = 0; //no window in boxee
+    This->window = 0;
     This->qt.object = 0;
 #ifdef Q_WS_MAC
     This->rootWidget = 0;
@@ -977,13 +982,11 @@ NPP_SetWindow(NPP instance, NPWindow* window)
     if (window)
         This->geometry = QRect(window->x, window->y, window->width, window->height);
 
-/* boxee
     // take a shortcut if all that was changed is the geometry
     if (qobject_cast<QWidget*>(This->qt.object) && window && This->window == (QtNPInstance::Widget)window->window) {
         qtns_setGeometry(This, This->geometry, clipRect);
        return NPERR_NO_ERROR;
     }
-*/
 
 	delete This->qt.object;
 	This->qt.object = 0;
@@ -991,11 +994,11 @@ NPP_SetWindow(NPP instance, NPWindow* window)
 	qtns_destroy(This);
 
     if (!window) {
-//        This->window = 0; //boxee
-	return NPERR_NO_ERROR;
+      This->window = 0;
+      return NPERR_NO_ERROR;
     }
 
-//    This->window = (QtNPInstance::Widget)window->window;
+    This->window = (QtNPInstance::Widget)window->window;
 #ifdef Q_WS_X11
     //This->display = ((NPSetWindowCallbackStruct *)window->ws_info)->display;
 #endif
