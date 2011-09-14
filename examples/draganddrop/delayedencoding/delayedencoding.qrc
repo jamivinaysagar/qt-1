@@ -1,6 +1,3 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="">
-   <file>images/drag.png</file>
-   <file>images/example.svg</file>
-</qresource>
+<RCC>
+    <qresource prefix="/"/>
 </RCC>

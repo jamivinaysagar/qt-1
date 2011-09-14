@@ -1,7 +1,3 @@
-<!DOCTYPE RCC>
- <RCC version="1.0">
-<qresource>
-    <file>queries/wholeTree.xq</file>
-    <file>queries/statisticsInHTML.xq</file>
-</qresource>
+<RCC>
+    <qresource prefix="/"/>
 </RCC>

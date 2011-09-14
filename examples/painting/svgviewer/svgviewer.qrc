@@ -1,6 +1,3 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="/">
-  <file>files/bubbles.svg</file>
-</qresource>
+<RCC>
+    <qresource prefix="/"/>
 </RCC>
-
