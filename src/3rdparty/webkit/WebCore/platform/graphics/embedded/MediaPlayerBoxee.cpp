@@ -573,14 +573,10 @@ float MediaPlayerPrivate::duration() const
     QVariantMap parameters;
     QVariant result = RunCommand(QString::fromAscii("MEDIAPLAYER.Duration"), parameters, true);
     float res = result.toFloat();
-    if (res != 0.0f)
-    {
-        MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
-        tp->m_duration = (res == 0.0 ? std::numeric_limits<float>::infinity() : res);
-//      tp->setloaded();
-        m_player->timeChanged();
-    }
-
+    MediaPlayerPrivate* tp = (MediaPlayerPrivate*)this;
+    tp->m_duration = (res == 0.0 ? std::numeric_limits<float>::infinity() : res);
+    fprintf(stderr, "setting duration to %f\n", tp->m_duration);
+    m_player->timeChanged();
     return res;
 }
 
