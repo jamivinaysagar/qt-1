@@ -7,7 +7,7 @@ SOURCES = imageanalyzer.cpp \
 
 QT += network webkit
 
-RESOURCES = resources/imageanalyzer.qrc
+# RESOURCES = resources/imageanalyzer.qrc
 
 OTHER_FILES += html/index.html README ../webkit-bridge-tutorial.qdoc outline.txt
 

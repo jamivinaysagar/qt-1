@@ -1,4 +1,4 @@
-FORMS     = forms/window.ui
+# FORMS     = forms/window.ui
 HEADERS   = displaywidget.h \
             window.h
 RESOURCES = svggenerator.qrc

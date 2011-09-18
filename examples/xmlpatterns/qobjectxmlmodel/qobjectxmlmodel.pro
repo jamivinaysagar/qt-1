@@ -1,5 +1,5 @@
 
-FORMS       += forms/mainwindow.ui
+#FORMS       += forms/mainwindow.ui
 QT +=       xmlpatterns webkit
 SOURCES     += qobjectxmlmodel.cpp main.cpp mainwindow.cpp ../shared/xmlsyntaxhighlighter.cpp
 HEADERS     += qobjectxmlmodel.h  mainwindow.h ../shared/xmlsyntaxhighlighter.h

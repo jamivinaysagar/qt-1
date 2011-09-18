@@ -24,7 +24,7 @@ SOURCES += main.cpp \
            trackerclient.cpp
 
 # Forms and resources
-FORMS += forms/addtorrentform.ui
+FORMS += ../../../tests/auto/uic/baseline/addtorrentform.ui
 RESOURCES += icons.qrc
 
 QT += network

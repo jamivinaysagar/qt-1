@@ -1,6 +1,6 @@
 TARGET      = $$qtLibraryTarget(qaxwidget)
 TEMPLATE    = lib
-QTDIR_build:DESTDIR 	= $$QT_BUILD_TREE/plugins/designer
+QTDIR_build:DESTDIR 	= ../../../../../plugins/designer
 
 CONFIG     += qt warn_on qaxcontainer plugin designer debug_and_release
 build_all:!build_pass {
@@ -8,8 +8,8 @@ build_all:!build_pass {
     CONFIG += release
 }
 
-INCLUDEPATH += $$QT_SOURCE_TREE/src/activeqt/shared/ \
-               $$QT_BUILD_TREE/src/activeqt/container \
+INCLUDEPATH += ../../../../../src/activeqt/shared/ \
+               ../../../../../src/activeqt/container \
                ../../lib/uilib
 
 # Input
@@ -18,14 +18,14 @@ qaxwidgetplugin.cpp \
 qdesigneraxwidget.cpp \
 qaxwidgetpropertysheet.cpp \
 qaxwidgettaskmenu.cpp \
-    $$QT_SOURCE_TREE/src/activeqt/shared/qaxtypes.cpp
+    ../../../../../src/activeqt/shared/qaxtypes.cpp
 
 HEADERS += qaxwidgetextrainfo.h \
 qaxwidgetplugin.h \
 qdesigneraxwidget.h \
 qaxwidgetpropertysheet.h \
 qaxwidgettaskmenu.h \
-    $$QT_SOURCE_TREE/src/activeqt/shared/qaxtypes.h
+    ../../../../../src/activeqt/shared/qaxtypes.h
 
 # install
 target.path = $$[QT_INSTALL_PLUGINS]/designer

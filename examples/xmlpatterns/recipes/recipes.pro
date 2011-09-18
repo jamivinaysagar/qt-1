@@ -1,5 +1,5 @@
 QT          += xmlpatterns
-FORMS       += forms/querywidget.ui
+FORMS       += ../../../tests/auto/uic/baseline/querywidget.ui
 HEADERS     = querymainwindow.h ../shared/xmlsyntaxhighlighter.h
 RESOURCES   = recipes.qrc
 SOURCES     = main.cpp querymainwindow.cpp ../shared/xmlsyntaxhighlighter.cpp
