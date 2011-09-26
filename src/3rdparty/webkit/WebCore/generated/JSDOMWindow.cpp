@@ -1333,7 +1333,13 @@ JSValue jsDOMWindowApplicationCache(ExecState* exec, JSValue slotBase, const Ide
         return jsUndefined();
     UNUSED_PARAM(exec);
     DOMWindow* imp = static_cast<DOMWindow*>(castedThis->impl());
+
+#if ENABLE(OFFLINE_WEB_APPLICATIONS)
     JSValue result = toJS(exec, castedThis->globalObject(), WTF::getPtr(imp->applicationCache()));
+#else
+    JSValue result = JSValue();  // TODO: Change this to something that would actually work.
+#endif
+
     return result;
 }
 
@@ -1344,7 +1350,12 @@ JSValue jsDOMWindowSessionStorage(ExecState* exec, JSValue slotBase, const Ident
         return jsUndefined();
     UNUSED_PARAM(exec);
     DOMWindow* imp = static_cast<DOMWindow*>(castedThis->impl());
+
+#if ENABLE(DOM_STORAGE)
     JSValue result = toJS(exec, castedThis->globalObject(), WTF::getPtr(imp->sessionStorage()));
+#else
+    JSValue result = JSValue();  // TODO: Change this to something that would actually work.
+#endif
     return result;
 }
 
@@ -1355,7 +1366,13 @@ JSValue jsDOMWindowLocalStorage(ExecState* exec, JSValue slotBase, const Identif
         return jsUndefined();
     ExceptionCode ec = 0;
     DOMWindow* imp = static_cast<DOMWindow*>(castedThis->impl());
+
+#if ENABLE(DOM_STORAGE)
     JSC::JSValue result = toJS(exec, castedThis->globalObject(), WTF::getPtr(imp->localStorage(ec)));
+#else
+    JSValue result = JSValue();  // TODO: Change this to something that would actually work.
+#endif
+
     setDOMException(exec, ec);
     return result;
 }
@@ -3842,7 +3859,13 @@ JSValue jsDOMWindowStorageConstructor(ExecState* exec, JSValue slotBase, const I
     JSDOMWindow* castedThis = static_cast<JSDOMWindow*>(asObject(slotBase));
     if (!castedThis->allowsAccessFrom(exec))
         return jsUndefined();
+
+#if ENABLE(DOM_STORAGE)
     return JSStorage::getConstructor(exec, castedThis);
+#else
+    return JSValue();   // TODO: Change this to something that would actually work.
+#endif
+
 }
 
 JSValue jsDOMWindowStorageEventConstructor(ExecState* exec, JSValue slotBase, const Identifier&)
@@ -3850,7 +3873,13 @@ JSValue jsDOMWindowStorageEventConstructor(ExecState* exec, JSValue slotBase, co
     JSDOMWindow* castedThis = static_cast<JSDOMWindow*>(asObject(slotBase));
     if (!castedThis->allowsAccessFrom(exec))
         return jsUndefined();
+
+ #if ENABLE(DOM_STORAGE)
     return JSStorageEvent::getConstructor(exec, castedThis);
+#else
+    return JSValue(); // TODO: Change this to something that would actually work.
+#endif
+
 }
 
 #if ENABLE(VIDEO)

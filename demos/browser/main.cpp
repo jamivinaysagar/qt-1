@@ -42,6 +42,12 @@
 #include "browserapplication.h"
 
 #ifdef __cplusplus
+
+#ifdef _WIN32
+#define visibility(dummy)
+#define __attribute__(dummy)
+#endif
+
 extern "C" {
 #endif
   __attribute__ ((visibility("default"))) void SetOverrideScreen(bool override)

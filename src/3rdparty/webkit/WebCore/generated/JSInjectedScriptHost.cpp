@@ -307,7 +307,10 @@ JSValue JSC_HOST_CALL jsInjectedScriptHostPrototypeFunctionDidCreateWorker(ExecS
     const UString& url = args.at(1).toString(exec);
     bool isFakeWorker = args.at(2).toBoolean(exec);
 
+#if ENABLE(WORKERS)
     imp->didCreateWorker(id, url, isFakeWorker);
+#endif
+
     return jsUndefined();
 }
 
@@ -320,7 +323,10 @@ JSValue JSC_HOST_CALL jsInjectedScriptHostPrototypeFunctionDidDestroyWorker(Exec
     InjectedScriptHost* imp = static_cast<InjectedScriptHost*>(castedThisObj->impl());
     int id = args.at(0).toInt32(exec);
 
+#if ENABLE(WORKERS)
     imp->didDestroyWorker(id);
+#endif
+
     return jsUndefined();
 }
 
@@ -332,8 +338,12 @@ JSValue JSC_HOST_CALL jsInjectedScriptHostPrototypeFunctionNextWorkerId(ExecStat
     JSInjectedScriptHost* castedThisObj = static_cast<JSInjectedScriptHost*>(asObject(thisValue));
     InjectedScriptHost* imp = static_cast<InjectedScriptHost*>(castedThisObj->impl());
 
-
+#if ENABLE(WORKERS)
     JSC::JSValue result = jsNumber(exec, imp->nextWorkerId());
+#else
+    JSC::JSValue result = jsNumber(exec, 0);  // TODO: Change this to something that would actually work.
+#endif
+
     return result;
 }
 

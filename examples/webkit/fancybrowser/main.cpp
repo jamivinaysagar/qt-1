@@ -41,6 +41,11 @@
 #include <QtGui>
 #include "mainwindow.h"
 
+#ifdef _WIN32
+#define visibility(dummy)
+#define __attribute__(dummy)
+#endif
+
 extern "C"
 {
   __attribute__ ((visibility("default"))) bool GetBrowserSize(int* width, int* height)

@@ -976,7 +976,9 @@ JSValue JSC_HOST_CALL jsInspectorBackendPrototypeFunctionGetDatabaseTableNames(E
     int callId = args.at(0).toInt32(exec);
     int databaseId = args.at(1).toInt32(exec);
 
+#if ENABLE(DATABASE)
     imp->getDatabaseTableNames(callId, databaseId);
+#endif
     return jsUndefined();
 }
 
@@ -990,7 +992,10 @@ JSValue JSC_HOST_CALL jsInspectorBackendPrototypeFunctionGetDOMStorageEntries(Ex
     int callId = args.at(0).toInt32(exec);
     int storageId = args.at(1).toInt32(exec);
 
+#if ENABLE(DOM_STORAGE)
     imp->getDOMStorageEntries(callId, storageId);
+#endif
+
     return jsUndefined();
 }
 
@@ -1006,7 +1011,10 @@ JSValue JSC_HOST_CALL jsInspectorBackendPrototypeFunctionSetDOMStorageItem(ExecS
     const UString& key = args.at(2).toString(exec);
     const UString& value = args.at(3).toString(exec);
 
+#if ENABLE(DOM_STORAGE)
     imp->setDOMStorageItem(callId, storageId, key, value);
+#endif
+
     return jsUndefined();
 }
 
@@ -1021,7 +1029,10 @@ JSValue JSC_HOST_CALL jsInspectorBackendPrototypeFunctionRemoveDOMStorageItem(Ex
     int storageId = args.at(1).toInt32(exec);
     const UString& key = args.at(2).toString(exec);
 
+#if ENABLE(DOM_STORAGE)
     imp->removeDOMStorageItem(callId, storageId, key);
+#endif
+
     return jsUndefined();
 }
 

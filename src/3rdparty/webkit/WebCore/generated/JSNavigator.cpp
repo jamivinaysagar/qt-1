@@ -275,7 +275,10 @@ JSValue JSC_HOST_CALL jsNavigatorPrototypeFunctionGetStorageUpdates(ExecState* e
     JSNavigator* castedThisObj = static_cast<JSNavigator*>(asObject(thisValue));
     Navigator* imp = static_cast<Navigator*>(castedThisObj->impl());
 
+#if ENABLE(DOM_STORAGE)
     imp->getStorageUpdates();
+#endif
+
     return jsUndefined();
 }
 
