@@ -330,7 +330,7 @@ MediaPlayerPrivate::~MediaPlayerPrivate()
 {
 //  printState(__FUNCTION__, __LINE__);
     QVariantMap parameters;
-    RunCommand(QString::fromAscii("MEDIAPLAYER.Close"), parameters, false);
+    //RunCommand(QString::fromAscii("MEDIAPLAYER.Close"), parameters, false);
 }
 
 bool MediaPlayerPrivate::hasVideo() const
