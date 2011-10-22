@@ -1,7 +1,8 @@
 #!/bin/sh
 
 ./configure \
-  -arch "x86" \
+  -arch "x86_64" \
+  -sdk "/Developer/SDKs/MacOSX10.6.sdk/" \
   -opensource \
   -confirm-license \
   -release \
@@ -29,4 +30,3 @@
   -xmlpatterns \
   -exceptions \
 && make -j8 -k
-
