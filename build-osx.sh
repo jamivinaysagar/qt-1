@@ -2,7 +2,7 @@
 
 ./configure \
   -arch "x86_64" \
-  -sdk "/Developer/SDKs/MacOSX10.6.sdk/" \
+  -sdk "/Developer/SDKs/MacOSX10.6.sdk" \
   -opensource \
   -confirm-license \
   -release \
