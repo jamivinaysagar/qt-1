@@ -382,7 +382,11 @@ void MediaPlayerPrivate::load(const String& url)
     }
 
     QVariantMap parameters;
+#ifdef __x86_64__
+    parameters.insert(QString::fromAscii("playerID"), QVariant((long long)m_player)); //send updated player ID to PluginManager
+#else
     parameters.insert(QString::fromAscii("playerID"), QVariant((int)m_player)); //send updated player ID to PluginManager
+#endif
     parameters.insert(QString::fromAscii("url"), QVariant(url));
     if (m_element && !m_element->isVideo())
     {
@@ -458,7 +462,12 @@ void MediaPlayerPrivate::restartPlayback()
     m_isPlaybackEnded = false;
 
     QVariantMap parameters;
+
+#ifdef __x86_64__
+    parameters.insert(QString::fromAscii("playerID"), QVariant((long long)m_player)); //send updated player ID to PluginManager
+#else
     parameters.insert(QString::fromAscii("playerID"), QVariant((int)m_player)); //send updated player ID to PluginManager
+#endif
     parameters.insert(QString::fromAscii("url"), QVariant(m_url));
     parameters.insert(QString::fromAscii("isVideo"), QVariant(m_isVideo));
     RunCommand(QString::fromAscii("MEDIAPLAYER.Load"), parameters, true);
