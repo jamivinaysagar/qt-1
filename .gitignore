@@ -130,8 +130,12 @@ qrc_*.cpp
 *.ilk
 *.pdb
 *.sln
+!src/3rdparty/webkit/*.sln
 *.suo
 *.vcproj
+!src/3rdparty/webkit/WebKit/qt/declarative/*.vcproj
+!src/3rdparty/webkit/WebCore/*.vcproj
+!src/3rdparty/webkit/JavaScriptCore/*.vcproj
 *vcproj.*.*.user
 *.ncb
 *.vcxproj

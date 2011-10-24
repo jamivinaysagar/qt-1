@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jscore", "JavaScriptCore\jscore.vcproj", "{A95508E0-8854-3975-A9D8-537016008A51}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtWebKit", "WebCore\QtWebKit.vcproj", "{C2C37496-D41D-36CC-B43C-F9794FCC468B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A95508E0-8854-3975-A9D8-537016008A51} = {A95508E0-8854-3975-A9D8-537016008A51}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qmlwebkitplugin", "WebKit\qt\declarative\qmlwebkitplugin.vcproj", "{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C2C37496-D41D-36CC-B43C-F9794FCC468B} = {C2C37496-D41D-36CC-B43C-F9794FCC468B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A95508E0-8854-3975-A9D8-537016008A51}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A95508E0-8854-3975-A9D8-537016008A51}.Debug|Win32.Build.0 = Debug|Win32
+		{A95508E0-8854-3975-A9D8-537016008A51}.Release|Win32.ActiveCfg = Release|Win32
+		{A95508E0-8854-3975-A9D8-537016008A51}.Release|Win32.Build.0 = Release|Win32
+		{C2C37496-D41D-36CC-B43C-F9794FCC468B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C2C37496-D41D-36CC-B43C-F9794FCC468B}.Debug|Win32.Build.0 = Debug|Win32
+		{C2C37496-D41D-36CC-B43C-F9794FCC468B}.Release|Win32.ActiveCfg = Release|Win32
+		{C2C37496-D41D-36CC-B43C-F9794FCC468B}.Release|Win32.Build.0 = Release|Win32
+		{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}.Debug|Win32.ActiveCfg = Debug|Win32
+		{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}.Debug|Win32.Build.0 = Debug|Win32
+		{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}.Release|Win32.ActiveCfg = Release|Win32
+		{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
