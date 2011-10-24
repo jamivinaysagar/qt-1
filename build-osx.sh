@@ -1,7 +1,9 @@
 #!/bin/sh
 
 ./configure \
-  -arch "x86" \
+  -arch "x86_64" \
+  -sdk "/Developer/SDKs/MacOSX10.6.sdk" \
+  -prefix /opt/local/qt \
   -opensource \
   -confirm-license \
   -release \
@@ -23,10 +25,10 @@
   -no-nis \
   -no-3dnow \
   -nomake "examples demos" \
+  -no-framework \
   -no-dbus \
   -no-phonon \
   -no-phonon-backend \
   -xmlpatterns \
   -exceptions \
 && make -j8 -k
-
