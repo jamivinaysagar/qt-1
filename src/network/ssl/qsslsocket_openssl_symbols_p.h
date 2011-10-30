@@ -322,11 +322,9 @@ void q_SSL_set_accept_state(SSL *a);
 void q_SSL_set_connect_state(SSL *a);
 int q_SSL_shutdown(SSL *a);
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
-const SSL_METHOD *q_SSLv2_client_method();
 const SSL_METHOD *q_SSLv3_client_method();
 const SSL_METHOD *q_SSLv23_client_method();
 const SSL_METHOD *q_TLSv1_client_method();
-const SSL_METHOD *q_SSLv2_server_method();
 const SSL_METHOD *q_SSLv3_server_method();
 const SSL_METHOD *q_SSLv23_server_method();
 const SSL_METHOD *q_TLSv1_server_method();

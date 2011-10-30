@@ -214,11 +214,9 @@ DEFINEFUNC(void, SSL_set_accept_state, SSL *a, a, return, DUMMYARG)
 DEFINEFUNC(void, SSL_set_connect_state, SSL *a, a, return, DUMMYARG)
 DEFINEFUNC(int, SSL_shutdown, SSL *a, a, return -1, return)
 #if OPENSSL_VERSION_NUMBER >= 0x10000000L
-DEFINEFUNC(const SSL_METHOD *, SSLv2_client_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, SSLv3_client_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, SSLv23_client_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, TLSv1_client_method, DUMMYARG, DUMMYARG, return 0, return)
-DEFINEFUNC(const SSL_METHOD *, SSLv2_server_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, SSLv3_server_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, SSLv23_server_method, DUMMYARG, DUMMYARG, return 0, return)
 DEFINEFUNC(const SSL_METHOD *, TLSv1_server_method, DUMMYARG, DUMMYARG, return 0, return)
@@ -591,11 +589,15 @@ bool q_resolveOpenSslSymbols()
     RESOLVEFUNC(SSL_set_connect_state, 152, libs.first )
     RESOLVEFUNC(SSL_shutdown, 173, libs.first )
     RESOLVEFUNC(SSL_write, 188, libs.first )
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
     RESOLVEFUNC(SSLv2_client_method, 192, libs.first )
+#endif
     RESOLVEFUNC(SSLv3_client_method, 195, libs.first )
     RESOLVEFUNC(SSLv23_client_method, 189, libs.first )
     RESOLVEFUNC(TLSv1_client_method, 198, libs.first )
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
     RESOLVEFUNC(SSLv2_server_method, 194, libs.first )
+#endif
     RESOLVEFUNC(SSLv3_server_method, 197, libs.first )
     RESOLVEFUNC(SSLv23_server_method, 191, libs.first )
     RESOLVEFUNC(TLSv1_server_method, 200, libs.first )
@@ -715,11 +717,15 @@ bool q_resolveOpenSslSymbols()
     RESOLVEFUNC(SSL_set_connect_state)
     RESOLVEFUNC(SSL_shutdown)
     RESOLVEFUNC(SSL_write)
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
     RESOLVEFUNC(SSLv2_client_method)
+#endif
     RESOLVEFUNC(SSLv3_client_method)
     RESOLVEFUNC(SSLv23_client_method)
     RESOLVEFUNC(TLSv1_client_method)
+#if OPENSSL_VERSION_NUMBER < 0x10000000L
     RESOLVEFUNC(SSLv2_server_method)
+#endif
     RESOLVEFUNC(SSLv3_server_method)
     RESOLVEFUNC(SSLv23_server_method)
     RESOLVEFUNC(TLSv1_server_method)
