@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ./configure \
-  -arch "x86_64" \
+  -arch "x86" \
   -sdk "/Developer/SDKs/MacOSX10.6.sdk" \
   -prefix /opt/local/qt \
   -opensource \
