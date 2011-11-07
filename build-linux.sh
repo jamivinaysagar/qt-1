@@ -1,7 +1,6 @@
 #!/bin/sh
 
 ./configure \
-  -arch "x86" \
   -opensource \
   -confirm-license \
   -release \
@@ -27,5 +26,5 @@
   -no-phonon \
   -no-phonon-backend \
   -xmlpatterns \
-  -exceptions \
+  -exceptions
 && make -j8 -k
