@@ -118,7 +118,7 @@ namespace WebCore {
         virtual void dispatchDidFirstLayout();
         virtual void dispatchDidFirstVisuallyNonEmptyLayout();
 
-        virtual WebCore::Frame* dispatchCreatePage();
+        virtual Frame* dispatchCreatePage(const KURL&);
         virtual void dispatchShow();
 
         virtual void dispatchDecidePolicyForMIMEType(FramePolicyFunction function, const WebCore::String&, const WebCore::ResourceRequest&);

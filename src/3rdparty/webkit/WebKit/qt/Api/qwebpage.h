@@ -338,7 +338,7 @@ Q_SIGNALS:
     void restoreFrameStateRequested(QWebFrame* frame);
 
 protected:
-    virtual QWebPage *createWindow(WebWindowType type);
+    virtual QWebPage *createWindow(WebWindowType type, QUrl &url);
     virtual QObject *createPlugin(const QString &classid, const QUrl &url, const QStringList &paramNames, const QStringList &paramValues);
 
     virtual bool acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, NavigationType type);

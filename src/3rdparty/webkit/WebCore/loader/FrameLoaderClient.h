@@ -132,7 +132,7 @@ namespace WebCore {
         virtual void dispatchDidFirstLayout() = 0;
         virtual void dispatchDidFirstVisuallyNonEmptyLayout() = 0;
 
-        virtual Frame* dispatchCreatePage() = 0;
+        virtual Frame* dispatchCreatePage(const KURL&) = 0;
         virtual void dispatchShow() = 0;
 
         virtual void dispatchDecidePolicyForMIMEType(FramePolicyFunction, const String& MIMEType, const ResourceRequest&) = 0;

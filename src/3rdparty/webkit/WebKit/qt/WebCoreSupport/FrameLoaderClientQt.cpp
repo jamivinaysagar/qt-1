@@ -971,11 +971,14 @@ void FrameLoaderClientQt::dispatchDidFailLoad(const WebCore::ResourceError& erro
         callErrorPageExtension(error);
 }
 
-WebCore::Frame* FrameLoaderClientQt::dispatchCreatePage()
+WebCore::Frame* FrameLoaderClientQt::dispatchCreatePage(const KURL& url)
 {
+    QString urlStr(url.string());
+    QUrl qurl = urlStr;
+
     if (!m_webFrame)
         return 0;
-    QWebPage *newPage = m_webFrame->page()->createWindow(QWebPage::WebBrowserWindow);
+    QWebPage *newPage = m_webFrame->page()->createWindow(QWebPage::WebBrowserWindow, qurl);
     if (!newPage)
         return 0;
     return newPage->mainFrame()->d->frame;

@@ -164,7 +164,8 @@ void ChromeClientQt::focusedNodeChanged(WebCore::Node*)
 
 Page* ChromeClientQt::createWindow(Frame*, const FrameLoadRequest& request, const WindowFeatures& features)
 {
-    QWebPage *newPage = m_webPage->createWindow(features.dialog ? QWebPage::WebModalDialog : QWebPage::WebBrowserWindow);
+    QUrl qurl;
+    QWebPage *newPage = m_webPage->createWindow(features.dialog ? QWebPage::WebModalDialog : QWebPage::WebBrowserWindow, qurl);
     if (!newPage)
         return 0;
 

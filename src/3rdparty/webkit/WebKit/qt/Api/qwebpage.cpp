@@ -2165,7 +2165,7 @@ bool QWebPage::shouldInterruptJavaScript()
 
     \sa acceptNavigationRequest()
 */
-QWebPage *QWebPage::createWindow(WebWindowType type)
+QWebPage *QWebPage::createWindow(WebWindowType type, QUrl &url)
 {
     QWebView *webView = qobject_cast<QWebView*>(view());
     if (webView) {
