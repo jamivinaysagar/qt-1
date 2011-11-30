@@ -45,7 +45,7 @@ void QtAbstractWebPopup::popupDidHide()
 void QtAbstractWebPopup::valueChanged(int index)
 {
     Q_ASSERT(m_popupClient);
-    m_popupClient->valueChanged(index);
+    m_popupClient->valueChanged(index, false);
 }
 
 void QtAbstractWebPopup::selectItem(int index, bool allowMultiplySelections, bool shift)
