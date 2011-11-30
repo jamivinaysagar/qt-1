@@ -96,10 +96,12 @@ void BoxeeWebPopup::callBoxee()
   request.insert("command", QVariant("DROPDOWN.Choose"));
   request.insert("parameters", params1);
   QByteArray serialized = m_serializer.serialize(request);
-
+  QString s(serialized);
+  QByteArray  encoded = QUrl::toPercentEncoding(s);
+  s = encoded;
   QString js;
   js = "boxee.exec2('boxee.handleBrowserCommandResponse(\\'";
-  js += QString(serialized);
+  js += s;
   js += "\\');')";
 
   //fprintf(stderr, "callBoxee: %s\n", js.toLocal8Bit().constData());
