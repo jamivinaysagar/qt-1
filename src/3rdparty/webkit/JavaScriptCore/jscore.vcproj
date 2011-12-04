@@ -1,910 +1,498 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="jscore"
-	ProjectGUID="{A95508E0-8854-3975-A9D8-537016008A51}"
-	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
-	>
+	ProjectGUID="{F9A94421-DE18-33FD-8044-33AE86E9FE01}"
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="obj\debug\"
-			ConfigurationType="4"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="4"
+			IntermediateDirectory="tmp\obj\debug_shared\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200"
-				Optimization="4"
-				AdditionalIncludeDirectories="&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot;,&quot;debug&quot;,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="3"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\debug_shared&quot;,..\..\..\..\mkspecs\win32-msvc2008"
+				AdditionalOptions="-Zm200 -MP"
+				AssemblerListingLocation="tmp\obj\debug_shared\"
 				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				OpenMP="false"
-				AssemblerListingLocation="obj\debug\"
-				ObjectFile="obj\debug\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="0"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="tmp\obj\debug_shared\"
+				Optimization ="4"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
-				ResourceOutputFileName="debug\/$(InputName).res"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="debug\jscore.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+				ResourceOutputFileName="debug\/$(InputName).res" />
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="obj\release\"
-			ConfigurationType="4"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="4"
+			IntermediateDirectory="tmp\obj\release_shared\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200"
-				Optimization="2"
-				AdditionalIncludeDirectories="&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot;,&quot;release&quot;,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_NO_DEBUG,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\release_shared&quot;,..\..\..\..\mkspecs\win32-msvc2008"
+				AdditionalOptions="-Zm200 -MP"
+				AssemblerListingLocation="tmp\obj\release_shared\"
 				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				AssemblerListingLocation="obj\release\"
-				ObjectFile="obj\release\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="0"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
 				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="tmp\obj\release_shared\"
+				Optimization ="2"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_NO_DEBUG,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_NO_DEBUG,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
-				ResourceOutputFileName="release\/$(InputName).res"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="release\jscore.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_NO_DEBUG,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
+				ResourceOutputFileName="release\/$(InputName).res" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
-			<File
-				RelativePath="runtime\ArgList.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Arguments.cpp"
-				>
-			</File>
-			<File
-				RelativePath="assembler\ARMAssembler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ArrayConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ArrayPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\Assertions.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\symbian\BlockAllocatorSymbian.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\BooleanConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\BooleanObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\BooleanPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\ByteArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecompiler\BytecodeGenerator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\CallData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="interpreter\CallFrame.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecode\CodeBlock.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\unicode\CollatorDefault.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\unicode\icu\CollatorICU.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Collector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\CommonIdentifiers.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Completion.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ConstructData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\CurrentTime.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\DateConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\DateConversion.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\DateInstance.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\DateMath.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\DatePrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="debugger\Debugger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="debugger\DebuggerActivation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="debugger\DebuggerCallFrame.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\dtoa.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Error.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ErrorConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ErrorInstance.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ErrorPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ExceptionHelpers.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Executable.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\ExecutableAllocator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\ExecutableAllocatorFixedVMPool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\ExecutableAllocatorPosix.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\ExecutableAllocatorSymbian.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\ExecutableAllocatorWin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\FastMalloc.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\FunctionConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\FunctionPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\GetterSetter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\GlobalEvalFunction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="generated\Grammar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\HashTable.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Identifier.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\InitializeThreading.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\InternalFunction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="interpreter\Interpreter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JIT.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITArithmetic.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITCall.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITOpcodes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITPropertyAccess.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITPropertyAccess32_64.cpp"
-				>
-			</File>
-			<File
-				RelativePath="jit\JITStubs.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSActivation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSAPIValueWrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSByteArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSCallbackConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSCallbackFunction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSCallbackObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSCell.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSClassRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSContextRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSFunction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSGlobalData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSGlobalObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSGlobalObjectFunctions.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSImmediate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSLock.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSNotAnObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSNumberCell.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSObjectRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSONObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSPropertyNameIterator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSStaticScopeObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSStringRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSValue.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\JSValueRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSVariableObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\JSWrapperObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecode\JumpTable.cpp"
-				>
-			</File>
-			<File
-				RelativePath="parser\Lexer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\LiteralParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Lookup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="assembler\MacroAssemblerARM.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\MainThread.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\qt\MainThreadQt.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\MarkStack.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\MarkStackPosix.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\MarkStackSymbian.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\MarkStackWin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\MathObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\NativeErrorConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\NativeErrorPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="parser\Nodes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecompiler\NodesCodegen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\NumberConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\NumberObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\NumberPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ObjectConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ObjectPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="API\OpaqueJSString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecode\Opcode.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Operations.cpp"
-				>
-			</File>
-			<File
-				RelativePath="parser\Parser.cpp"
-				>
-			</File>
-			<File
-				RelativePath="parser\ParserArena.cpp"
-				>
-			</File>
-			<File
-				RelativePath="pcre\pcre_compile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="pcre\pcre_exec.cpp"
-				>
-			</File>
-			<File
-				RelativePath="pcre\pcre_tables.cpp"
-				>
-			</File>
-			<File
-				RelativePath="pcre\pcre_ucp_searchfuncs.cpp"
-				>
-			</File>
-			<File
-				RelativePath="pcre\pcre_xclass.cpp"
-				>
-			</File>
-			<File
-				RelativePath="profiler\Profile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="profiler\ProfileGenerator.cpp"
-				>
-			</File>
-			<File
-				RelativePath="profiler\ProfileNode.cpp"
-				>
-			</File>
-			<File
-				RelativePath="profiler\Profiler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\PropertyDescriptor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\PropertyNameArray.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\PropertySlot.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\PrototypeFunction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\RandomNumber.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\RefCountedLeakCounter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="yarr\RegexCompiler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="yarr\RegexInterpreter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="yarr\RegexJIT.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\RegExp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\RegExpConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\RegExpObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\RegExpPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="interpreter\RegisterFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\symbian\RegisterFileAllocatorSymbian.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecode\SamplingTool.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\ScopeChain.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\SmallStrings.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\StringConstructor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\StringObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\StringPrototype.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\Structure.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\StructureChain.cpp"
-				>
-			</File>
-			<File
-				RelativePath="bytecode\StructureStubInfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\Threading.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\ThreadingNone.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\qt\ThreadingQt.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\TimeoutChecker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\TypeTraits.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\UString.cpp"
-				>
-			</File>
-			<File
-				RelativePath="runtime\UStringImpl.cpp"
-				>
-			</File>
-			<File
-				RelativePath="wtf\unicode\UTF8.cpp"
-				>
-			</File>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File
+				RelativePath="assembler\ARMAssembler.cpp" />
+			<File
+				RelativePath="runtime\ArgList.cpp" />
+			<File
+				RelativePath="runtime\Arguments.cpp" />
+			<File
+				RelativePath="runtime\ArrayConstructor.cpp" />
+			<File
+				RelativePath="runtime\ArrayPrototype.cpp" />
+			<File
+				RelativePath="wtf\Assertions.cpp" />
+			<File
+				RelativePath="wtf\symbian\BlockAllocatorSymbian.cpp" />
+			<File
+				RelativePath="runtime\BooleanConstructor.cpp" />
+			<File
+				RelativePath="runtime\BooleanObject.cpp" />
+			<File
+				RelativePath="runtime\BooleanPrototype.cpp" />
+			<File
+				RelativePath="wtf\ByteArray.cpp" />
+			<File
+				RelativePath="bytecompiler\BytecodeGenerator.cpp" />
+			<File
+				RelativePath="runtime\CallData.cpp" />
+			<File
+				RelativePath="interpreter\CallFrame.cpp" />
+			<File
+				RelativePath="bytecode\CodeBlock.cpp" />
+			<File
+				RelativePath="wtf\unicode\CollatorDefault.cpp" />
+			<File
+				RelativePath="wtf\unicode\icu\CollatorICU.cpp" />
+			<File
+				RelativePath="runtime\Collector.cpp" />
+			<File
+				RelativePath="runtime\CommonIdentifiers.cpp" />
+			<File
+				RelativePath="runtime\Completion.cpp" />
+			<File
+				RelativePath="runtime\ConstructData.cpp" />
+			<File
+				RelativePath="wtf\CurrentTime.cpp" />
+			<File
+				RelativePath="runtime\DateConstructor.cpp" />
+			<File
+				RelativePath="runtime\DateConversion.cpp" />
+			<File
+				RelativePath="runtime\DateInstance.cpp" />
+			<File
+				RelativePath="wtf\DateMath.cpp" />
+			<File
+				RelativePath="runtime\DatePrototype.cpp" />
+			<File
+				RelativePath="debugger\Debugger.cpp" />
+			<File
+				RelativePath="debugger\DebuggerActivation.cpp" />
+			<File
+				RelativePath="debugger\DebuggerCallFrame.cpp" />
+			<File
+				RelativePath="runtime\Error.cpp" />
+			<File
+				RelativePath="runtime\ErrorConstructor.cpp" />
+			<File
+				RelativePath="runtime\ErrorInstance.cpp" />
+			<File
+				RelativePath="runtime\ErrorPrototype.cpp" />
+			<File
+				RelativePath="runtime\ExceptionHelpers.cpp" />
+			<File
+				RelativePath="runtime\Executable.cpp" />
+			<File
+				RelativePath="jit\ExecutableAllocator.cpp" />
+			<File
+				RelativePath="jit\ExecutableAllocatorFixedVMPool.cpp" />
+			<File
+				RelativePath="jit\ExecutableAllocatorPosix.cpp" />
+			<File
+				RelativePath="jit\ExecutableAllocatorSymbian.cpp" />
+			<File
+				RelativePath="jit\ExecutableAllocatorWin.cpp" />
+			<File
+				RelativePath="wtf\FastMalloc.cpp" />
+			<File
+				RelativePath="runtime\FunctionConstructor.cpp" />
+			<File
+				RelativePath="runtime\FunctionPrototype.cpp" />
+			<File
+				RelativePath="runtime\GetterSetter.cpp" />
+			<File
+				RelativePath="runtime\GlobalEvalFunction.cpp" />
+			<File
+				RelativePath="generated\Grammar.cpp" />
+			<File
+				RelativePath="wtf\HashTable.cpp" />
+			<File
+				RelativePath="runtime\Identifier.cpp" />
+			<File
+				RelativePath="runtime\InitializeThreading.cpp" />
+			<File
+				RelativePath="runtime\InternalFunction.cpp" />
+			<File
+				RelativePath="interpreter\Interpreter.cpp" />
+			<File
+				RelativePath="jit\JIT.cpp" />
+			<File
+				RelativePath="jit\JITArithmetic.cpp" />
+			<File
+				RelativePath="jit\JITCall.cpp" />
+			<File
+				RelativePath="jit\JITOpcodes.cpp" />
+			<File
+				RelativePath="jit\JITPropertyAccess.cpp" />
+			<File
+				RelativePath="jit\JITPropertyAccess32_64.cpp" />
+			<File
+				RelativePath="jit\JITStubs.cpp" />
+			<File
+				RelativePath="runtime\JSAPIValueWrapper.cpp" />
+			<File
+				RelativePath="runtime\JSActivation.cpp" />
+			<File
+				RelativePath="runtime\JSArray.cpp" />
+			<File
+				RelativePath="API\JSBase.cpp" />
+			<File
+				RelativePath="runtime\JSByteArray.cpp" />
+			<File
+				RelativePath="API\JSCallbackConstructor.cpp" />
+			<File
+				RelativePath="API\JSCallbackFunction.cpp" />
+			<File
+				RelativePath="API\JSCallbackObject.cpp" />
+			<File
+				RelativePath="runtime\JSCell.cpp" />
+			<File
+				RelativePath="API\JSClassRef.cpp" />
+			<File
+				RelativePath="API\JSContextRef.cpp" />
+			<File
+				RelativePath="runtime\JSFunction.cpp" />
+			<File
+				RelativePath="runtime\JSGlobalData.cpp" />
+			<File
+				RelativePath="runtime\JSGlobalObject.cpp" />
+			<File
+				RelativePath="runtime\JSGlobalObjectFunctions.cpp" />
+			<File
+				RelativePath="runtime\JSImmediate.cpp" />
+			<File
+				RelativePath="runtime\JSLock.cpp" />
+			<File
+				RelativePath="runtime\JSNotAnObject.cpp" />
+			<File
+				RelativePath="runtime\JSNumberCell.cpp" />
+			<File
+				RelativePath="runtime\JSONObject.cpp" />
+			<File
+				RelativePath="runtime\JSObject.cpp" />
+			<File
+				RelativePath="API\JSObjectRef.cpp" />
+			<File
+				RelativePath="runtime\JSPropertyNameIterator.cpp" />
+			<File
+				RelativePath="runtime\JSStaticScopeObject.cpp" />
+			<File
+				RelativePath="runtime\JSString.cpp" />
+			<File
+				RelativePath="API\JSStringRef.cpp" />
+			<File
+				RelativePath="runtime\JSValue.cpp" />
+			<File
+				RelativePath="API\JSValueRef.cpp" />
+			<File
+				RelativePath="runtime\JSVariableObject.cpp" />
+			<File
+				RelativePath="runtime\JSWrapperObject.cpp" />
+			<File
+				RelativePath="bytecode\JumpTable.cpp" />
+			<File
+				RelativePath="parser\Lexer.cpp" />
+			<File
+				RelativePath="runtime\LiteralParser.cpp" />
+			<File
+				RelativePath="runtime\Lookup.cpp" />
+			<File
+				RelativePath="assembler\MacroAssemblerARM.cpp" />
+			<File
+				RelativePath="wtf\MainThread.cpp" />
+			<File
+				RelativePath="wtf\qt\MainThreadQt.cpp" />
+			<File
+				RelativePath="runtime\MarkStack.cpp" />
+			<File
+				RelativePath="runtime\MarkStackPosix.cpp" />
+			<File
+				RelativePath="runtime\MarkStackSymbian.cpp" />
+			<File
+				RelativePath="runtime\MarkStackWin.cpp" />
+			<File
+				RelativePath="runtime\MathObject.cpp" />
+			<File
+				RelativePath="runtime\NativeErrorConstructor.cpp" />
+			<File
+				RelativePath="runtime\NativeErrorPrototype.cpp" />
+			<File
+				RelativePath="parser\Nodes.cpp" />
+			<File
+				RelativePath="bytecompiler\NodesCodegen.cpp" />
+			<File
+				RelativePath="runtime\NumberConstructor.cpp" />
+			<File
+				RelativePath="runtime\NumberObject.cpp" />
+			<File
+				RelativePath="runtime\NumberPrototype.cpp" />
+			<File
+				RelativePath="runtime\ObjectConstructor.cpp" />
+			<File
+				RelativePath="runtime\ObjectPrototype.cpp" />
+			<File
+				RelativePath="API\OpaqueJSString.cpp" />
+			<File
+				RelativePath="bytecode\Opcode.cpp" />
+			<File
+				RelativePath="runtime\Operations.cpp" />
+			<File
+				RelativePath="parser\Parser.cpp" />
+			<File
+				RelativePath="parser\ParserArena.cpp" />
+			<File
+				RelativePath="profiler\Profile.cpp" />
+			<File
+				RelativePath="profiler\ProfileGenerator.cpp" />
+			<File
+				RelativePath="profiler\ProfileNode.cpp" />
+			<File
+				RelativePath="profiler\Profiler.cpp" />
+			<File
+				RelativePath="runtime\PropertyDescriptor.cpp" />
+			<File
+				RelativePath="runtime\PropertyNameArray.cpp" />
+			<File
+				RelativePath="runtime\PropertySlot.cpp" />
+			<File
+				RelativePath="runtime\PrototypeFunction.cpp" />
+			<File
+				RelativePath="wtf\RandomNumber.cpp" />
+			<File
+				RelativePath="wtf\RefCountedLeakCounter.cpp" />
+			<File
+				RelativePath="runtime\RegExp.cpp" />
+			<File
+				RelativePath="runtime\RegExpConstructor.cpp" />
+			<File
+				RelativePath="runtime\RegExpObject.cpp" />
+			<File
+				RelativePath="runtime\RegExpPrototype.cpp" />
+			<File
+				RelativePath="yarr\RegexCompiler.cpp" />
+			<File
+				RelativePath="yarr\RegexInterpreter.cpp" />
+			<File
+				RelativePath="yarr\RegexJIT.cpp" />
+			<File
+				RelativePath="interpreter\RegisterFile.cpp" />
+			<File
+				RelativePath="wtf\symbian\RegisterFileAllocatorSymbian.cpp" />
+			<File
+				RelativePath="bytecode\SamplingTool.cpp" />
+			<File
+				RelativePath="runtime\ScopeChain.cpp" />
+			<File
+				RelativePath="runtime\SmallStrings.cpp" />
+			<File
+				RelativePath="runtime\StringConstructor.cpp" />
+			<File
+				RelativePath="runtime\StringObject.cpp" />
+			<File
+				RelativePath="runtime\StringPrototype.cpp" />
+			<File
+				RelativePath="runtime\Structure.cpp" />
+			<File
+				RelativePath="runtime\StructureChain.cpp" />
+			<File
+				RelativePath="bytecode\StructureStubInfo.cpp" />
+			<File
+				RelativePath="wtf\Threading.cpp" />
+			<File
+				RelativePath="wtf\ThreadingNone.cpp" />
+			<File
+				RelativePath="wtf\qt\ThreadingQt.cpp" />
+			<File
+				RelativePath="runtime\TimeoutChecker.cpp" />
+			<File
+				RelativePath="wtf\TypeTraits.cpp" />
+			<File
+				RelativePath="runtime\UString.cpp" />
+			<File
+				RelativePath="runtime\UStringImpl.cpp" />
+			<File
+				RelativePath="wtf\unicode\UTF8.cpp" />
+			<File
+				RelativePath="wtf\dtoa.cpp" />
+			<File
+				RelativePath="pcre\pcre_compile.cpp" />
+			<File
+				RelativePath="pcre\pcre_exec.cpp" />
+			<File
+				RelativePath="pcre\pcre_tables.cpp" />
+			<File
+				RelativePath="pcre\pcre_ucp_searchfuncs.cpp" />
+			<File
+				RelativePath="pcre\pcre_xclass.cpp" />
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath="release\MainThreadQt.moc"
-				>
+				RelativePath="tmp\moc\debug_shared\MainThreadQt.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\debug_shared\MainThreadQt.moc"
 						Description="MOC wtf\qt\MainThreadQt.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;release&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o release\MainThreadQt.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
-						Outputs="release\MainThreadQt.moc"
-					/>
+						Outputs="tmp\moc\debug_shared\MainThreadQt.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
 			</File>
 			<File
-				RelativePath="debug\MainThreadQt.moc"
-				>
+				RelativePath="tmp\moc\release_shared\MainThreadQt.moc">
 				<FileConfiguration
 					Name="Debug|Win32"
-					>
+					ExcludedFromBuild="true" />
+				<FileConfiguration
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\release_shared\MainThreadQt.moc"
 						Description="MOC wtf\qt\MainThreadQt.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;debug&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o debug\MainThreadQt.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
-						Outputs="debug\MainThreadQt.moc"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
+						Outputs="tmp\moc\release_shared\MainThreadQt.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\ThreadingQt.moc"
-				>
+				RelativePath="tmp\moc\debug_shared\ThreadingQt.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-					/>
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\debug_shared\ThreadingQt.moc"
+						Description="MOC wtf\qt\ThreadingQt.cpp"
+						Outputs="tmp\moc\debug_shared\ThreadingQt.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC wtf\qt\ThreadingQt.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;release&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o release\ThreadingQt.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
-						Outputs="release\ThreadingQt.moc"
-					/>
-				</FileConfiguration>
+					ExcludedFromBuild="true" />
 			</File>
 			<File
-				RelativePath="debug\ThreadingQt.moc"
-				>
+				RelativePath="tmp\moc\release_shared\ThreadingQt.moc">
 				<FileConfiguration
 					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC wtf\qt\ThreadingQt.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;debug&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o debug\ThreadingQt.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
-						Outputs="debug\ThreadingQt.moc"
-					/>
-				</FileConfiguration>
+					ExcludedFromBuild="true" />
 				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-					/>
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\release_shared\ThreadingQt.moc"
+						Description="MOC wtf\qt\ThreadingQt.cpp"
+						Outputs="tmp\moc\release_shared\ThreadingQt.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 			</File>
 		</Filter>

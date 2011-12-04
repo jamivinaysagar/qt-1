@@ -28,7 +28,11 @@
 #  define QJSON_EXPORT Q_DECL_EXPORT
 # else
    /* We are using this library */
-#  define QJSON_EXPORT Q_DECL_IMPORT
+#   ifdef WIN32
+#     define QJSON_EXPORT
+#   else
+#     define QJSON_EXPORT Q_DECL_IMPORT
+#   endif
 # endif
 #endif
 

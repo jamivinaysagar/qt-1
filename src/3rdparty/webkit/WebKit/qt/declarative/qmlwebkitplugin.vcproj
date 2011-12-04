@@ -1,358 +1,238 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="qmlwebkitplugin"
-	ProjectGUID="{72AEF083-AAB3-3166-B5F1-8EEFA1CB2185}"
-	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
-	>
+	ProjectGUID="{C0CC79D1-74AE-384E-9491-C7D473CD4D0A}"
+	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32" />
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="debug\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="tmp\obj\debug_shared\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200"
-				Optimization="4"
-				AdditionalIncludeDirectories="&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot;,&quot;..\..\..\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot;,&quot;debug&quot;,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,QT_DLL,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="3"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\..\..\include\QtGui&quot;,&quot;..\..\..\..\..\..\include\QtWebKit&quot;,&quot;..\..\..\..\..\..\include\QtDeclarative&quot;,&quot;..\..\..\..\..\..\include&quot;,&quot;..\..\..\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;..\..\..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\debug_shared&quot;,..\..\..\..\..\..\mkspecs\win32-msvc2008"
+				AdditionalOptions="-Zm200 -MP"
+				AssemblerListingLocation="tmp\obj\debug_shared\"
 				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				OpenMP="false"
-				AssemblerListingLocation="debug\"
-				ObjectFile="debug\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="0"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="tmp\obj\debug_shared\"
+				Optimization ="4"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,QT_DLL,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_WEBKIT_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,QT_DLL,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
+				AdditionalDependencies="d:\src\2008\qt\lib\QtDeclaratived4.lib d:\src\2008\qt\lib\QtWebKitd4.lib d:\src\2008\qt\lib\QtGuid4.lib d:\src\2008\qt\lib\QtCored4.lib"
+				AdditionalLibraryDirectories="d:\src\2008\qt\lib,d:\src\2008\qt\lib,/opt/canmore/local/lib"
 				AdditionalOptions="-L/opt/canmore/local/lib"
-				AdditionalDependencies="QtWebKitd4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtDeclaratived4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtGuid4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtCored4.lib"
-				OutputFile="..\..\..\imports\QtWebKit\qmlwebkitplugind.dll"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\lib,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib,/opt/canmore/local/lib"
 				GenerateDebugInformation="true"
+				IgnoreImportLibrary="true"
+				LinkTimeCodeGeneration="0"
+				OutputFile="..\..\..\..\..\..\imports\QtWebKit\qmlwebkitplugind.dll"
 				ProgramDatabaseFile=""
 				SubSystem="0"
-				LinkTimeCodeGeneration="0"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,QT_DLL,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_WEBKIT_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG" />
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
-			IntermediateDirectory="release\"
-			ConfigurationType="2"
-			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				WarningLevel="0"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-			/>
+			ConfigurationType="2"
+			IntermediateDirectory="tmp\obj\release_shared\"
+			UseOfMfc="0">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-Zm200"
-				Optimization="2"
-				AdditionalIncludeDirectories="&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot;,&quot;..\..\..\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot;,&quot;release&quot;,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,QT_DLL,QT_NO_DEBUG,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,NDEBUG"
-				GeneratePreprocessedFile="0"
-				ExceptionHandling="1"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\..\..\include\QtGui&quot;,&quot;..\..\..\..\..\..\include\QtWebKit&quot;,&quot;..\..\..\..\..\..\include\QtDeclarative&quot;,&quot;..\..\..\..\..\..\include&quot;,&quot;..\..\..\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;..\..\..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\release_shared&quot;,..\..\..\..\..\..\mkspecs\win32-msvc2008"
+				AdditionalOptions="-Zm200 -MP"
+				AssemblerListingLocation="tmp\obj\release_shared\"
 				BufferSecurityCheck="false"
-				TreatWChar_tAsBuiltInType="false"
-				RuntimeTypeInfo="true"
-				AssemblerListingLocation="release\"
-				ObjectFile="release\"
-				ProgramDataBaseFileName=".\"
-				WarningLevel="0"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
 				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
-			/>
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="tmp\obj\release_shared\"
+				Optimization ="2"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,QT_DLL,QT_NO_DEBUG,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_WEBKIT_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,NDEBUG"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,QT_DLL,QT_NO_DEBUG,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCCustomBuildTool" />
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
+				AdditionalDependencies="d:\src\2008\qt\lib\QtDeclarative4.lib d:\src\2008\qt\lib\QtWebKit4.lib d:\src\2008\qt\lib\QtGui4.lib d:\src\2008\qt\lib\QtCore4.lib"
+				AdditionalLibraryDirectories="d:\src\2008\qt\lib,d:\src\2008\qt\lib,/opt/canmore/local/lib"
 				AdditionalOptions="-L/opt/canmore/local/lib"
-				AdditionalDependencies="QtWebKit4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtDeclarative4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtGui4.lib c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib\QtCore4.lib"
-				OutputFile="..\..\..\imports\QtWebKit\qmlwebkitplugin.dll"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\..\lib,c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\lib,/opt/canmore/local/lib"
 				GenerateDebugInformation="false"
+				IgnoreImportLibrary="true"
+				LinkTimeCodeGeneration="0"
+				OutputFile="..\..\..\..\..\..\imports\QtWebKit\qmlwebkitplugin.dll"
 				ProgramDatabaseFile=""
 				SubSystem="0"
-				LinkTimeCodeGeneration="0"
-			/>
+				SuppressStartupBanner="true" />
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCPostBuildEventTool" />
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCPreBuildEventTool" />
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCPreLinkEventTool" />
 			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,QT_DLL,QT_NO_DEBUG,QT_PLUGIN,QT_DECLARATIVE_LIB,QT_WEBKIT_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT" />
 		</Configuration>
 	</Configurations>
-	<References>
-	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="plugin.cpp"
-				>
-			</File>
+				RelativePath="plugin.cpp" />
 			<File
-				RelativePath="qdeclarativewebview.cpp"
-				>
-			</File>
+				RelativePath="qdeclarativewebview.cpp" />
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath="qdeclarativewebview_p.h"
-				>
+				RelativePath="qdeclarativewebview_p.h">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;qdeclarativewebview_p.h"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DQT_DLL -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\..\..\include\QtGui&quot; -I&quot;..\..\..\..\..\..\include\QtWebKit&quot; -I&quot;..\..\..\..\..\..\include\QtDeclarative&quot; -I&quot;..\..\..\..\..\..\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;..\..\..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 qdeclarativewebview_p.h -o tmp\moc\debug_shared\moc_qdeclarativewebview_p.cpp"
 						Description="MOC qdeclarativewebview_p.h"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DQT_DLL -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;debug&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 qdeclarativewebview_p.h -o debug\moc_qdeclarativewebview_p.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;qdeclarativewebview_p.h"
-						Outputs="debug\moc_qdeclarativewebview_p.cpp"
-					/>
+						Outputs="tmp\moc\debug_shared\moc_qdeclarativewebview_p.cpp"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;qdeclarativewebview_p.h"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -DQT_DLL -DQT_NO_DEBUG -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\..\..\include\QtGui&quot; -I&quot;..\..\..\..\..\..\include\QtWebKit&quot; -I&quot;..\..\..\..\..\..\include\QtDeclarative&quot; -I&quot;..\..\..\..\..\..\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;..\..\..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 qdeclarativewebview_p.h -o tmp\moc\release_shared\moc_qdeclarativewebview_p.cpp"
 						Description="MOC qdeclarativewebview_p.h"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -DQT_DLL -DQT_NO_DEBUG -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;release&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 qdeclarativewebview_p.h -o release\moc_qdeclarativewebview_p.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;qdeclarativewebview_p.h"
-						Outputs="release\moc_qdeclarativewebview_p.cpp"
-					/>
+						Outputs="tmp\moc\release_shared\moc_qdeclarativewebview_p.cpp"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			Filter="cpp;c;cxx;moc;h;def;odl;idl;res;"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
+			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath="release\moc_qdeclarativewebview_p.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="debug\moc_qdeclarativewebview_p.cpp"
-				>
+				RelativePath="tmp\moc\debug_shared\moc_qdeclarativewebview_p.cpp">
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
+					ExcludedFromBuild="true" />
 			</File>
 			<File
-				RelativePath="release\plugin.moc"
-				>
+				RelativePath="tmp\moc\release_shared\moc_qdeclarativewebview_p.cpp">
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="tmp\moc\debug_shared\plugin.moc">
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;plugin.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DQT_DLL -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\..\..\include\QtGui&quot; -I&quot;..\..\..\..\..\..\include\QtWebKit&quot; -I&quot;..\..\..\..\..\..\include\QtDeclarative&quot; -I&quot;..\..\..\..\..\..\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;..\..\..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 plugin.cpp -o tmp\moc\debug_shared\plugin.moc"
 						Description="MOC plugin.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -DQT_DLL -DQT_NO_DEBUG -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;release&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 plugin.cpp -o release\plugin.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;plugin.cpp"
-						Outputs="release\plugin.moc"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="debug\plugin.moc"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="MOC plugin.cpp"
-						CommandLine="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DQT_DLL -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtCore&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtGui&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\QtDeclarative&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;c:\QtSDK\Desktop\Qt\4.7.3\msvc2008\include\ActiveQt&quot; -I&quot;debug&quot; -Ic:\QtSDK\Desktop\Qt\4.7.3\msvc2008\mkspecs\default -D_MSC_VER=1500 -DWIN32 plugin.cpp -o debug\plugin.moc&#x0D;&#x0A;"
-						AdditionalDependencies="C:\QtSDK\Desktop\Qt\4.7.3\msvc2008\bin\moc.exe;plugin.cpp"
-						Outputs="debug\plugin.moc"
-					/>
+						Outputs="tmp\moc\debug_shared\plugin.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
+					ExcludedFromBuild="true" />
+			</File>
+			<File
+				RelativePath="tmp\moc\release_shared\plugin.moc">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
+				<FileConfiguration
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-					/>
+						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;plugin.cpp"
+						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -DQT_DLL -DQT_NO_DEBUG -DQT_PLUGIN -DQT_DECLARATIVE_LIB -DQT_WEBKIT_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\..\..\include\QtGui&quot; -I&quot;..\..\..\..\..\..\include\QtWebKit&quot; -I&quot;..\..\..\..\..\..\include\QtDeclarative&quot; -I&quot;..\..\..\..\..\..\include&quot; -I&quot;..\..\..\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;..\..\..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 plugin.cpp -o tmp\moc\release_shared\plugin.moc"
+						Description="MOC plugin.cpp"
+						Outputs="tmp\moc\release_shared\plugin.moc"
+						Path="d:\src\2008\qt\bin" />
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
 			Name="COPY"
 			UniqueIdentifier="{E0D8C965-CC5F-43d7-AD63-FAEF0BBC0F85}-copy2build"
-			ParseFiles="false"
-			>
+			ParseFiles="false">
 			<File
-				RelativePath="qmldir"
-				>
+				RelativePath="qmldir">
 				<FileConfiguration
-					Name="Debug|Win32"
-					>
+					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="COPY qmldir"
-						CommandLine="copy /y qmldir ..\..\..\imports\QtWebKit\qmldir&#x0D;&#x0A;"
 						AdditionalDependencies="copy;qmldir"
-						Outputs="..\..\..\imports\QtWebKit\qmldir"
-					/>
+						CommandLine="copy /y qmldir d:\src\2008\qt\imports\QtWebKit\qmldir"
+						Description="COPY qmldir"
+						Outputs="d:\src\2008\qt\imports\QtWebKit\qmldir"
+						Path="." />
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
-					>
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="COPY qmldir"
-						CommandLine="copy /y qmldir ..\..\..\imports\QtWebKit\qmldir&#x0D;&#x0A;"
 						AdditionalDependencies="copy;qmldir"
-						Outputs="..\..\..\imports\QtWebKit\qmldir"
-					/>
+						CommandLine="copy /y qmldir d:\src\2008\qt\imports\QtWebKit\qmldir"
+						Description="COPY qmldir"
+						Outputs="d:\src\2008\qt\imports\QtWebKit\qmldir"
+						Path="." />
 				</FileConfiguration>
 			</File>
 		</Filter>
