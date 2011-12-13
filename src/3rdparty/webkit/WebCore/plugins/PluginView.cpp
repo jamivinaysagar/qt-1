@@ -258,6 +258,9 @@ bool PluginView::start()
         FrameLoadRequest frameLoadRequest;
         frameLoadRequest.resourceRequest().setHTTPMethod("GET");
         frameLoadRequest.resourceRequest().setURL(m_url);
+        // Boxee - missing referer
+        String s = m_url.protocol() + "://" + m_url.host().utf8().data();
+        frameLoadRequest.resourceRequest().setHTTPHeaderField("Referer", s);
         load(frameLoadRequest, false, 0);
     }
 
