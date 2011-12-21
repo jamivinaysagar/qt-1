@@ -3,61 +3,13 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="jscore"
-	ProjectGUID="{F9A94421-DE18-33FD-8044-33AE86E9FE01}"
+	ProjectGUID="{A95508E0-8854-3975-A9D8-537016008A51}"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
 			Name="Win32" />
 	</Platforms>
 	<Configurations>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="."
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			ConfigurationType="4"
-			IntermediateDirectory="tmp\obj\debug_shared\"
-			UseOfMfc="0">
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\debug_shared&quot;,..\..\..\..\mkspecs\win32-msvc2008"
-				AdditionalOptions="-Zm200 -MP"
-				AssemblerListingLocation="tmp\obj\debug_shared\"
-				BufferSecurityCheck="false"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
-				ExceptionHandling="1"
-				GeneratePreprocessedFile="0"
-				ObjectFile="tmp\obj\debug_shared\"
-				Optimization ="4"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
-				ProgramDataBaseFileName=".\"
-				RuntimeLibrary="3"
-				RuntimeTypeInfo="true"
-				SuppressStartupBanner="true"
-				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="0" />
-			<Tool
-				Name="VCCustomBuildTool" />
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="debug\jscore.lib"
-				SuppressStartupBanner="true" />
-			<Tool
-				Name="VCMIDLTool"
-				DefaultCharType="0"
-				EnableErrorChecks="1"
-				WarningLevel="0" />
-			<Tool
-				Name="VCPostBuildEventTool" />
-			<Tool
-				Name="VCPreBuildEventTool" />
-			<Tool
-				Name="VCPreLinkEventTool" />
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
-				ResourceOutputFileName="debug\/$(InputName).res" />
-		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="."
@@ -105,6 +57,54 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_NO_DEBUG,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
 				ResourceOutputFileName="release\/$(InputName).res" />
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="."
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			ConfigurationType="4"
+			IntermediateDirectory="tmp\obj\debug_shared\"
+			UseOfMfc="0">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;..\..\..\..\include\QtCore&quot;,&quot;..\..\..\..\include&quot;,&quot;.&quot;,&quot;..\..\webkit&quot;,&quot;assembler&quot;,&quot;bytecode&quot;,&quot;bytecompiler&quot;,&quot;debugger&quot;,&quot;interpreter&quot;,&quot;jit&quot;,&quot;parser&quot;,&quot;pcre&quot;,&quot;profiler&quot;,&quot;runtime&quot;,&quot;wtf&quot;,&quot;wtf\symbian&quot;,&quot;wtf\unicode&quot;,&quot;yarr&quot;,&quot;API&quot;,&quot;ForwardingHeaders&quot;,&quot;generated&quot;,&quot;os-win32&quot;,&quot;\include\QtWebKit&quot;,&quot;\opt\canmore\local\include&quot;,&quot;pcre&quot;,&quot;\JavaScriptCore\tmp&quot;,&quot;..\..\..\..\include\ActiveQt&quot;,&quot;tmp\moc\debug_shared&quot;,..\..\..\..\mkspecs\win32-msvc2008"
+				AdditionalOptions="-Zm200 -MP"
+				AssemblerListingLocation="tmp\obj\debug_shared\"
+				BufferSecurityCheck="false"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4291,4344,4396,4503,4800,4819,4996"
+				ExceptionHandling="1"
+				GeneratePreprocessedFile="0"
+				ObjectFile="tmp\obj\debug_shared\"
+				Optimization ="4"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT"
+				ProgramDataBaseFileName=".\"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				SuppressStartupBanner="true"
+				TreatWChar_tAsBuiltInType="false"
+				WarningLevel="0" />
+			<Tool
+				Name="VCCustomBuildTool" />
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="debug\jscore.lib"
+				SuppressStartupBanner="true" />
+			<Tool
+				Name="VCMIDLTool"
+				DefaultCharType="0"
+				EnableErrorChecks="1"
+				WarningLevel="0" />
+			<Tool
+				Name="VCPostBuildEventTool" />
+			<Tool
+				Name="VCPreBuildEventTool" />
+			<Tool
+				Name="VCPreLinkEventTool" />
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,BUILDING_QT__=1,ENABLE_VIDEO=1,WTF_USE_ACCELERATED_COMPOSITING,USE_SYSTEM_MALLOC,NDEBUG,_HAS_TR1=0,BUILDING_QT__,BUILDING_JavaScriptCore,BUILDING_WTF,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,_DEBUG"
+				ResourceOutputFileName="debug\/$(InputName).res" />
 		</Configuration>
 	</Configurations>
 	<Files>
@@ -434,66 +434,66 @@
 			<File
 				RelativePath="tmp\moc\debug_shared\MainThreadQt.moc">
 				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
-						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\debug_shared\MainThreadQt.moc"
+						AdditionalDependencies="C:\projects\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
+						CommandLine="C:\projects\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\debug_shared\MainThreadQt.moc"
 						Description="MOC wtf\qt\MainThreadQt.cpp"
 						Outputs="tmp\moc\debug_shared\MainThreadQt.moc"
-						Path="d:\src\2008\qt\bin" />
+						Path="c:\projects\qt\bin" />
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true" />
 			</File>
 			<File
 				RelativePath="tmp\moc\release_shared\MainThreadQt.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true" />
-				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
-						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\release_shared\MainThreadQt.moc"
+						AdditionalDependencies="C:\projects\qt\bin\moc.exe;wtf\qt\MainThreadQt.cpp"
+						CommandLine="C:\projects\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\MainThreadQt.cpp -o tmp\moc\release_shared\MainThreadQt.moc"
 						Description="MOC wtf\qt\MainThreadQt.cpp"
 						Outputs="tmp\moc\release_shared\MainThreadQt.moc"
-						Path="d:\src\2008\qt\bin" />
+						Path="c:\projects\qt\bin" />
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
 			</File>
 			<File
 				RelativePath="tmp\moc\debug_shared\ThreadingQt.moc">
 				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true" />
+				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
-						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\debug_shared\ThreadingQt.moc"
+						AdditionalDependencies="C:\projects\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
+						CommandLine="C:\projects\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\debug_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\debug_shared\ThreadingQt.moc"
 						Description="MOC wtf\qt\ThreadingQt.cpp"
 						Outputs="tmp\moc\debug_shared\ThreadingQt.moc"
-						Path="d:\src\2008\qt\bin" />
+						Path="c:\projects\qt\bin" />
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true" />
 			</File>
 			<File
 				RelativePath="tmp\moc\release_shared\ThreadingQt.moc">
 				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true" />
-				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						AdditionalDependencies="D:\src\2008\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
-						CommandLine="D:\src\2008\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\release_shared\ThreadingQt.moc"
+						AdditionalDependencies="C:\projects\qt\bin\moc.exe;wtf\qt\ThreadingQt.cpp"
+						CommandLine="C:\projects\qt\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DBUILDING_QT__=1 -DENABLE_VIDEO=1 -DWTF_USE_ACCELERATED_COMPOSITING -DUSE_SYSTEM_MALLOC -DNDEBUG -D_HAS_TR1=0 -DBUILDING_QT__ -DBUILDING_JavaScriptCore -DBUILDING_WTF -DQT_NO_DEBUG -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I&quot;..\..\..\..\include\QtCore&quot; -I&quot;..\..\..\..\include&quot; -I&quot;.&quot; -I&quot;..\..\webkit&quot; -I&quot;assembler&quot; -I&quot;bytecode&quot; -I&quot;bytecompiler&quot; -I&quot;debugger&quot; -I&quot;interpreter&quot; -I&quot;jit&quot; -I&quot;parser&quot; -I&quot;pcre&quot; -I&quot;profiler&quot; -I&quot;runtime&quot; -I&quot;wtf&quot; -I&quot;wtf\symbian&quot; -I&quot;wtf\unicode&quot; -I&quot;yarr&quot; -I&quot;API&quot; -I&quot;ForwardingHeaders&quot; -I&quot;generated&quot; -I&quot;os-win32&quot; -I&quot;\include\QtWebKit&quot; -I&quot;\opt\canmore\local\include&quot; -I&quot;pcre&quot; -I&quot;\JavaScriptCore\tmp&quot; -I&quot;..\..\..\..\include\ActiveQt&quot; -I&quot;tmp\moc\release_shared&quot; -I..\..\..\..\mkspecs\win32-msvc2008 -D_MSC_VER=1500 -DWIN32 wtf\qt\ThreadingQt.cpp -o tmp\moc\release_shared\ThreadingQt.moc"
 						Description="MOC wtf\qt\ThreadingQt.cpp"
 						Outputs="tmp\moc\release_shared\ThreadingQt.moc"
-						Path="d:\src\2008\qt\bin" />
+						Path="c:\projects\qt\bin" />
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true" />
 			</File>
 		</Filter>
 	</Files>
